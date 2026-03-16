@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Babylon Method — Money Allocator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8C97A;
+            --gold-pale: #F5E9C8;
+            --sand: #F7F1E3;
+            --sand-dark: #EDE3CC;
+            --ink: #1C1209;
+            --ink-mid: #3D2B12;
+            --ink-soft: #6B5035;
+            --parchment: #FBF7EE;
+            --debt-red: #C0392B;
+            --sky: #3A6B8A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--parchment);
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(ellipse at 20% 10%, rgba(201, 168, 76, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(184, 92, 56, 0.06) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+            padding: 6px 18px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: clamp(34px, 7vw, 60px);
+            font-weight: 900;
+            color: var(--ink);
+            line-height: 1.08;
+            margin-bottom: 16px;
+            letter-spacing: -1.5px;
+        }
+
+        h1 span {
+            color: var(--gold);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--ink-soft);
+            max-width: 420px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 32px auto;
+            width: fit-content;
+        }
+
+        .ornament-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold));
+        }
+
+        .ornament-line.right {
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .ornament-diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        .input-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 24px rgba(28, 18, 9, 0.06), 0 0 0 1px rgba(201, 168, 76, 0.1);
+        }
+
+        .input-card label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 10px;
+        }
+
+        .currency-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .curr-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--ink-soft);
+            transition: all 0.2s;
+        }
+
+        .curr-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: white;
+        }
+
+        .amount-row {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--sand-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .amount-row:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
+        }
+
+        .currency-badge {
+            background: var(--sand);
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            border-right: 2px solid var(--sand-dark);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        #amount {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--ink);
+            background: transparent;
+            width: 100%;
+        }
+
+        #amount::placeholder {
+            color: var(--sand-dark);
+        }
+
+        .debt-toggle {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: var(--sand);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .debt-toggle:hover {
+            border-color: var(--debt-red);
+        }
+
+        .debt-toggle.active {
+            background: #FDF0ED;
+            border-color: var(--debt-red);
+        }
+
+        .debt-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .debt-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(192, 57, 43, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .debt-toggle-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .debt-toggle-text small {
+            font-size: 11px;
+            color: var(--ink-soft);
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            background: var(--sand-dark);
+            position: relative;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .debt-toggle.active .toggle-switch {
+            background: var(--debt-red);
+        }
+
+        .debt-toggle.active .toggle-switch::after {
+            transform: translateX(20px);
+        }
+
+        .debt-slider-wrap {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .debt-slider-wrap.open {
+            max-height: 100px;
+            margin-top: 12px;
+        }
+
+        .debt-slider-inner {
+            padding: 14px 20px;
+            background: #FDF0ED;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .debt-slider-inner label {
+            font-size: 11px;
+            color: var(--debt-red);
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+
+        input[type=range] {
+            flex: 1;
+            accent-color: var(--debt-red);
+            cursor: pointer;
+        }
+
+        .debt-pct-display {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--debt-red);
+            min-width: 42px;
+            text-align: right;
+        }
+
+        .debt-note {
+            background: #FDF0ED;
+            border-radius: 0 0 10px 10px;
+            font-size: 10px;
+            color: var(--debt-red);
+            padding: 6px 20px 10px;
+            font-weight: 500;
+            opacity: 0.75;
+        }
+
+        .calc-btn {
+            width: 100%;
+            margin-top: 28px;
+            padding: 18px;
+            background: var(--ink);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(201, 168, 76, 0.15));
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .calc-btn:hover {
+            background: var(--ink-mid);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(28, 18, 9, 0.2);
+        }
+
+        .calc-btn:hover::before {
+            opacity: 1;
+        }
+
+        .calc-btn:active {
+            transform: translateY(0);
+        }
+
+        #results {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        #results.visible {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .results-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .results-header p {
+            color: var(--ink-soft);
+            font-size: 13px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .allocation-bar {
+            display: flex;
+            height: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 36px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .alloc-card {
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .alloc-card.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .alloc-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .card-invest {
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            color: white;
+        }
+
+        .card-invest::before {
+            background: #5DADE2;
+        }
+
+        .card-save {
+            background: linear-gradient(135deg, #1a472a, #27612e);
+            color: white;
+        }
+
+        .card-save::before {
+            background: #58D68D;
+        }
+
+        .card-spend {
+            background: linear-gradient(135deg, #784212, #9A6B2E);
+            color: white;
+        }
+
+        .card-spend::before {
+            background: var(--gold-light);
+        }
+
+        .card-debt {
+            background: linear-gradient(135deg, #641e16, #922B21);
+            color: white;
+        }
+
+        .card-debt::before {
+            background: #EC7063;
+        }
+
+        .card-emergency {
+            background: linear-gradient(135deg, #4A235A, #6C3483);
+            color: white;
+        }
+
+        .card-emergency::before {
+            background: #C39BD3;
+        }
+
+        .card-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+
+        .card-icon {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .card-amount {
+            font-size: 23px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .card-pct {
+            font-size: 11px;
+            opacity: 0.65;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 11px;
+            opacity: 0.8;
+            line-height: 1.55;
+            font-weight: 400;
+        }
+
+        .growth-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(28, 18, 9, 0.04);
+        }
+
+        .growth-card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .growth-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 1px;
+            background: var(--sand-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .growth-cell {
+            background: var(--sand);
+            padding: 14px 16px;
+            text-align: center;
+        }
+
+        .growth-cell:first-child {
+            background: var(--parchment);
+        }
+
+        .growth-year {
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .growth-val {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--sky);
+        }
+
+        .chart-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 12px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 280px;
+        }
+
+        .wisdom {
+            background: var(--ink);
+            border-radius: 16px;
+            padding: 28px 32px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .wisdom p {
+            font-size: 14px;
+            color: var(--gold-light);
+            font-style: italic;
+            line-height: 1.75;
+            font-weight: 400;
+        }
+
+        .wisdom cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.45);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .amount-headline {
+            display: block;
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-top: 6px;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 16px;
+            background: transparent;
+            color: var(--ink-soft);
+            border: 2px solid var(--sand-dark);
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .reset-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        @media (max-width: 500px) {
+            .input-card {
+                padding: 24px 20px;
+            }
+
+            #amount {
+                font-size: 22px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <header>
+            <div class="eyebrow">The Babylon Method</div>
+            <h1>Spend <span>Wisely.</span><br>Grow Steadily.</h1>
+            <p class="subtitle">Rooted in ancient wisdom. Enter any amount and discover how the richest merchants of
+                Babylon would divide it.</p>
+            <div class="ornament">
+                <div class="ornament-line"></div>
+                <div class="ornament-diamond"></div>
+                <div class="ornament-line right"></div>
+            </div>
+        </header>
+
+        <div class="input-card">
+            <div class="currency-toggle">
+                <button class="curr-btn active" onclick="setCurrency('₦',event)">₦ NGN</button>
+                <button class="curr-btn" onclick="setCurrency('$',event)">$ USD</button>
+                <button class="curr-btn" onclick="setCurrency('£',event)">£ GBP</button>
+                <button class="curr-btn" onclick="setCurrency('€',event)">€ EUR</button>
+            </div>
+
+            <label for="amount">Your amount</label>
+            <div class="amount-row">
+                <div class="currency-badge" id="curr-symbol">₦</div>
+                <input type="text" id="amount" placeholder="0" inputmode="numeric" oninput="onAmountInput(this)">
+            </div>
+
+            <div class="debt-toggle" id="debt-toggle" onclick="toggleDebt()">
+                <div class="debt-toggle-left">
+                    <div class="debt-icon">⚖️</div>
+                    <div class="debt-toggle-text">
+                        <strong>I currently have debt</strong>
+                        <small>A portion of your spending will go toward clearing it</small>
+                    </div>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="debt-slider-wrap" id="debt-slider-wrap">
+                <div class="debt-slider-inner">
+                    <label>Debt portion</label>
+                    <input type="range" id="debt-pct" min="20" max="50" value="20" oninput="updateDebtPct()">
+                    <div class="debt-pct-display" id="debt-pct-display">20%</div>
+                </div>
+                <div class="debt-note">★ Minimum 20% — Babylon demands debts be settled with urgency</div>
+            </div>
+
+            <button class="calc-btn" id="calc-btn" onclick="calculate()">✦ Break It Down</button>
+        </div>
+
+        <div id="results">
+            <div class="results-header">
+                <h2>Your Babylon Plan</h2>
+                <p id="total-label">Based on your income</p>
+            </div>
+
+            <div class="allocation-bar" id="alloc-bar"></div>
+            <div class="cards-grid" id="cards-grid"></div>
+
+            <div class="growth-card">
+                <h3>📈 Investment Growth at 20% Annual Return</h3>
+                <div class="growth-table" id="growth-table"></div>
+                <div class="chart-section-label">Compound growth curve — 20 years</div>
+                <div class="chart-wrap">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <div class="wisdom">
+                <p>"A part of all you earn is yours to keep. It should be not less than a tenth no matter how little you
+                    earn."</p>
+                <cite>— The Richest Man in Babylon · George S. Clason</cite>
+            </div>
+
+            <button class="reset-btn" onclick="resetCalculator()">↩ Calculate New Amount</button>
+        </div>
+
+    </div>
+    <script>
+        let currency = '₦';
+        let debtActive = false;
+        let debtPct = 20;
+        let growthChart = null;
+
+        function compound(p, r, y) {
+            return p * Math.pow(1 + r, y);
+        }
+
+        function fmt(n) {
+            const parts = n.toFixed(2).split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return currency + parts.join('.');
+        }
+
+        function fmtShort(n) {
+            if (n >= 1e9) return currency + (n / 1e9).toFixed(1) + 'B';
+            if (n >= 1e6) return currency + (n / 1e6).toFixed(1) + 'M';
+            if (n >= 1e3) return currency + (n / 1e3).toFixed(1) + 'K';
+            return currency + n.toFixed(0);
+        }
+
+        function setCurrency(sym, e) {
+            currency = sym;
+            document.getElementById('curr-symbol').textContent = sym;
+            document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            if (document.getElementById('results').classList.contains('visible')) calculate();
+        }
+
+        function toggleDebt() {
+            debtActive = !debtActive;
+            document.getElementById('debt-toggle').classList.toggle('active', debtActive);
+            document.getElementById('debt-slider-wrap').classList.toggle('open', debtActive);
+            if (document.getElementById('results').classList.contains('visible')) calculate();
+        }
+
+        function updateDebtPct() {
+            debtPct = parseInt(document.getElementById('debt-pct').value);
+            document.getElementById('debt-pct-display').textContent = debtPct + '%';
+            if (document.getElementById('results').classList.contains('visible')) calculate();
+        }
+
+        function onAmountInput(el) {
+            const raw = el.value.replace(/[^0-9]/g, '');
+            el.value = raw === '' ? '' : raw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if (document.getElementById('results').classList.contains('visible')) calculate();
+        }
+
+        function getRawAmount() {
+            return parseFloat(document.getElementById('amount').value.replace(/,/g, '')) || 0;
+        }
+
+        function resetCalculator() {
+            document.getElementById('amount').value = '';
+            document.getElementById('results').classList.remove('visible');
+            document.getElementById('calc-btn').style.display = 'block';
+            document.querySelector('.input-card').style.display = 'block';
+            if (debtActive) toggleDebt();
+            if (growthChart) { growthChart.destroy(); growthChart = null; }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function calculate() {
+            const raw = getRawAmount();
+            if (!raw || raw <= 0) { document.getElementById('amount').focus(); return; }
+
+            const invest = raw * 0.20;
+            const save = raw * 0.10;
+            const debtSlice = debtActive ? raw * (debtPct / 100) : 0;
+            const emergency = raw * 0.10;
+            const actual_spend = raw * 0.70 - debtSlice - emergency;
+
+            function pctOf(amt) { return (amt / raw * 100).toFixed(1); }
+
+            // Bar
+            document.getElementById('alloc-bar').innerHTML = [
+                `<div class="bar-segment" style="width:${pctOf(invest)}%;background:#1a5276"></div>`,
+                `<div class="bar-segment" style="width:${pctOf(save)}%;background:#1a472a"></div>`,
+                debtActive ? `<div class="bar-segment" style="width:${pctOf(debtSlice)}%;background:#922B21"></div>` : '',
+                `<div class="bar-segment" style="width:${pctOf(emergency)}%;background:#6C3483"></div>`,
+                `<div class="bar-segment" style="width:${pctOf(actual_spend)}%;background:#9A6B2E"></div>`,
+            ].join('');
+
+            // Cards
+            const cards = [
+                { cls: 'card-invest', icon: '📈', label: 'Invest', amount: invest, pct: '20% of income', desc: 'Put this to work. Stocks, business, or any asset that earns while you sleep.' },
+                { cls: 'card-save', icon: '🏺', label: 'Save', amount: save, pct: '10% of income', desc: "Sacred and untouchable. Your future self's foundation — the golden rule of Babylon." },
+                ...(debtActive ? [{ cls: 'card-debt', icon: '⚖️', label: 'Debt Repayment', amount: debtSlice, pct: `${debtPct}% of income`, desc: "Pay today's debts before tomorrow's desires. Freedom comes when the chains are gone." }] : []),
+                { cls: 'card-emergency', icon: '🛡️', label: 'Emergency Buffer', amount: emergency, pct: '10% of income', desc: 'Your shield against misfortune. Never touch this unless the walls truly fall.' },
+                { cls: 'card-spend', icon: '🌾', label: 'Live & Enjoy', amount: actual_spend, pct: `${pctOf(actual_spend)}% of income`, desc: 'Spend freely within this boundary. Enjoy the fruits of your discipline.' },
+            ];
+
+            document.getElementById('cards-grid').innerHTML = cards.map(c =>
+                `<div class="alloc-card ${c.cls}">
+        <div class="card-icon">${c.icon}</div>
+        <div class="card-label">${c.label}</div>
+        <div class="card-amount">${fmt(c.amount)}</div>
+        <div class="card-pct">${c.pct}</div>
+        <div class="card-desc">${c.desc}</div>
+      </div>`).join('');
+
+            // Growth table
+            const tableYears = [1, 3, 5, 10];
+            document.getElementById('growth-table').innerHTML =
+                `<div class="growth-cell"><div class="growth-year">Invested</div><div class="growth-val" style="color:var(--ink-soft)">${fmt(invest)}</div></div>` +
+                tableYears.map(y =>
+                    `<div class="growth-cell"><div class="growth-year">${y} Yr${y > 1 ? 's' : ''}</div><div class="growth-val">${fmt(compound(invest, 0.20, y))}</div></div>`
+                ).join('');
+
+            // Compound chart
+            const years = Array.from({ length: 21 }, (_, i) => i);
+            const vals = years.map(y => y === 0 ? invest : compound(invest, 0.20, y));
+            const labels = years.map(y => y === 0 ? 'Now' : `Yr ${y}`);
+
+            if (growthChart) growthChart.destroy();
+
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 280);
+            grad.addColorStop(0, 'rgba(201,168,76,0.28)');
+            grad.addColorStop(1, 'rgba(201,168,76,0.02)');
+
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Investment Value',
+                            data: vals,
+                            borderColor: '#C9A84C',
+                            backgroundColor: grad,
+                            borderWidth: 2.5,
+                            pointRadius: years.map(y => [0, 5, 10, 15, 20].includes(y) ? 6 : 0),
+                            pointBackgroundColor: '#1C1209',
+                            pointBorderColor: '#C9A84C',
+                            pointBorderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                        },
+                        {
+                            label: 'Without Growth',
+                            data: years.map(() => invest),
+                            borderColor: 'rgba(107,80,53,0.25)',
+                            borderWidth: 1.5,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false,
+                            tension: 0,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { family: 'Montserrat', size: 10, weight: '600' },
+                                color: '#6B5035',
+                                boxWidth: 16,
+                                padding: 16,
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1C1209',
+                            titleColor: '#C9A84C',
+                            bodyColor: '#E8C97A',
+                            titleFont: { family: 'Montserrat', weight: '700', size: 11 },
+                            bodyFont: { family: 'Montserrat', size: 12, weight: '600' },
+                            padding: 12, cornerRadius: 8,
+                            callbacks: {
+                                title: (items) => items[0].label === 'Now' ? 'Starting Amount' : `After ${items[0].label.replace('Yr ', '')} Year${items[0].label === 'Yr 1' ? '' : 's'}`,
+                                label: (item) => `  ${item.dataset.label}: ${fmt(item.raw)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false },
+                            ticks: { font: { family: 'Montserrat', size: 10, weight: '600' }, color: '#6B5035', maxTicksLimit: 11 }
+                        },
+                        y: {
+                            grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false },
+                            ticks: { font: { family: 'Montserrat', size: 10, weight: '600' }, color: '#6B5035', callback: v => fmtShort(v) }
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('total-label').innerHTML = `Breaking down <span class="amount-headline">${fmt(raw)}</span>`;
+            document.getElementById('calc-btn').style.display = 'none';
+            document.querySelector('.input-card').style.display = 'none';
+
+            const results = document.getElementById('results');
+            results.classList.add('visible');
+            setTimeout(() => {
+                document.querySelectorAll('.alloc-card').forEach((c, i) => {
+                    setTimeout(() => c.classList.add('show'), i * 80);
+                });
+            }, 100);
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+
+</html>
