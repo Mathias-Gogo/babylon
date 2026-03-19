@@ -9,10 +9,12 @@
     <meta property="og:title" content="The Babylon Method — Master Your Money">
     <meta property="og:description"
         content="Three tools. One mission. Make your money work the way Babylon's richest merchants did.">
-    <meta property="og:image" content="og-image.png">
+    <meta property="og:image"
+        content="https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773918872/A_horizontal_cinematic_202603191213_wnt1xu.jpg">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#1C1209">
+    <link rel="shortcut icon" href="icons/icon-512.png" type="image/x-icon">
     <title>The Babylon Method — Master Your Money</title>
     <link href="/babylon/fonts/fonts.css" rel="stylesheet">
     <style>
@@ -74,7 +76,7 @@
         }
 
         .nav-inner {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -89,10 +91,6 @@
             color: var(--ink);
             text-decoration: none;
             letter-spacing: 0.5px;
-        }
-
-        .nav-logo span {
-            color: var(--gold);
         }
 
         .nav-cta {
@@ -381,7 +379,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 0 32px;
         }
@@ -841,7 +839,7 @@
 
         .philosophy-pillars {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 16px;
             margin-top: 48px;
         }
@@ -886,19 +884,9 @@
         .testimonials-section {
             position: relative;
             z-index: 1;
-            padding: 100px 0;
+            padding: 100px 32px;
             background: var(--ink);
             overflow: hidden;
-        }
-
-        .testimonials-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 20%, rgba(58, 107, 138, 0.04) 0%, transparent 55%);
-            pointer-events: none;
         }
 
         .testimonials-section .section-label {
@@ -908,212 +896,155 @@
 
         .testimonials-section .section-title {
             color: var(--gold-light);
-            margin-bottom: 56px;
+            margin-bottom: 48px;
             text-align: center;
-            padding: 0 32px;
         }
 
         .testimonials-section .section-title span {
             color: var(--gold);
+            font-style: italic;
         }
 
         .testimonial-carousel {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            position: relative;
-            padding: 0 32px;
+            max-height: 300px;
         }
 
-        /* The slide — full bleed photo with overlay */
         .testimonial-slide {
             display: none;
-            position: relative;
-            height: 520px;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: default;
         }
 
         .testimonial-slide.active {
-            display: block;
-            animation: t-fade 0.5s ease;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            min-height: 400px;
+            background: #161209;
+            border-radius: 24px;
+            overflow: hidden;
+            animation: t-in 0.4s ease;
         }
 
-        @keyframes t-fade {
+        @keyframes t-in {
             from {
                 opacity: 0;
-                transform: scale(0.995);
+                transform: translateY(8px);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: none;
             }
         }
 
-        /* Full bleed photo */
-        .t-bg-photo {
-            position: absolute;
-            inset: 0;
+        /* Photo column */
+        .t-photo-col {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .t-photo-col img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center top;
-            filter: brightness(0.45) saturate(0.7);
             display: block;
+            border-radius: 16px;
+            margin: 16px;
+            width: calc(100% - 32px);
+            height: calc(100% - 32px);
         }
 
-        /* Fallback gradient if no photo */
-        .t-bg-fallback {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #1C1209 0%, #3D2B12 50%, #1a1108 100%);
+        .t-photo-col-fallback {
+            width: calc(100% - 32px);
+            height: calc(100% - 32px);
+            margin: 16px;
+            background: rgba(201, 168, 76, 0.06);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 360px;
         }
 
-        /* Multi-layer overlay for readability */
-        .t-overlay {
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(180deg,
-                    rgba(28, 18, 9, 0.15) 0%,
-                    rgba(28, 18, 9, 0.2) 30%,
-                    rgba(28, 18, 9, 0.75) 65%,
-                    rgba(28, 18, 9, 0.96) 100%);
-        }
-
-        /* Gold accent line — left edge */
-        .t-accent {
-            position: absolute;
-            top: 48px;
-            bottom: 48px;
-            left: 0;
-            width: 3px;
-            background: linear-gradient(180deg, transparent, var(--gold), transparent);
-            opacity: 0.6;
-        }
-
-        /* Content sits at the bottom */
-        .t-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 40px 52px 44px;
-        }
-
-        /* Large decorative quote mark */
-        .t-quote-mark {
+        .t-photo-col-initial {
             font-family: 'Cormorant Garamond', serif;
             font-size: 96px;
             font-weight: 700;
-            color: var(--gold);
-            opacity: 0.5;
-            line-height: 0.8;
-            display: block;
-            margin-bottom: 4px;
-            user-select: none;
+            color: rgba(201, 168, 76, 0.2);
+        }
+
+        /* Content column */
+        .t-content-col {
+            padding: 44px 48px 36px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .t-quote {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(20px, 2.4vw, 28px);
+            font-size: clamp(20px, 2.2vw, 28px);
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.95);
-            line-height: 1.5;
-            margin-bottom: 28px;
-            max-width: 760px;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.93);
+            flex: 1;
         }
 
-        /* Thin gold separator */
-        .t-sep {
-            width: 48px;
-            height: 1px;
-            background: var(--gold);
-            opacity: 0.5;
-            margin-bottom: 18px;
-        }
-
-        .t-author {
+        .t-bottom {
+            margin-top: 36px;
             display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .t-author-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center top;
-            border: 1.5px solid rgba(201, 168, 76, 0.5);
-            flex-shrink: 0;
-        }
-
-        .t-author-avatar-fallback {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(201, 168, 76, 0.15);
-            border: 1.5px solid rgba(201, 168, 76, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--gold);
-            flex-shrink: 0;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
         }
 
         .t-author-name {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 700;
-            color: var(--gold-light);
-            margin-bottom: 2px;
-            letter-spacing: 0.3px;
+            color: white;
+            margin-bottom: 4px;
         }
 
         .t-author-role {
-            font-size: 10px;
-            color: rgba(232, 201, 122, 0.45);
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
         }
 
-        .t-stars {
-            margin-left: auto;
-            color: var(--gold);
-            font-size: 12px;
-            letter-spacing: 3px;
+        .t-nav-btns {
+            display: flex;
+            gap: 10px;
             flex-shrink: 0;
         }
 
-        /* Number badge — top right */
-        .t-index {
-            position: absolute;
-            top: 32px;
-            right: 44px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: rgba(232, 201, 122, 0.3);
-            letter-spacing: 3px;
+        .testimonial-nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
 
-        /* Controls */
+        .testimonial-nav-btn:hover {
+            border-color: white;
+            color: white;
+        }
+
+        /* Dots below */
         .testimonial-controls {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
-        }
-
-        .testimonial-dots {
-            display: flex;
             gap: 6px;
-            align-items: center;
         }
 
         .testimonial-dot {
@@ -1128,92 +1059,36 @@
 
         .testimonial-dot.active {
             background: var(--gold);
-            width: 24px;
+            width: 20px;
             border-radius: 2px;
         }
 
-        .testimonial-nav {
-            display: flex;
-            gap: 8px;
-        }
-
-        .testimonial-nav-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 1px solid rgba(201, 168, 76, 0.2);
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(232, 201, 122, 0.55);
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .testimonial-nav-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(201, 168, 76, 0.06);
-        }
-
         .testimonial-counter {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: rgba(232, 201, 122, 0.25);
-        }
-
-        .testimonial-counter span {
-            color: rgba(232, 201, 122, 0.6);
+            display: none;
         }
 
         @media (max-width: 700px) {
-            .testimonial-slide {
-                height: auto;
-                min-height: 500px;
-            }
-
-            .t-content {
-                padding: 28px 28px 32px;
-                position: relative;
-            }
-
-            .t-bg-photo {
-                height: 200px;
-                position: relative;
-            }
-
-            .testimonial-slide {
-                display: none;
-                flex-direction: column;
-                border-radius: 16px;
-            }
-
             .testimonial-slide.active {
-                display: flex;
+                grid-template-columns: 1fr;
             }
 
-            .t-overlay {
-                display: none;
+            .t-photo-col {
+                height: 260px;
             }
 
-            .t-accent {
-                display: none;
+            .t-photo-col img {
+                border-radius: 12px;
+                margin: 12px;
+                width: calc(100% - 24px);
+                height: calc(100% - 24px);
             }
 
-            .t-index {
-                top: 16px;
-                right: 20px;
+            .t-content-col {
+                padding: 28px 24px;
             }
 
             .t-quote {
-                font-size: 18px;
-            }
-
-            .t-quote-mark {
-                font-size: 64px;
+                font-size: 19px;
             }
         }
 
@@ -1436,7 +1311,7 @@
                 padding: 50px 20px 32px;
             }
 
-            .nav-cta span {
+            .nav-cta {
                 display: none;
             }
         }
@@ -1448,7 +1323,7 @@
     <!-- ─── NAV ─── -->
     <nav>
         <div class="nav-inner">
-            <a class="nav-logo" href="#">The <span>Babylon</span> Method</a>
+            <a class="nav-logo" href="#">BABYLON</a>
             <button class="nav-cta" id="nav-install-btn" onclick="triggerInstall()">
                 <span>⬇</span> <span>Install Free</span>
             </button>
@@ -1629,18 +1504,9 @@
         <h2 class="section-title">What people are <span>saying</span></h2>
         <div class="testimonial-carousel reveal">
             <div id="testimonial-track"></div>
-            <div class="testimonial-controls">
-                <div class="testimonial-dots" id="testimonial-dots"></div>
-                <div style="display:flex;align-items:center;gap:16px;">
-                    <div class="testimonial-counter">
-                        <span id="t-current">1</span> / <span id="t-total">1</span>
-                    </div>
-                    <div class="testimonial-nav">
-                        <button class="testimonial-nav-btn" onclick="prevSlide()" aria-label="Previous">←</button>
-                        <button class="testimonial-nav-btn" onclick="nextSlide()" aria-label="Next">→</button>
-                    </div>
-                </div>
-            </div>
+            <div class="testimonial-controls" id="testimonial-dots"></div>
+            <div id="t-total" style="display:none;"></div>
+            <div id="t-current" style="display:none;"></div>
         </div>
     </section>
 
@@ -1664,7 +1530,7 @@
                     <div class="footer-brand">The <span>Babylon</span> Method</div>
                     <p class="footer-tagline">Ancient wisdom. Modern tools. Your money, finally working for you.</p>
                 </div>
-                <div>
+                <!-- <div>
                     <div class="footer-link-label">Tools</div>
                     <div class="footer-links">
                         <a class="footer-link" href="/babylon/app/babylon.html">Money Allocator</a>
@@ -1679,11 +1545,11 @@
                         <a class="footer-link" href="#try-it">Try the Demo</a>
                         <a class="footer-link" href="/babylon/app/index.html">Launch App</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="footer-bottom">
                 <div class="footer-copy">© 2026 The Babylon Method. All rights reserved.</div>
-                <div class="footer-made">Built with purpose by <span>Mexuri</span></div>
+                <div class="footer-made">Built with purpose by <span>Mathias Gogo</span></div>
             </div>
         </div>
     </footer>
@@ -1766,34 +1632,60 @@
 
         // Silent IP geolocation → currency
         (async function () {
+            const SYMBOLS = { "NGN": "₦", "GHS": "₵", "KES": "KSh", "ZAR": "R", "UGX": "Sh", "TZS": "Sh", "RWF": "Fr", "USD": "$", "GBP": "£", "AUD": "A$", "CAD": "CA$", "NZD": "NZ$", "INR": "₹", "PKR": "₨", "SGD": "S$", "EUR": "€", "CHF": "Fr", "XOF": "CFA", "XAF": "FCFA", "MXN": "$", "ARS": "$", "COP": "$", "CLP": "$", "PEN": "S/.", "BRL": "R$", "CNY": "¥", "TWD": "NT$", "HKD": "HK$", "JPY": "¥", "KRW": "₩", "SAR": "﷼", "EGP": "£", "AED": "د.إ", "KWD": "KD", "QAR": "﷼", "MAD": "MAD", "IDR": "Rp", "MYR": "RM", "THB": "฿", "VND": "₫", "PHP": "₱", "BDT": "৳", "RUB": "₽", "TRY": "₺", "PLN": "zł", "SEK": "kr", "DKK": "kr", "NOK": "kr", "UAH": "₴", "ILS": "₪", "CZK": "Kč", "HUF": "Ft" };
+
+            function applySymbol(sym) {
+                if (!sym) return;
+                demoCurr = sym;
+                const el = document.getElementById('demo-curr-badge');
+                if (el) el.textContent = sym;
+            }
+
+            function fromLocale() {
+                const LOCALE_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-UG": "UGX", "en-TZ": "TZS", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-NZ": "NZD", "en-IN": "INR", "en-PK": "PKR", "en-SG": "SGD", "de": "EUR", "de-DE": "EUR", "de-AT": "EUR", "de-CH": "CHF", "fr": "EUR", "fr-FR": "EUR", "fr-CA": "CAD", "fr-SN": "XOF", "fr-CI": "XOF", "fr-CM": "XAF", "es-MX": "MXN", "es-AR": "ARS", "es-CO": "COP", "es-CL": "CLP", "es-PE": "PEN", "pt-BR": "BRL", "pt": "BRL", "zh-CN": "CNY", "zh-TW": "TWD", "zh-HK": "HKD", "ja": "JPY", "ko": "KRW", "ar-SA": "SAR", "ar-EG": "EGP", "ar-AE": "AED", "ar-KW": "KWD", "ar-QA": "QAR", "hi": "INR", "bn": "BDT", "ru": "RUB", "tr": "TRY", "pl": "PLN", "nl": "EUR", "sv": "SEK", "da": "DKK", "nb": "NOK", "id": "IDR", "ms": "MYR", "th": "THB", "vi": "VND", "fil": "PHP", "uk": "UAH", "he": "ILS", "cs": "CZK", "hu": "HUF" };
+                try {
+                    const locs = navigator.languages || [navigator.language];
+                    for (const loc of locs) {
+                        const code = LOCALE_MAP[loc] || LOCALE_MAP[loc.split('-')[0]];
+                        if (code && SYMBOLS[code]) return SYMBOLS[code];
+                    }
+                } catch (e) { }
+                return null;
+            }
+
+            // Try IP geolocation with a timeout promise
             try {
-                const LOCALE_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-UG": "UGX", "en-TZ": "TZS", "en-RW": "RWF", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-NZ": "NZD", "en-IN": "INR", "en-PK": "PKR", "en-SG": "SGD", "de": "EUR", "de-DE": "EUR", "fr": "EUR", "fr-FR": "EUR", "fr-CA": "CAD", "fr-SN": "XOF", "fr-CI": "XOF", "fr-CM": "XAF", "es": "USD", "es-MX": "MXN", "es-AR": "ARS", "es-CO": "COP", "es-CL": "CLP", "pt": "BRL", "pt-BR": "BRL", "zh": "CNY", "zh-CN": "CNY", "zh-TW": "TWD", "zh-HK": "HKD", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-SA": "SAR", "ar-EG": "EGP", "ar-AE": "AED", "ar-KW": "KWD", "ar-QA": "QAR", "hi": "INR", "bn": "BDT", "ru": "RUB", "tr": "TRY", "pl": "PLN", "nl": "EUR", "sv": "SEK", "da": "DKK", "nb": "NOK", "id": "IDR", "ms": "MYR", "th": "THB", "vi": "VND", "fil": "PHP" };
-                const SYMBOLS = { "NGN": "₦", "GHS": "₵", "KES": "KSh", "ZAR": "R", "UGX": "Sh", "TZS": "Sh", "RWF": "Fr", "USD": "$", "GBP": "£", "AUD": "A$", "CAD": "CA$", "NZD": "NZ$", "INR": "₹", "PKR": "₨", "SGD": "S$", "EUR": "€", "CHF": "Fr", "XOF": "CFA", "XAF": "FCFA", "MXN": "$", "ARS": "$", "COP": "$", "CLP": "$", "PEN": "S/.", "BRL": "R$", "AOA": "Kz", "MZN": "MT", "CNY": "¥", "TWD": "NT$", "HKD": "HK$", "JPY": "¥", "KRW": "₩", "SAR": "﷼", "EGP": "£", "AED": "د.إ", "KWD": "KD", "QAR": "﷼", "BHD": ".د.ب", "IQD": "ع.د", "JOD": "JD", "MAD": "MAD", "DZD": "دج", "TND": "DT", "IDR": "Rp", "MYR": "RM", "THB": "฿", "VND": "₫", "PHP": "₱", "BDT": "৳", "RUB": "₽", "TRY": "₺", "PLN": "zł", "SEK": "kr", "DKK": "kr", "NOK": "kr", "CZK": "Kč", "HUF": "Ft", "RON": "lei", "UAH": "₴" };
-                // Try IP geolocation first
-                const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
-                if (r.ok) {
+                const timeout = new Promise((_, reject) => setTimeout(() => reject('timeout'), 4000));
+                const request = fetch('https://ipapi.co/json/');
+                const r = await Promise.race([request, timeout]);
+                if (r && r.ok) {
                     const d = await r.json();
                     if (d.currency && SYMBOLS[d.currency]) {
-                        demoCurr = SYMBOLS[d.currency];
-                        document.getElementById('demo-curr-badge').textContent = demoCurr;
+                        applySymbol(SYMBOLS[d.currency]);
                         return;
                     }
                 }
             } catch (e) { }
-            // Fallback: browser locale
+
+            // Fallback 1: try freeipapi.com
             try {
-                const LOCALE_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-IN": "INR", "de": "EUR", "fr": "EUR", "es": "USD", "es-MX": "MXN", "pt": "BRL", "pt-BR": "BRL", "zh": "CNY", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-AE": "AED", "hi": "INR", "ru": "RUB", "tr": "TRY" };
-                const SYMBOLS = { "NGN": "₦", "GHS": "₵", "KES": "KSh", "ZAR": "R", "USD": "$", "GBP": "£", "AUD": "A$", "CAD": "CA$", "INR": "₹", "EUR": "€", "MXN": "$", "BRL": "R$", "CNY": "¥", "JPY": "¥", "KRW": "₩", "SAR": "﷼", "AED": "د.إ", "RUB": "₽", "TRY": "₺" };
-                const locs = navigator.languages || [navigator.language];
-                for (const loc of locs) {
-                    const code = LOCALE_MAP[loc] || LOCALE_MAP[loc.split('-')[0]];
-                    if (code && SYMBOLS[code]) {
-                        demoCurr = SYMBOLS[code];
-                        document.getElementById('demo-curr-badge').textContent = demoCurr;
+                const timeout = new Promise((_, reject) => setTimeout(() => reject('timeout'), 3000));
+                const request = fetch('https://freeipapi.com/api/json');
+                const r = await Promise.race([request, timeout]);
+                if (r && r.ok) {
+                    const d = await r.json();
+                    if (d.currencyCode && SYMBOLS[d.currencyCode]) {
+                        applySymbol(SYMBOLS[d.currencyCode]);
                         return;
                     }
                 }
             } catch (e) { }
+
+            // Fallback 2: browser locale
+            const localeSym = fromLocale();
+            if (localeSym) { applySymbol(localeSym); return; }
+
+            // Final fallback: keep ₦
         })();
 
         function onDemoInput(el) {
@@ -1873,24 +1765,40 @@
             {
                 name: "Wobo Bright C.",
                 occupation: "Student / AI Developer",
-                location: "Port Harcourt",
-                photo: "",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773960965/E00FEFA1-CF5E-4AA9-96A2-469960EAD7A5_1_201_a_evkwza.jpg",
                 quote: "It was cool honestly. I first saw everyone entering small amounts, so I went for a higher amount and it worked seamlessly. You can even predict your future income and expenses using the Babylon calculator.",
                 stars: 5
             },
             {
                 name: "Rejoice Anusi",
                 occupation: "Creative Manager",
-                location: "Asaba",
-                photo: "",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937714/rejoice_llk4rb.jpg",
                 quote: "I really believe this app has the potential to become a leading financial management app. It's simple, practical, and makes staying intentional with your finances feel easy — especially for students and young adults.",
+                stars: 5
+            },
+            {
+                name: "Divine Nelson",
+                occupation: "CEO Eden Perfumes",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773938135/nelson_h187n1.jpg",
+                quote: "Using the Babylon app has actually helped me in making better and smarter financial choices in terms of how to invest profits that I generate from my brand. You should try it too. It provides for simple helpful steps that aids smart financial decisions and helps you manage and upscale your finance.",
                 stars: 5
             },
             {
                 name: "Sylvia Owei T.",
                 occupation: "UI/UX Designer",
-                location: "Port Harcourt",
-                photo: "",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773961189/B051BF79-5DA2-4181-88C7-B7C19B065FA9_1_201_a_khejpa.jpg",
+                quote: "I really love the Babylon app. It teaches you how to manage money wisely and accounts for how to go about paying your debts. If you like to build better habits around money, this app is for you.",
+                stars: 5
+            },
+            {
+                name: "Shambhahi Hiwase",
+                occupation: "AI Developer",
+                location: "Maharastra, India",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/shambhavi_b9zwbe.png",
                 quote: "I really love the Babylon app. It teaches you how to manage money wisely and accounts for how to go about paying your debts. If you like to build better habits around money, this app is for you.",
                 stars: 5
             }
@@ -1905,35 +1813,31 @@
 
         function buildPhotoPanel(t) {
             if (t.photo) {
-                return `<img class="t-bg-photo" src="${t.photo}" alt="${t.name}" loading="lazy">`;
+                return `<div class="t-photo-col">
+                    <img src="${t.photo}" alt="${t.name}" loading="lazy" style="height: 350px">
+                </div>`;
             }
-            return `<div class="t-bg-fallback"></div>`;
-        }
-
-        function buildAvatarEl(t) {
-            if (t.photo) {
-                return `<img class="t-author-avatar" src="${t.photo}" alt="${t.name}" loading="lazy">`;
-            }
-            return `<div class="t-author-avatar-fallback">${t.name.charAt(0).toUpperCase()}</div>`;
+            return `<div class="t-photo-col">
+                <div class="t-photo-col-fallback">
+                    <div class="t-photo-col-initial">${t.name.charAt(0).toUpperCase()}</div>
+                </div>
+            </div>`;
         }
 
         function buildSlide(t, index) {
             return `<div class="testimonial-slide${index === 0 ? ' active' : ''}" data-index="${index}">
                 ${buildPhotoPanel(t)}
-                <div class="t-overlay"></div>
-                <div class="t-accent"></div>
-                <div class="t-index"><span>${String(index + 1).padStart(2, '0')}</span> / ${String(TESTIMONIALS.length).padStart(2, '0')}</div>
-                <div class="t-content">
-                    <span class="t-quote-mark">"</span>
-                    <p class="t-quote">${t.quote}"</p>
-                    <div class="t-sep"></div>
-                    <div class="t-author">
-                        ${buildAvatarEl(t)}
+                <div class="t-content-col">
+                    <p class="t-quote">${t.quote}</p>
+                    <div class="t-bottom">
                         <div>
                             <div class="t-author-name">${t.name}</div>
-                            <div class="t-author-role">${t.occupation} · ${t.location}</div>
+                            <div class="t-author-role">${t.occupation}  ·  ${t.location}</div>
                         </div>
-                        <div class="t-stars">${renderStars(t.stars)}</div>
+                        <div class="t-nav-btns">
+                            <button class="testimonial-nav-btn" onclick="prevSlide()" aria-label="Previous">←</button>
+                            <button class="testimonial-nav-btn" onclick="nextSlide()" aria-label="Next">→</button>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -1950,13 +1854,10 @@
         function initTestimonials() {
             const track = document.getElementById('testimonial-track');
             const dotsContainer = document.getElementById('testimonial-dots');
-            const totalEl = document.getElementById('t-total');
 
             track.innerHTML = TESTIMONIALS.map((t, i) => buildSlide(t, i)).join('');
             dotsContainer.innerHTML = '';
             TESTIMONIALS.forEach((_, i) => dotsContainer.appendChild(buildDot(i)));
-            totalEl.textContent = TESTIMONIALS.length;
-            updateCounter();
             startAutoAdvance();
 
             // Swipe support
@@ -1976,7 +1877,6 @@
             currentSlide = (n + TESTIMONIALS.length) % TESTIMONIALS.length;
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
-            updateCounter();
             resetAutoAdvance();
         }
 
