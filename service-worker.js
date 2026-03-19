@@ -3,8 +3,6 @@
 const CACHE_VERSION = 'babylon-v1';
 
 const PRECACHE_URLS = [
-    '/',
-    '/index.html',
     '/app/',
     '/app/index.html',
     '/app/babylon.html',
