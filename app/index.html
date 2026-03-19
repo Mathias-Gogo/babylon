@@ -1158,6 +1158,38 @@
             if (name) startReturningUserFlow(name); else startNewUserFlow();
         }
 
+
+        // ─── PWA INSTALL (fires when user arrives from landing page) ───
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // If user arrived with install intent from landing page, fire immediately
+            if (localStorage.getItem('babylon_install_intent') === 'true') {
+                localStorage.removeItem('babylon_install_intent');
+                setTimeout(() => triggerInstall(), 500);
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            localStorage.setItem('babylon_installed', 'true');
+            deferredPrompt = null;
+        });
+
+        async function triggerInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    localStorage.setItem('babylon_installed', 'true');
+                }
+                deferredPrompt = null;
+            } else {
+                alert('To install: tap your browser\'s menu and select "Add to Home Screen".');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
             const stored = getStoredUser();

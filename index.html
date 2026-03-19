@@ -1743,8 +1743,9 @@
                 }
                 deferredPrompt = null;
             } else {
-                // Fallback — browser doesn't support prompt
-                alert('To install: tap your browser\'s Share button and select "Add to Home Screen".');
+                // Navigate to app page — manifest lives there, install prompt will fire
+                localStorage.setItem('babylon_install_intent', 'true');
+                window.location.href = '/babylon/app/';
             }
         }
 
