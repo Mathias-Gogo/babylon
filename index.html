@@ -2,21 +2,25 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLHVN03SHK"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-GLHVN03SHK');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Babylon Method — Money Allocator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap"
+    <meta name="description"
+        content="The Babylon Method — ancient wisdom for modern money. Split your income, crush your debt, and plan every goal. Install the free app today.">
+    <meta property="og:title" content="The Babylon Method — Master Your Money">
+    <meta property="og:description"
+        content="Three tools. One mission. Make your money work the way Babylon's richest merchants did.">
+    <meta property="og:image"
+        content="https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773918872/A_horizontal_cinematic_202603191213_wnt1xu.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1C1209">
+    <title>The Babylon Method — Master Your Money</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700;900&display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <style>
         :root {
             --gold: #C9A84C;
@@ -32,333 +36,217 @@
             --sky: #3A6B8A;
         }
 
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
             background: var(--parchment);
             color: var(--ink);
-            min-height: 100vh;
             overflow-x: hidden;
         }
 
+        /* ─── TEXTURE OVERLAY ─── */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-image:
-                radial-gradient(ellipse at 20% 10%, rgba(201, 168, 76, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(184, 92, 56, 0.06) 0%, transparent 50%),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
         }
 
-        .wrapper {
-            position: relative;
-            z-index: 1;
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 32px;
+            background: rgba(251, 247, 238, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(237, 227, 204, 0.6);
+        }
+
+        .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 24px 80px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .eyebrow {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 3.5px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 16px;
-            padding: 6px 18px;
-            border: 1px solid rgba(201, 168, 76, 0.3);
-            border-radius: 20px;
-        }
-
-        h1 {
-            font-size: clamp(34px, 7vw, 60px);
-            font-weight: 900;
-            color: var(--ink);
-            line-height: 1.08;
-            margin-bottom: 16px;
-            letter-spacing: -1.5px;
-        }
-
-        h1 span {
-            color: var(--gold);
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: var(--ink-soft);
-            max-width: 420px;
-            margin: 0 auto;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        .ornament {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 32px auto;
-            width: fit-content;
-        }
-
-        .ornament-line {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold));
-        }
-
-        .ornament-line.right {
-            background: linear-gradient(90deg, var(--gold), transparent);
-        }
-
-        .ornament-diamond {
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            transform: rotate(45deg);
-        }
-
-        .input-card {
-            background: white;
-            border: 1px solid var(--sand-dark);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 32px;
-            box-shadow: 0 2px 24px rgba(28, 18, 9, 0.06), 0 0 0 1px rgba(201, 168, 76, 0.1);
-        }
-
-        .input-card label {
-            display: block;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-            margin-bottom: 10px;
-        }
-
-        .currency-toggle {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .curr-btn {
-            padding: 6px 14px;
-            border: 1px solid var(--sand-dark);
-            border-radius: 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            color: var(--ink-soft);
-            transition: all 0.2s;
-        }
-
-        .curr-btn.active {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: white;
-        }
-
-        .amount-row {
-            display: flex;
-            align-items: center;
-            border: 2px solid var(--sand-dark);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: border-color 0.2s;
-        }
-
-        .amount-row:focus-within {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.12);
-        }
-
-        .currency-badge {
-            background: var(--sand);
-            padding: 14px 20px;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--gold);
-            border-right: 2px solid var(--sand-dark);
-            white-space: nowrap;
-            user-select: none;
-        }
-
-        #amount {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 14px 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--ink);
-            background: transparent;
-            width: 100%;
-        }
-
-        #amount::placeholder {
-            color: var(--sand-dark);
-        }
-
-        .debt-toggle {
-            margin-top: 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 20px;
-            border-radius: 12px;
-            background: var(--sand);
-            border: 1px solid transparent;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px;
+            background: var(--ink);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             cursor: pointer;
             transition: all 0.2s;
-            user-select: none;
+            text-decoration: none;
         }
 
-        .debt-toggle:hover {
-            border-color: var(--debt-red);
+        .nav-cta:hover {
+            background: var(--ink-mid);
+            transform: translateY(-1px);
         }
 
-        .debt-toggle.active {
-            background: #FDF0ED;
-            border-color: var(--debt-red);
+        .nav-cta.hidden {
+            display: none;
         }
 
-        .debt-toggle-left {
+        /* ─── HERO ─── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .debt-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(192, 57, 43, 0.12);
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            text-align: center;
+            padding: 120px 32px 80px;
+            overflow: hidden;
         }
 
-        .debt-toggle-text strong {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        .debt-toggle-text small {
-            font-size: 11px;
-            color: var(--ink-soft);
-        }
-
-        .toggle-switch {
-            width: 44px;
-            height: 24px;
-            border-radius: 12px;
-            background: var(--sand-dark);
-            position: relative;
-            transition: background 0.2s;
-            flex-shrink: 0;
-        }
-
-        .toggle-switch::after {
+        .hero::before {
             content: '';
             position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: white;
-            transition: transform 0.2s;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(201, 168, 76, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(58, 107, 138, 0.08) 0%, transparent 60%);
+            pointer-events: none;
         }
 
-        .debt-toggle.active .toggle-switch {
-            background: var(--debt-red);
-        }
-
-        .debt-toggle.active .toggle-switch::after {
-            transform: translateX(20px);
-        }
-
-        .debt-slider-wrap {
-            max-height: 0;
+        /* Decorative lines */
+        .hero-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
             overflow: hidden;
-            transition: max-height 0.3s ease;
         }
 
-        .debt-slider-wrap.open {
-            max-height: 100px;
-            margin-top: 12px;
+        .hero-lines::before,
+        .hero-lines::after {
+            content: '';
+            position: absolute;
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            border-radius: 50%;
         }
 
-        .debt-slider-inner {
-            padding: 14px 20px;
-            background: #FDF0ED;
-            border-radius: 10px 10px 0 0;
-            display: flex;
+        .hero-lines::before {
+            width: 600px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hero-lines::after {
+            width: 900px;
+            height: 900px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
             align-items: center;
-            gap: 16px;
-        }
-
-        .debt-slider-inner label {
-            font-size: 11px;
-            color: var(--debt-red);
-            font-weight: 600;
-            white-space: nowrap;
-            letter-spacing: 0;
-            text-transform: none;
-            margin-bottom: 0;
-        }
-
-        input[type=range] {
-            flex: 1;
-            accent-color: var(--debt-red);
-            cursor: pointer;
-        }
-
-        .debt-pct-display {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--debt-red);
-            min-width: 42px;
-            text-align: right;
-        }
-
-        .debt-note {
-            background: #FDF0ED;
-            border-radius: 0 0 10px 10px;
+            gap: 8px;
             font-size: 10px;
-            color: var(--debt-red);
-            padding: 6px 20px 10px;
-            font-weight: 500;
-            opacity: 0.75;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            padding: 7px 20px;
+            border: 1px solid rgba(201, 168, 76, 0.35);
+            border-radius: 30px;
+            margin-bottom: 28px;
+            animation: fade-up 0.8s ease both;
         }
 
-        .calc-btn {
-            width: 100%;
-            margin-top: 28px;
-            padding: 18px;
+        .hero-eyebrow::before,
+        .hero-eyebrow::after {
+            content: '✦';
+            font-size: 8px;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(52px, 10vw, 96px);
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            color: var(--ink);
+            margin-bottom: 12px;
+            animation: fade-up 0.8s 0.1s ease both;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+            display: block;
+        }
+
+        .hero-sub {
+            font-size: clamp(14px, 2vw, 17px);
+            color: var(--ink-soft);
+            max-width: 480px;
+            line-height: 1.75;
+            margin: 20px auto 40px;
+            font-weight: 400;
+            animation: fade-up 0.8s 0.2s ease both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-up 0.8s 0.3s ease both;
+        }
+
+        .btn-install {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
             background: var(--ink);
             color: var(--gold-light);
             border: none;
@@ -366,7 +254,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 13px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.25s;
@@ -374,7 +262,7 @@
             overflow: hidden;
         }
 
-        .calc-btn::before {
+        .btn-install::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -383,616 +271,1722 @@
             transition: opacity 0.25s;
         }
 
-        .calc-btn:hover {
-            background: var(--ink-mid);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 24px rgba(28, 18, 9, 0.2);
+        .btn-install:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(28, 18, 9, 0.25);
         }
 
-        .calc-btn:hover::before {
+        .btn-install:hover::before {
             opacity: 1;
         }
 
-        .calc-btn:active {
-            transform: translateY(0);
+        .btn-install.hidden {
+            display: none;
         }
 
-        #results {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none;
+        .btn-install-icon {
+            font-size: 18px;
         }
 
-        #results.visible {
-            opacity: 1;
-            transform: none;
-            pointer-events: auto;
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .results-header h2 {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--ink);
-        }
-
-        .results-header p {
-            color: var(--ink-soft);
-            font-size: 13px;
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        .allocation-bar {
-            display: flex;
-            height: 14px;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 36px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .bar-segment {
-            height: 100%;
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        /* @media screen and (max-width: 900px) {
-            .card-grid{
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        } */
-
-        .alloc-card {
-            border-radius: 16px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(12px);
-            transition: opacity 0.35s ease, transform 0.35s ease;
-        }
-
-        .alloc-card.show {
-            opacity: 1;
-            transform: none;
-        }
-
-        .alloc-card::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            opacity: 0.1;
-        }
-
-        .card-invest {
-            background: linear-gradient(135deg, #0f3460, #1a5276);
-            color: white;
-        }
-
-        .card-invest::before {
-            background: #5DADE2;
-        }
-
-        .card-save {
-            background: linear-gradient(135deg, #1a472a, #27612e);
-            color: white;
-        }
-
-        .card-save::before {
-            background: #58D68D;
-        }
-
-        .card-spend {
-            background: linear-gradient(135deg, #784212, #9A6B2E);
-            color: white;
-        }
-
-        .card-spend::before {
-            background: var(--gold-light);
-        }
-
-        .card-debt {
-            background: linear-gradient(135deg, #641e16, #922B21);
-            color: white;
-        }
-
-        .card-debt::before {
-            background: #EC7063;
-        }
-
-        .card-emergency {
-            background: linear-gradient(135deg, #4A235A, #6C3483);
-            color: white;
-        }
-
-        .card-emergency::before {
-            background: #C39BD3;
-        }
-
-        .card-label {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            opacity: 0.7;
-            margin-bottom: 8px;
-        }
-
-        .card-icon {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .card-amount {
-            font-size: 23px;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
-        .card-pct {
-            font-size: 11px;
-            opacity: 0.65;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .card-desc {
-            font-size: 11px;
-            opacity: 0.8;
-            line-height: 1.55;
-            font-weight: 400;
-        }
-
-        .growth-card {
-            background: white;
-            border: 1px solid var(--sand-dark);
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 12px rgba(28, 18, 9, 0.04);
-        }
-
-        .growth-card h3 {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 20px;
-            display: flex;
+        .btn-open {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            letter-spacing: 0.3px;
-        }
-
-        .growth-table {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 1px;
-            background: var(--sand-dark);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 28px;
-        }
-
-        .growth-cell {
-            background: var(--sand);
-            padding: 14px 16px;
-            text-align: center;
-        }
-
-        .growth-cell:first-child {
-            background: var(--parchment);
-        }
-
-        .growth-year {
-            font-size: 9px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-
-        .growth-val {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--sky);
-        }
-
-        .chart-section-label {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-            margin-bottom: 12px;
-        }
-
-        .chart-wrap {
-            position: relative;
-            height: 280px;
-        }
-
-        .wisdom {
-            background: var(--ink);
-            border-radius: 16px;
-            padding: 28px 32px;
-            text-align: center;
-            margin-top: 24px;
-        }
-
-        .wisdom p {
-            font-size: 14px;
-            color: var(--gold-light);
-            font-style: italic;
-            line-height: 1.75;
-            font-weight: 400;
-        }
-
-        .wisdom cite {
-            display: block;
-            margin-top: 10px;
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(232, 201, 122, 0.45);
-            font-style: normal;
-            font-weight: 600;
-        }
-
-        .amount-headline {
-            display: block;
-            font-size: 42px;
-            font-weight: 900;
-            color: var(--ink);
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-top: 6px;
-        }
-
-        .reset-btn {
-            display: block;
-            width: 100%;
-            margin-top: 16px;
-            padding: 16px;
+            padding: 16px 28px;
             background: transparent;
-            color: var(--ink-soft);
+            color: var(--ink);
             border: 2px solid var(--sand-dark);
             border-radius: 14px;
             font-family: 'Montserrat', sans-serif;
             font-size: 13px;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .btn-open:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .hero-installed-msg {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            background: rgba(26, 71, 42, 0.08);
+            border: 1px solid rgba(26, 71, 42, 0.2);
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #27612e;
+        }
+
+        .hero-installed-msg.show {
+            display: inline-flex;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: fade-up 0.8s 0.5s ease both;
+        }
+
+        .hero-scroll span {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+            animation: scroll-pulse 2s infinite;
+        }
+
+        @keyframes scroll-pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1.2);
+            }
+        }
+
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── DIVIDER ─── */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .section-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sand-dark), transparent);
+        }
+
+        .section-divider-mark {
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        /* ─── HOW IT WORKS ─── */
+        .how-section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 32px;
+        }
+
+        .section-label {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 60px;
+        }
+
+        .section-title span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            padding: 36px 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(28, 18, 9, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(28, 18, 9, 0.1);
+        }
+
+        .step-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: rgba(201, 168, 76, 0.12);
+            line-height: 1;
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            user-select: none;
+        }
+
+        .step-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .step-icon.gold {
+            background: rgba(201, 168, 76, 0.12);
+        }
+
+        .step-icon.red {
+            background: rgba(192, 57, 43, 0.1);
+        }
+
+        .step-icon.blue {
+            background: rgba(58, 107, 138, 0.1);
+        }
+
+        .step-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .step-tag.gold {
+            color: var(--gold);
+        }
+
+        .step-tag.red {
+            color: var(--debt-red);
+        }
+
+        .step-tag.blue {
+            color: var(--sky);
+        }
+
+        .step-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .step-card p {
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.75;
+        }
+
+        .step-features {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .step-feature {
+            font-size: 12px;
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-feature::before {
+            content: '✦';
+            font-size: 8px;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        /* ─── ALLOCATOR DEMO ─── */
+        .demo-section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 32px;
+            background: var(--ink);
+            overflow: hidden;
+        }
+
+        .demo-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 10% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 50%, rgba(58, 107, 138, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .demo-section .section-label {
+            color: rgba(232, 201, 122, 0.5);
+        }
+
+        .demo-section .section-title {
+            color: var(--gold-light);
+            margin-bottom: 16px;
+        }
+
+        .demo-section .section-title span {
+            color: var(--gold);
+        }
+
+        .demo-sub {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(232, 201, 122, 0.5);
+            max-width: 400px;
+            margin: 0 auto 60px;
+            line-height: 1.7;
+        }
+
+        .demo-wrap {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .demo-input-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .demo-curr-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .demo-curr-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: rgba(232, 201, 122, 0.6);
+            transition: all 0.2s;
+        }
+
+        .demo-curr-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--ink);
+        }
+
+        .demo-amount-wrap {
+            display: flex;
+            align-items: center;
+            border: 2px solid rgba(201, 168, 76, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .demo-amount-wrap:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.1);
+        }
+
+        .demo-curr-badge {
+            background: rgba(201, 168, 76, 0.1);
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            border-right: 2px solid rgba(201, 168, 76, 0.2);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        #demo-amount {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 20px;
+            background: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            width: 100%;
+        }
+
+        #demo-amount::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .demo-calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.25s;
         }
 
-        .reset-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(201, 168, 76, 0.05);
+        .demo-calc-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
         }
 
-        @media (max-width: 500px) {
-            .input-card {
-                padding: 24px 20px;
+        /* Results */
+        #demo-results {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        #demo-results.visible {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+
+        .demo-bar {
+            display: flex;
+            height: 10px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-bar-seg {
+            height: 100%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .demo-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .demo-card {
+            border-radius: 12px;
+            padding: 16px 18px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .demo-card.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .demo-card-invest {
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+        }
+
+        .demo-card-save {
+            background: linear-gradient(135deg, #1a472a, #27612e);
+        }
+
+        .demo-card-emergency {
+            background: linear-gradient(135deg, #4A235A, #6C3483);
+        }
+
+        .demo-card-spend {
+            background: linear-gradient(135deg, #784212, #9A6B2E);
+        }
+
+        .demo-card-icon {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .demo-card-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 4px;
+        }
+
+        .demo-card-amount {
+            font-size: 16px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        .demo-card-pct {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+
+        .demo-cta {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .demo-cta a {
+            font-size: 12px;
+            color: rgba(232, 201, 122, 0.6);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+            padding-bottom: 2px;
+            transition: color 0.2s;
+        }
+
+        .demo-cta a:hover {
+            color: var(--gold-light);
+        }
+
+        /* ─── PHILOSOPHY ─── */
+        .philosophy-section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 32px;
+        }
+
+        .philosophy-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .philosophy-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .philosophy-quote strong {
+            font-weight: 700;
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .philosophy-cite {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 64px;
+        }
+
+        .philosophy-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .pillar {
+            text-align: center;
+            padding: 28px 20px;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            background: white;
+            transition: all 0.25s;
+        }
+
+        .pillar:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.12);
+        }
+
+        .pillar-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .pillar h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+
+        .pillar p {
+            font-size: 11px;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+
+        /* ─── TESTIMONIALS CAROUSEL ─── */
+        .testimonials-section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 32px;
+            background: var(--ink);
+            overflow: hidden;
+        }
+
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 80% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .testimonials-section .section-label {
+            color: rgba(232, 201, 122, 0.4);
+        }
+
+        .testimonials-section .section-title {
+            color: var(--gold-light);
+            margin-bottom: 48px;
+        }
+
+        .testimonials-section .section-title span {
+            color: var(--gold);
+        }
+
+        .testimonial-carousel {
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-track {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+        }
+
+        .testimonial-slide {
+            display: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .testimonial-slide.active {
+            display: flex;
+            animation: slide-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translateX(28px);
             }
 
-            #amount {
-                font-size: 22px;
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* Photo panel */
+        .testimonial-photo {
+            width: 280px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+            background: linear-gradient(160deg, rgba(201, 168, 76, 0.08), rgba(28, 18, 9, 0.4));
+        }
+
+        .testimonial-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            filter: brightness(0.92) contrast(1.05);
+        }
+
+        /* Gradient overlay on photo — fades into the card */
+        .testimonial-photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 60%, rgba(28, 18, 9, 0.6));
+        }
+
+        /* Fallback initial when no photo */
+        .testimonial-photo-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 32px;
+        }
+
+        .testimonial-photo-initial {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--ink);
+            flex-shrink: 0;
+        }
+
+        .testimonial-photo-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(232, 201, 122, 0.45);
+            letter-spacing: 1px;
+        }
+
+        /* Content panel */
+        .testimonial-content {
+            flex: 1;
+            padding: 44px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin-bottom: 22px;
+        }
+
+        /* Big decorative quote mark */
+        .testimonial-content::before {
+            content: '\201C';
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 120px;
+            font-weight: 700;
+            color: rgba(201, 168, 76, 0.08);
+            position: absolute;
+            top: 12px;
+            left: 36px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .testimonial-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18px, 2.2vw, 24px);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-top: 1px solid rgba(201, 168, 76, 0.12);
+            padding-top: 20px;
+        }
+
+        .testimonial-author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+            object-position: center top;
+            border: 2px solid rgba(201, 168, 76, 0.3);
+        }
+
+        .testimonial-author-avatar-fallback {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            border: 2px solid rgba(201, 168, 76, 0.3);
+        }
+
+        .testimonial-author-info {
+            flex: 1;
+        }
+
+        .testimonial-author-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 2px;
+        }
+
+        .testimonial-author-role {
+            font-size: 10px;
+            color: rgba(232, 201, 122, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Controls */
+        .testimonial-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .testimonial-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.25);
+            cursor: pointer;
+            transition: all 0.25s;
+            border: none;
+        }
+
+        .testimonial-dot.active {
+            background: var(--gold);
+            width: 22px;
+            border-radius: 3px;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .testimonial-nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(232, 201, 122, 0.65);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .testimonial-nav-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201, 168, 76, 0.08);
+            transform: scale(1.05);
+        }
+
+        /* Counter */
+        .testimonial-counter {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(232, 201, 122, 0.3);
+        }
+
+        .testimonial-counter span {
+            color: rgba(232, 201, 122, 0.7);
+        }
+
+        @media (max-width: 700px) {
+            .testimonial-slide.active {
+                flex-direction: column;
             }
 
-            .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            .testimonial-photo {
+                width: 100%;
+                min-height: 220px;
+            }
+
+            .testimonial-photo::after {
+                background: linear-gradient(180deg, transparent 50%, rgba(28, 18, 9, 0.7));
+            }
+
+            .testimonial-content {
+                padding: 28px 24px;
+            }
+
+            .testimonial-content::before {
+                font-size: 80px;
+            }
+        }
+
+        /* ─── INSTALL BOTTOM BANNER ─── */
+        #install-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: var(--ink);
+            border-top: 1px solid rgba(201, 168, 76, 0.2);
+            padding: 16px 24px;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            display: none;
+        }
+
+        #install-banner.show {
+            transform: translateY(0);
+            display: block;
+        }
+
+        .install-banner-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .install-banner-text {
+            flex: 1;
+        }
+
+        .install-banner-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 2px;
+        }
+
+        .install-banner-text span {
+            font-size: 11px;
+            color: rgba(232, 201, 122, 0.5);
+        }
+
+        .install-banner-btn {
+            padding: 10px 22px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .install-banner-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .install-banner-dismiss {
+            background: none;
+            border: none;
+            color: rgba(232, 201, 122, 0.35);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .install-banner-dismiss:hover {
+            color: rgba(232, 201, 122, 0.7);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            position: relative;
+            z-index: 1;
+            background: var(--ink);
+            padding: 60px 32px 40px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        .footer-brand span {
+            color: var(--gold);
+        }
+
+        .footer-tagline {
+            font-size: 12px;
+            color: rgba(232, 201, 122, 0.4);
+            line-height: 1.6;
+            max-width: 220px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-link-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.3);
+            margin-bottom: 4px;
+        }
+
+        .footer-link {
+            font-size: 13px;
+            color: rgba(232, 201, 122, 0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: rgba(232, 201, 122, 0.25);
+        }
+
+        .footer-made {
+            font-size: 11px;
+            color: rgba(232, 201, 122, 0.25);
+        }
+
+        .footer-made span {
+            color: rgba(201, 168, 76, 0.5);
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 600px) {
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .demo-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-top {
+                flex-direction: column;
+            }
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .hero {
+                padding: 100px 20px 80px;
+            }
+
+            .how-section,
+            .demo-section,
+            .philosophy-section,
+            .testimonials-section {
+                padding: 70px 20px;
+            }
+
+            footer {
+                padding: 50px 20px 32px;
+            }
+
+            .nav-cta span {
+                display: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="wrapper">
 
-        <header>
-            <div class="eyebrow">The Babylon Method</div>
-            <h1>Spend <span>Wisely.</span><br>Grow Steadily.</h1>
-            <p class="subtitle">Rooted in ancient wisdom. Enter any amount and discover how the richest merchants of
-                Babylon would divide it.</p>
-            <div class="ornament">
-                <div class="ornament-line"></div>
-                <div class="ornament-diamond"></div>
-                <div class="ornament-line right"></div>
+    <!-- ─── NAV ─── -->
+    <nav>
+        <div class="nav-inner">
+            <a class="nav-logo" href="#" style="font-family: Montserrat, sans-serif;">Babylon</a>
+            <button class="nav-cta" id="nav-install-btn" onclick="triggerInstall()">
+                <span>⬇</span> <span>Install Free</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <section class="hero">
+        <div class="hero-lines"></div>
+        <div class="hero-eyebrow">Ancient Wisdom · Modern Tools</div>
+        <h1>Master Your<br><em>Money.</em></h1>
+        <p class="hero-sub">The financial toolkit rooted in the timeless principles of Babylon's richest men. Allocate,
+            eliminate debt, and plan every goal — all in one place.</p>
+        <div class="hero-actions">
+            <button class="btn-install" id="hero-install-btn" onclick="triggerInstall()">
+                <span class="btn-install-icon">⬇</span>
+                Install the App — It's Free
+            </button>
+            <a class="btn-open" href="index.html">Open in Browser →</a>
+            <div class="hero-installed-msg" id="hero-installed-msg">
+                ✓ App installed — open it from your home screen
             </div>
-        </header>
+        </div>
+        <div class="hero-scroll">
+            <div class="scroll-line"></div>
+            <span>Scroll</span>
+        </div>
+    </section>
 
-        <div class="input-card">
-            <div class="currency-toggle">
-                <button class="curr-btn active" onclick="setCurrency('₦',event)">₦ NGN</button>
-                <button class="curr-btn" onclick="setCurrency('$',event)">$ USD</button>
-                <button class="curr-btn" onclick="setCurrency('£',event)">£ GBP</button>
-                <button class="curr-btn" onclick="setCurrency('€',event)">€ EUR</button>
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="how-section">
+        <div class="section-label">Three Tools. One Mission.</div>
+        <h2 class="section-title">Everything you need to<br><span>own your finances</span></h2>
+        <div class="steps-grid reveal">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="step-icon gold">📊</div>
+                <div class="step-tag gold">Money Allocator</div>
+                <h3>Split Your Income the Babylon Way</h3>
+                <p>Enter any amount and instantly see how the richest merchants of Babylon would divide it — invest,
+                    save, protect, and spend.</p>
+                <div class="step-features">
+                    <div class="step-feature">20% to invest — your future self</div>
+                    <div class="step-feature">10% to save — sacred and untouched</div>
+                    <div class="step-feature">10% emergency buffer</div>
+                    <div class="step-feature">20-year compound growth chart</div>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="step-icon red">⚖️</div>
+                <div class="step-tag red">Debt Tracker</div>
+                <h3>Kill Your Debt. Own Your Future.</h3>
+                <p>Enter your debt, income, and repayment rate. Get an exact freedom date — with a month-by-month
+                    amortisation breakdown.</p>
+                <div class="step-features">
+                    <div class="step-feature">6 debt types supported</div>
+                    <div class="step-feature">Optional interest rate calculation</div>
+                    <div class="step-feature">Babylon's personalised counsel</div>
+                    <div class="step-feature">Full repayment schedule table</div>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="step-icon blue">🎯</div>
+                <div class="step-tag blue">Goal Planner</div>
+                <h3>Plan Every Goal. See the Math.</h3>
+                <p>Buying a car? Saving for a house? Babylon shows you exactly how long it takes, whether you should
+                    proceed, and how to get there faster.</p>
+                <div class="step-features">
+                    <div class="step-feature">6 goal types — travel, house, car and more</div>
+                    <div class="step-feature">Rent vs buy verdict for housing</div>
+                    <div class="step-feature">Monthly savings tracker</div>
+                    <div class="step-feature">Smart verdict — green, amber, or red</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-mark">✦</div>
+        <div class="section-divider-line"></div>
+    </div>
+
+    <!-- ─── ALLOCATOR DEMO ─── -->
+    <section class="demo-section" id="try-it">
+        <div class="section-label">Try It Now</div>
+        <h2 class="section-title" style="color:var(--gold-light);">See the <span>breakdown</span></h2>
+        <p class="demo-sub">Enter any income amount below and see your Babylon allocation instantly.</p>
+
+        <div class="demo-wrap reveal">
+            <div class="demo-input-card">
+                <div class="demo-curr-row" id="demo-curr-row">
+                    <button class="demo-curr-btn active" onclick="setDemoCurr('₦',event)">₦ NGN</button>
+                    <button class="demo-curr-btn" onclick="setDemoCurr('$',event)">$ USD</button>
+                    <button class="demo-curr-btn" onclick="setDemoCurr('£',event)">£ GBP</button>
+                    <button class="demo-curr-btn" onclick="setDemoCurr('€',event)">€ EUR</button>
+                </div>
+                <div class="demo-amount-wrap">
+                    <div class="demo-curr-badge" id="demo-curr-badge">₦</div>
+                    <input type="text" id="demo-amount" placeholder="0" inputmode="numeric" oninput="onDemoInput(this)">
+                </div>
+                <button class="demo-calc-btn" onclick="runDemo()">✦ Show My Breakdown</button>
             </div>
 
-            <label for="amount">Your amount</label>
-            <div class="amount-row">
-                <div class="currency-badge" id="curr-symbol">₦</div>
-                <input type="text" id="amount" placeholder="0" inputmode="numeric" oninput="onAmountInput(this)">
+            <div id="demo-results">
+                <div class="demo-bar" id="demo-bar"></div>
+                <div class="demo-cards" id="demo-cards"></div>
+                <div class="demo-cta">
+                    <a href="index.html">Open the full app for debt tracking, goal planning & more →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" style="background:var(--ink);padding:0 32px;">
+        <div class="section-divider-line"
+            style="background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent)"></div>
+        <div class="section-divider-mark" style="color:rgba(201,168,76,0.4)">✦</div>
+        <div class="section-divider-line"
+            style="background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent)"></div>
+    </div>
+
+    <!-- ─── PHILOSOPHY ─── -->
+    <section class="philosophy-section">
+        <div class="philosophy-inner">
+            <div class="section-label" style="margin-bottom:32px;">The Babylon Philosophy</div>
+            <p class="philosophy-quote reveal">
+                "A part of all you earn is yours to keep.
+                It should be <strong>not less than a tenth</strong>
+                no matter how little you earn."
+            </p>
+            <p class="philosophy-cite">— The Richest Man in Babylon · George S. Clason</p>
+
+            <div class="section-divider" style="padding:0;margin-bottom:48px;">
+                <div class="section-divider-line"></div>
+                <div class="section-divider-mark">✦</div>
+                <div class="section-divider-line"></div>
             </div>
 
-            <div class="debt-toggle" id="debt-toggle" onclick="toggleDebt()">
-                <div class="debt-toggle-left">
-                    <div class="debt-icon">⚖️</div>
-                    <div class="debt-toggle-text">
-                        <strong>I currently have debt</strong>
-                        <small>A portion of your spending will go toward clearing it</small>
+            <p style="text-align:center;font-size:14px;color:var(--ink-soft);max-width:560px;margin:0 auto 48px;line-height:1.8;"
+                class="reveal">
+                Written in 1926, <em>The Richest Man in Babylon</em> by George S. Clason contains the same financial
+                wisdom that built fortunes then — and still does today. The Babylon Method brings those principles to
+                life as interactive tools.
+            </p>
+
+            <div class="philosophy-pillars reveal">
+                <div class="pillar">
+                    <div class="pillar-num">I</div>
+                    <h4>Start thy purse to fattening</h4>
+                    <p>Save at least one-tenth of all you earn. Always pay yourself first.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">II</div>
+                    <h4>Control thy expenditures</h4>
+                    <p>Budget what remains. Distinguish needs from desires ruthlessly.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">III</div>
+                    <h4>Make thy gold multiply</h4>
+                    <p>Put savings to work. Every coin saved should earn more coins.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">IV</div>
+                    <h4>Guard thy gold from loss</h4>
+                    <p>Protect your principal. Never risk what you cannot afford to lose.</p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">V</div>
+                    <h4>Own thy dwelling</h4>
+                    <p>The man who owns the roof over his head has security few others know.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── TESTIMONIALS ─── -->
+    <section class="testimonials-section">
+        <div class="section-label">Early Users</div>
+        <h2 class="section-title">What people are <span>saying</span></h2>
+        <div class="testimonial-carousel reveal">
+            <div id="testimonial-track"></div>
+            <div class="testimonial-controls">
+                <div class="testimonial-dots" id="testimonial-dots"></div>
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div class="testimonial-counter">
+                        <span id="t-current">1</span> / <span id="t-total">1</span>
+                    </div>
+                    <div class="testimonial-nav">
+                        <button class="testimonial-nav-btn" onclick="prevSlide()" aria-label="Previous">←</button>
+                        <button class="testimonial-nav-btn" onclick="nextSlide()" aria-label="Next">→</button>
                     </div>
                 </div>
-                <div class="toggle-switch"></div>
             </div>
-
-            <div class="debt-slider-wrap" id="debt-slider-wrap">
-                <div class="debt-slider-inner">
-                    <label>Debt portion</label>
-                    <input type="range" id="debt-pct" min="20" max="50" value="20" oninput="updateDebtPct()">
-                    <div class="debt-pct-display" id="debt-pct-display">20%</div>
-                </div>
-                <div class="debt-note">★ Minimum 20% — Babylon demands debts be settled with urgency</div>
-            </div>
-
-            <button class="calc-btn" id="calc-btn" onclick="calculate()">✦ Break It Down</button>
         </div>
+    </section>
 
-        <div id="results">
-            <div class="results-header">
-                <h2>Your Babylon Plan</h2>
-                <p id="total-label">Based on your income</p>
+    <!-- ─── INSTALL BOTTOM BANNER ─── -->
+    <div id="install-banner">
+        <div class="install-banner-inner">
+            <div class="install-banner-text">
+                <strong>Add Babylon to your home screen</strong>
+                <span>Free forever · Works offline · No account needed</span>
             </div>
-
-            <div class="allocation-bar" id="alloc-bar"></div>
-            <div class="cards-grid" id="cards-grid"></div>
-
-            <div class="growth-card">
-                <h3>📈 Investment Growth at 20% Annual Return</h3>
-                <div class="growth-table" id="growth-table"></div>
-                <div class="chart-section-label">Compound growth curve — 20 years</div>
-                <div class="chart-wrap">
-                    <canvas id="growthChart"></canvas>
-                </div>
-            </div>
-
-            <div class="wisdom">
-                <p>"A part of all you earn is yours to keep. It should be not less than a tenth no matter how little you
-                    earn."</p>
-                <cite>— The Richest Man in Babylon · George S. Clason</cite>
-            </div>
-
-            <button class="reset-btn" onclick="resetCalculator()">↩ Calculate New Amount</button>
+            <button class="install-banner-btn" onclick="triggerInstall()">⬇ Install Now</button>
+            <button class="install-banner-dismiss" onclick="dismissBanner()" title="Dismiss">✕</button>
         </div>
-
     </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div>
+                    <div class="footer-brand">The <span>Babylon</span> Method</div>
+                    <p class="footer-tagline">Ancient wisdom. Modern tools. Your money, finally working for you.</p>
+                </div>
+                <!-- <div>
+                    <div class="footer-link-label">Tools</div>
+                    <div class="footer-links">
+                        <a class="footer-link" href="babylon.html">Money Allocator</a>
+                        <a class="footer-link" href="babylon-debt.html">Debt Tracker</a>
+                        <a class="footer-link" href="babylon-goals.html">Goal Planner</a>
+                        <a class="footer-link" href="index.html">Open App</a>
+                    </div>
+                </div> -->
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">© 2026 The Babylon Method. All rights reserved.</div>
+                <div class="footer-made">Built with purpose by <span>Mexuri</span></div>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        let currency = '₦';
-        let debtActive = false;
-        let debtPct = 20;
-        let growthChart = null;
+        // ─── PWA INSTALL ───
+        let deferredPrompt = null;
+        let isInstalled = false;
 
-        function compound(p, r, y) {
-            return p * Math.pow(1 + r, y);
+        function checkInstalled() {
+            if (localStorage.getItem('babylon_installed') === 'true') {
+                isInstalled = true;
+                hideInstallUI();
+                return true;
+            }
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                isInstalled = true;
+                hideInstallUI();
+                return true;
+            }
+            return false;
         }
 
-        function fmt(n) {
-            const parts = n.toFixed(2).split('.');
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            return currency + parts.join('.');
+        function hideInstallUI() {
+            document.getElementById('hero-install-btn').classList.add('hidden');
+            document.getElementById('nav-install-btn').classList.add('hidden');
+            document.getElementById('install-banner').classList.remove('show');
+            document.getElementById('hero-installed-msg').classList.add('show');
         }
 
-        function fmtShort(n) {
-            if (n >= 1e9) return currency + (n / 1e9).toFixed(1) + 'B';
-            if (n >= 1e6) return currency + (n / 1e6).toFixed(1) + 'M';
-            if (n >= 1e3) return currency + (n / 1e3).toFixed(1) + 'K';
-            return currency + n.toFixed(0);
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!isInstalled) {
+                // Show banner after 4 seconds
+                setTimeout(() => {
+                    if (!isInstalled) showBanner();
+                }, 4000);
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            isInstalled = true;
+            localStorage.setItem('babylon_installed', 'true');
+            deferredPrompt = null;
+            hideInstallUI();
+        });
+
+        async function triggerInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    isInstalled = true;
+                    localStorage.setItem('babylon_installed', 'true');
+                    hideInstallUI();
+                }
+                deferredPrompt = null;
+            } else {
+                // Fallback — browser doesn't support prompt
+                alert('To install: tap your browser\'s Share button and select "Add to Home Screen".');
+            }
         }
 
-        function setCurrency(sym, e) {
-            currency = sym;
-            document.getElementById('curr-symbol').textContent = sym;
-            document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+        function showBanner() {
+            const banner = document.getElementById('install-banner');
+            banner.style.display = 'block';
+            requestAnimationFrame(() => banner.classList.add('show'));
+        }
+
+        function dismissBanner() {
+            const banner = document.getElementById('install-banner');
+            banner.classList.remove('show');
+            setTimeout(() => banner.style.display = 'none', 400);
+        }
+
+        // ─── DEMO ALLOCATOR ───
+        let demoCurr = '₦';
+
+        function setDemoCurr(sym, e) {
+            demoCurr = sym;
+            document.getElementById('demo-curr-badge').textContent = sym;
+            document.querySelectorAll('.demo-curr-btn').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
-            if (document.getElementById('results').classList.contains('visible')) calculate();
+            const raw = getRawDemo();
+            if (raw > 0) runDemo();
         }
 
-        function toggleDebt() {
-            debtActive = !debtActive;
-            document.getElementById('debt-toggle').classList.toggle('active', debtActive);
-            document.getElementById('debt-slider-wrap').classList.toggle('open', debtActive);
-            if (document.getElementById('results').classList.contains('visible')) calculate();
-        }
-
-        function updateDebtPct() {
-            debtPct = parseInt(document.getElementById('debt-pct').value);
-            document.getElementById('debt-pct-display').textContent = debtPct + '%';
-            if (document.getElementById('results').classList.contains('visible')) calculate();
-        }
-
-        function onAmountInput(el) {
+        function onDemoInput(el) {
             const raw = el.value.replace(/[^0-9]/g, '');
             el.value = raw === '' ? '' : raw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            if (document.getElementById('results').classList.contains('visible')) calculate();
         }
 
-        function getRawAmount() {
-            return parseFloat(document.getElementById('amount').value.replace(/,/g, '')) || 0;
+        function getRawDemo() {
+            return parseFloat(document.getElementById('demo-amount').value.replace(/,/g, '')) || 0;
         }
 
-        function resetCalculator() {
-            document.getElementById('amount').value = '';
-            document.getElementById('results').classList.remove('visible');
-            document.getElementById('calc-btn').style.display = 'block';
-            document.querySelector('.input-card').style.display = 'block';
-            if (debtActive) toggleDebt();
-            if (growthChart) { growthChart.destroy(); growthChart = null; }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function fmtDemo(n) {
+            if (n >= 1e6) return demoCurr + (n / 1e6).toFixed(1) + 'M';
+            if (n >= 1e3) return demoCurr + (n / 1e3).toFixed(1) + 'K';
+            const parts = n.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return demoCurr + parts;
         }
 
-        function calculate() {
-            const raw = getRawAmount();
-            if (!raw || raw <= 0) { document.getElementById('amount').focus(); return; }
+        function runDemo() {
+            const raw = getRawDemo();
+            if (!raw || raw <= 0) { document.getElementById('demo-amount').focus(); return; }
 
             const invest = raw * 0.20;
             const save = raw * 0.10;
-            const debtSlice = debtActive ? raw * (debtPct / 100) : 0;
             const emergency = raw * 0.10;
-            const actual_spend = raw * 0.70 - debtSlice - emergency;
-
-            function pctOf(amt) { return (amt / raw * 100).toFixed(1); }
+            const spend = raw * 0.60;
 
             // Bar
-            document.getElementById('alloc-bar').innerHTML = [
-                `<div class="bar-segment" style="width:${pctOf(invest)}%;background:#1a5276"></div>`,
-                `<div class="bar-segment" style="width:${pctOf(save)}%;background:#1a472a"></div>`,
-                debtActive ? `<div class="bar-segment" style="width:${pctOf(debtSlice)}%;background:#922B21"></div>` : '',
-                `<div class="bar-segment" style="width:${pctOf(emergency)}%;background:#6C3483"></div>`,
-                `<div class="bar-segment" style="width:${pctOf(actual_spend)}%;background:#9A6B2E"></div>`,
-            ].join('');
+            document.getElementById('demo-bar').innerHTML = `
+                <div class="demo-bar-seg" style="width:20%;background:#1a5276"></div>
+                <div class="demo-bar-seg" style="width:10%;background:#1a472a"></div>
+                <div class="demo-bar-seg" style="width:10%;background:#6C3483"></div>
+                <div class="demo-bar-seg" style="width:60%;background:#9A6B2E"></div>
+            `;
 
-            // Cards
             const cards = [
-                { cls: 'card-invest', icon: '📈', label: 'Invest', amount: invest, pct: '20% of income', desc: 'Put this to work. Stocks, business, or any asset that earns while you sleep.' },
-                { cls: 'card-save', icon: '🏺', label: 'Save', amount: save, pct: '10% of income', desc: "Sacred and untouchable. Your future self's foundation — the golden rule of Babylon." },
-                ...(debtActive ? [{ cls: 'card-debt', icon: '⚖️', label: 'Debt Repayment', amount: debtSlice, pct: `${debtPct}% of income`, desc: "Pay today's debts before tomorrow's desires. Freedom comes when the chains are gone." }] : []),
-                { cls: 'card-emergency', icon: '🛡️', label: 'Emergency Buffer', amount: emergency, pct: '10% of income', desc: 'Your shield against misfortune. Never touch this unless the walls truly fall.' },
-                { cls: 'card-spend', icon: '🌾', label: 'Live & Enjoy', amount: actual_spend, pct: `${pctOf(actual_spend)}% of income`, desc: 'Spend freely within this boundary. Enjoy the fruits of your discipline.' },
+                { cls: 'demo-card-invest', icon: '📈', label: 'Invest', amount: invest, pct: '20%' },
+                { cls: 'demo-card-save', icon: '🏺', label: 'Save', amount: save, pct: '10%' },
+                { cls: 'demo-card-emergency', icon: '🛡️', label: 'Emergency', amount: emergency, pct: '10%' },
+                { cls: 'demo-card-spend', icon: '🌾', label: 'Spend', amount: spend, pct: '60%' },
             ];
 
-            document.getElementById('cards-grid').innerHTML = cards.map(c =>
-                `<div class="alloc-card ${c.cls}">
-        <div class="card-icon">${c.icon}</div>
-        <div class="card-label">${c.label}</div>
-        <div class="card-amount">${fmt(c.amount)}</div>
-        <div class="card-pct">${c.pct}</div>
-        <div class="card-desc">${c.desc}</div>
-      </div>`).join('');
+            document.getElementById('demo-cards').innerHTML = cards.map(c => `
+                <div class="demo-card ${c.cls}">
+                    <div class="demo-card-icon">${c.icon}</div>
+                    <div class="demo-card-label">${c.label}</div>
+                    <div class="demo-card-amount">${fmtDemo(c.amount)}</div>
+                    <div class="demo-card-pct">${c.pct} of income</div>
+                </div>
+            `).join('');
 
-            // Growth table
-            const tableYears = [1, 3, 5, 10];
-            document.getElementById('growth-table').innerHTML =
-                `<div class="growth-cell"><div class="growth-year">Invested</div><div class="growth-val" style="color:var(--ink-soft)">${fmt(invest)}</div></div>` +
-                tableYears.map(y =>
-                    `<div class="growth-cell"><div class="growth-year">${y} Yr${y > 1 ? 's' : ''}</div><div class="growth-val">${fmt(compound(invest, 0.20, y))}</div></div>`
-                ).join('');
-
-            // Compound chart
-            const years = Array.from({ length: 21 }, (_, i) => i);
-            const vals = years.map(y => y === 0 ? invest : compound(invest, 0.20, y));
-            const labels = years.map(y => y === 0 ? 'Now' : `Yr ${y}`);
-
-            if (growthChart) growthChart.destroy();
-
-            const ctx = document.getElementById('growthChart').getContext('2d');
-            const grad = ctx.createLinearGradient(0, 0, 0, 280);
-            grad.addColorStop(0, 'rgba(201,168,76,0.28)');
-            grad.addColorStop(1, 'rgba(201,168,76,0.02)');
-
-            growthChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [
-                        {
-                            label: 'Investment Value',
-                            data: vals,
-                            borderColor: '#C9A84C',
-                            backgroundColor: grad,
-                            borderWidth: 2.5,
-                            pointRadius: years.map(y => [0, 5, 10, 15, 20].includes(y) ? 6 : 0),
-                            pointBackgroundColor: '#1C1209',
-                            pointBorderColor: '#C9A84C',
-                            pointBorderWidth: 2,
-                            fill: true,
-                            tension: 0.4,
-                        },
-                        {
-                            label: 'Without Growth',
-                            data: years.map(() => invest),
-                            borderColor: 'rgba(107,80,53,0.25)',
-                            borderWidth: 1.5,
-                            borderDash: [5, 5],
-                            pointRadius: 0,
-                            fill: false,
-                            tension: 0,
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                font: { family: 'Montserrat', size: 10, weight: '600' },
-                                color: '#6B5035',
-                                boxWidth: 16,
-                                padding: 16,
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: '#1C1209',
-                            titleColor: '#C9A84C',
-                            bodyColor: '#E8C97A',
-                            titleFont: { family: 'Montserrat', weight: '700', size: 11 },
-                            bodyFont: { family: 'Montserrat', size: 12, weight: '600' },
-                            padding: 12, cornerRadius: 8,
-                            callbacks: {
-                                title: (items) => items[0].label === 'Now' ? 'Starting Amount' : `After ${items[0].label.replace('Yr ', '')} Year${items[0].label === 'Yr 1' ? '' : 's'}`,
-                                label: (item) => `  ${item.dataset.label}: ${fmt(item.raw)}`
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false },
-                            ticks: { font: { family: 'Montserrat', size: 10, weight: '600' }, color: '#6B5035', maxTicksLimit: 11 }
-                        },
-                        y: {
-                            grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false },
-                            ticks: { font: { family: 'Montserrat', size: 10, weight: '600' }, color: '#6B5035', callback: v => fmtShort(v) }
-                        }
-                    }
-                }
-            });
-
-            document.getElementById('total-label').innerHTML = `Breaking down <span class="amount-headline">${fmt(raw)}</span>`;
-            document.getElementById('calc-btn').style.display = 'none';
-            document.querySelector('.input-card').style.display = 'none';
-
-            const results = document.getElementById('results');
+            const results = document.getElementById('demo-results');
             results.classList.add('visible');
             setTimeout(() => {
-                document.querySelectorAll('.alloc-card').forEach((c, i) => {
+                document.querySelectorAll('.demo-card').forEach((c, i) => {
                     setTimeout(() => c.classList.add('show'), i * 80);
                 });
             }, 100);
-            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ─── SCROLL REVEAL ───
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ─── TESTIMONIALS — JSON DRIVEN ───
+        // To add a new testimonial, just add a new object to this array.
+        // photo: Cloudinary URL, or "" to show the initial letter fallback.
+        const TESTIMONIALS = [
+            {
+                name: "Wobo Bright C.",
+                occupation: "Student / AI Developer",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937714/bright_kh5dlk.jpg",
+                quote: "It was cool honestly. I first saw everyone entering small amounts, so I went for a higher amount and it worked seamlessly. You can even predict your future income and expenses using the Babylon calculator.",
+                stars: 4
+            },
+            {
+                name: "Rejoice Anusi",
+                occupation: "Creative Manager",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937714/rejoice_llk4rb.jpg",
+                quote: "I really believe this app has the potential to become a leading financial management app. It's simple, practical, and makes staying intentional with your finances feel easy — especially for students and young adults.",
+                stars: 5
+            },
+            {
+                name: "Sylvia Owei T.",
+                occupation: "UI/UX Designer",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/sylvia_xwyvy2.jpg",
+                quote: "I really love the Babylon app. It teaches you how to manage money wisely and accounts for how to go about paying your debts. If you like to build better habits around money, this app is for you.",
+                stars: 5
+            },
+            {
+                name: "Shambhavi Hiwase.",
+                occupation: "AI Developer",
+                location: "India",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/shambhavi_b9zwbe.png",
+                quote: "Its unique concept gives it a distinctive and memorable identity. Navigation is simple and user-friendly, making the experience smooth. The minimal layout keeps the focus clear and avoids unnecessary clutter. Overall, it’s a visually appealing and promising platform with strong potential.",
+                stars: 5
+            },
+            {
+                name: "Divine Nelson",
+                occupation: "Entrepreneur",
+                location: "Rivers State, Nigeria",
+                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773938135/nelson_h187n1.jpg",
+                quote: "Using the Babylon app has actually helped me in making better and smarter financial choices in terms of how to invest profits that I generate from my brand. You should try it too.",
+                stars: 4
+            }
+        ];
+
+        let currentSlide = 0;
+        let autoAdvanceTimer = null;
+
+        function renderStars(n) {
+            return '★'.repeat(n) + '☆'.repeat(5 - n);
+        }
+
+        function buildPhotoPanel(t) {
+            if (t.photo) {
+                return `<div class="testimonial-photo">
+                    <img src="${t.photo}" alt="${t.name}" loading="lazy">
+                </div>`;
+            }
+            const initial = t.name.charAt(0).toUpperCase();
+            return `<div class="testimonial-photo">
+                <div class="testimonial-photo-fallback">
+                    <div class="testimonial-photo-initial">${initial}</div>
+                    <div class="testimonial-photo-name">${t.name}</div>
+                </div>
+            </div>`;
+        }
+
+        function buildAvatarEl(t) {
+            if (t.photo) {
+                return `<img class="testimonial-author-avatar" src="${t.photo}" alt="${t.name}" loading="lazy">`;
+            }
+            return `<div class="testimonial-author-avatar-fallback">${t.name.charAt(0).toUpperCase()}</div>`;
+        }
+
+        function buildSlide(t, index) {
+            return `<div class="testimonial-slide${index === 0 ? ' active' : ''}" data-index="${index}">
+                ${buildPhotoPanel(t)}
+                <div class="testimonial-content">
+                    <div class="testimonial-stars">${renderStars(t.stars)}</div>
+                    <p class="testimonial-quote">"${t.quote}"</p>
+                    <div class="testimonial-author">
+                        ${buildAvatarEl(t)}
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author-name">${t.name}</div>
+                            <div class="testimonial-author-role">${t.occupation} · ${t.location}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function buildDot(index) {
+            const dot = document.createElement('button');
+            dot.className = 'testimonial-dot' + (index === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+            dot.onclick = () => goToSlide(index);
+            return dot;
+        }
+
+        function initTestimonials() {
+            const track = document.getElementById('testimonial-track');
+            const dotsContainer = document.getElementById('testimonial-dots');
+            const totalEl = document.getElementById('t-total');
+
+            track.innerHTML = TESTIMONIALS.map((t, i) => buildSlide(t, i)).join('');
+            dotsContainer.innerHTML = '';
+            TESTIMONIALS.forEach((_, i) => dotsContainer.appendChild(buildDot(i)));
+            totalEl.textContent = TESTIMONIALS.length;
+            updateCounter();
+            startAutoAdvance();
+
+            // Swipe support
+            let touchStartX = 0;
+            track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            track.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+            });
+        }
+
+        function goToSlide(n) {
+            const slides = document.querySelectorAll('.testimonial-slide');
+            const dots = document.querySelectorAll('.testimonial-dot');
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (n + TESTIMONIALS.length) % TESTIMONIALS.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            updateCounter();
+            resetAutoAdvance();
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        function updateCounter() {
+            document.getElementById('t-current').textContent = currentSlide + 1;
+        }
+
+        function startAutoAdvance() {
+            autoAdvanceTimer = setInterval(nextSlide, 6000);
+        }
+        function resetAutoAdvance() {
+            clearInterval(autoAdvanceTimer);
+            startAutoAdvance();
+        }
+
+        initTestimonials();
+        document.addEventListener('DOMContentLoaded', () => {
+            checkInstalled();
+            document.getElementById('demo-amount').addEventListener('keydown', e => {
+                if (e.key === 'Enter') runDemo();
+            });
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('SW registered:', reg.scope))
+                    .catch(err => console.log('SW failed:', err));
+            });
         }
     </script>
 </body>
