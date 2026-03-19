@@ -1344,10 +1344,8 @@
 
         function dismissInstallPrompt() {
             document.getElementById('install-prompt').classList.remove('show');
-            // Mark as seen so it never shows again
             localStorage.setItem('babylon_install_seen', 'true');
-            // Now start the chatbot
-            startChatFlow();
+            window.location.href = '/babylon/';
         }
 
         async function installFromPrompt() {
@@ -1356,13 +1354,16 @@
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
                     localStorage.setItem('babylon_installed', 'true');
+                    document.getElementById('install-prompt').classList.remove('show');
+                    startChatFlow();
+                } else {
+                    dismissInstallPrompt();
                 }
                 deferredPrompt = null;
             } else {
-                // iOS / unsupported — show manual instructions
                 alert('To install: tap the Share button in your browser and select "Add to Home Screen".');
+                dismissInstallPrompt();
             }
-            dismissInstallPrompt();
         }
 
         function startChatFlow() {
