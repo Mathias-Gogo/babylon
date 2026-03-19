@@ -1,0 +1,3581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLHVN03SHK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-GLHVN03SHK');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Babylon Method — Goal Planner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8C97A;
+            --sand: #F7F1E3;
+            --sand-dark: #EDE3CC;
+            --ink: #1C1209;
+            --ink-mid: #3D2B12;
+            --ink-soft: #6B5035;
+            --parchment: #FBF7EE;
+            --debt-red: #C0392B;
+            --sky: #3A6B8A;
+            --sky-dark: #2d5570;
+            --nav-w: 240px;
+            --bottom-nav-h: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--parchment);
+            color: var(--ink);
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse at 15% 10%, rgba(201, 168, 76, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 90%, rgba(58, 107, 138, 0.05) 0%, transparent 55%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* ══════════════════════════════════
+           SIDE DRAWER — DESKTOP (≥ 768px)
+        ══════════════════════════════════ */
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--nav-w);
+            z-index: 300;
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0 20px;
+            box-shadow: 4px 0 24px rgba(28, 18, 9, 0.12);
+        }
+
+        .drawer-brand {
+            padding: 0 20px 24px;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+            margin-bottom: 16px;
+        }
+
+        .drawer-brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 0.3px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .drawer-brand-name span {
+            color: var(--gold);
+        }
+
+        .drawer-brand-sub {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.3);
+            margin-top: 4px;
+        }
+
+        .drawer-nav {
+            flex: 1;
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(232, 201, 122, 0.5);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.2s;
+        }
+
+        .drawer-link:hover {
+            background: rgba(201, 168, 76, 0.08);
+            color: var(--gold-light);
+        }
+
+        .drawer-link.active {
+            background: rgba(201, 168, 76, 0.12);
+            color: var(--gold-light);
+            border-left: 2px solid var(--gold);
+        }
+
+        .drawer-link-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .drawer-footer {
+            padding: 16px 24px 0;
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            font-size: 10px;
+            color: rgba(232, 201, 122, 0.2);
+            font-weight: 500;
+        }
+
+        /* ══════════════════════════════════
+           BOTTOM NAV — MOBILE (< 768px)
+        ══════════════════════════════════ */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-h);
+            z-index: 300;
+            background: var(--ink);
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 0 8px;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(232, 201, 122, 0.35);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .bottom-nav-item:hover {
+            color: rgba(232, 201, 122, 0.7);
+        }
+
+        .bottom-nav-item.active {
+            color: var(--gold);
+        }
+
+        .bottom-nav-item.active .bnav-icon {
+            color: var(--gold);
+        }
+
+        .bnav-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* ══════════════════════════════════
+           MAIN CONTENT AREA
+        ══════════════════════════════════ */
+        .app-main {
+            margin-left: var(--nav-w);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Top bar */
+        .app-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(251, 247, 238, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(237, 227, 204, 0.8);
+            padding: 0 40px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-topbar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        .app-topbar-greeting {
+            font-size: 12px;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .app-topbar-greeting span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Page content */
+        .app-content {
+            padding: 24px 36px 40px;
+            max-width: 1000px;
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 36px;
+        }
+
+        .page-header-eyebrow {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 span {
+            color: var(--sky);
+            font-style: italic;
+        }
+
+        .page-header p {
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            max-width: 480px;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0 20px;
+            width: fit-content;
+        }
+
+        .ornament-line {
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sky));
+        }
+
+        .ornament-line.right {
+            background: linear-gradient(90deg, var(--sky), transparent);
+        }
+
+        .ornament-diamond {
+            width: 5px;
+            height: 5px;
+            background: var(--sky);
+            transform: rotate(45deg);
+        }
+
+        /* ══════════════════════════════════
+           CARDS & INPUTS
+        ══════════════════════════════════ */
+        .gp-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 20px rgba(28, 18, 9, 0.05);
+            margin-bottom: 14px;
+        }
+
+        .section-label-sm {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 12px;
+        }
+
+        /* Goal selector */
+        .goal-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .goal-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 10px;
+            border-radius: 14px;
+            border: 2px solid var(--sand-dark);
+            background: var(--sand);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .goal-btn:hover {
+            border-color: var(--sky);
+            background: rgba(58, 107, 138, 0.04);
+        }
+
+        .goal-btn.active {
+            border-color: var(--sky);
+            background: rgba(58, 107, 138, 0.08);
+        }
+
+        .goal-btn-icon {
+            font-size: 22px;
+        }
+
+        .goal-btn-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: 0.2px;
+        }
+
+        .goal-btn-sub {
+            font-size: 9px;
+            color: var(--ink-soft);
+        }
+
+        /* House toggle */
+        .house-toggle-wrap {
+            display: none;
+            margin-bottom: 14px;
+            background: var(--sand);
+            border-radius: 12px;
+            padding: 4px;
+            width: fit-content;
+        }
+
+        .house-toggle-wrap.visible {
+            display: flex;
+        }
+
+        .house-toggle-btn {
+            padding: 8px 20px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: var(--ink-soft);
+            letter-spacing: 0.5px;
+        }
+
+        .house-toggle-btn.active {
+            background: white;
+            color: var(--ink);
+            box-shadow: 0 1px 6px rgba(28, 18, 9, 0.1);
+        }
+
+        /* Currency toggle */
+        .currency-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .curr-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--ink-soft);
+            transition: all 0.2s;
+        }
+
+        .curr-btn.active {
+            background: var(--sky);
+            border-color: var(--sky);
+            color: white;
+        }
+
+        /* Input grid */
+        .gp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+
+        .gp-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .gp-field label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .gp-input-wrap {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .gp-input-wrap:focus-within {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(58, 107, 138, 0.1);
+        }
+
+        .gp-prefix,
+        .gp-suffix {
+            background: var(--sand);
+            padding: 10px 13px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-soft);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .gp-prefix {
+            border-right: 2px solid var(--sand-dark);
+        }
+
+        .gp-suffix {
+            border-left: 2px solid var(--sand-dark);
+        }
+
+        .gp-input-wrap input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px 13px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            background: transparent;
+            min-width: 0;
+        }
+
+        .gp-input-wrap input::placeholder {
+            color: var(--sand-dark);
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .gp-note {
+            font-size: 10px;
+            color: var(--ink-soft);
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        /* CTA button */
+        .gp-calc-btn {
+            width: 100%;
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--sky);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .gp-calc-btn:hover {
+            background: var(--sky-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(58, 107, 138, 0.3);
+        }
+
+        /* ══════════════════════════════════
+           RESULTS
+        ══════════════════════════════════ */
+        #gp-results {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        #gp-results.visible {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+
+        /* Result header */
+        .gp-result-header {
+            display: none;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+            padding: 16px 20px;
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 14px;
+        }
+
+        .gp-result-header.visible {
+            display: flex;
+        }
+
+        .gp-result-header-icon {
+            font-size: 26px;
+        }
+
+        .gp-result-header-text strong {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .gp-result-header-text span {
+            font-size: 11px;
+            color: var(--ink-soft);
+        }
+
+        /* Verdict */
+        .gp-verdict {
+            border-radius: 16px;
+            padding: 22px 26px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .gp-verdict.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .gp-verdict.green {
+            background: linear-gradient(135deg, #1a472a, #27612e);
+            color: white;
+        }
+
+        .gp-verdict.amber {
+            background: linear-gradient(135deg, #7d4e00, #9A6B2E);
+            color: white;
+        }
+
+        .gp-verdict.red {
+            background: linear-gradient(135deg, #641e16, #922B21);
+            color: white;
+        }
+
+        .verdict-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .verdict-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 5px;
+        }
+
+        .verdict-headline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .verdict-text {
+            font-size: 12px;
+            line-height: 1.75;
+            opacity: 0.85;
+        }
+
+        .verdict-text strong {
+            font-weight: 700;
+            opacity: 1;
+        }
+
+        /* Summary cards */
+        .gp-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .gp-sc {
+            border-radius: 14px;
+            padding: 18px 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .gp-sc.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .gp-sc-timeline {
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            color: white;
+        }
+
+        .gp-sc-monthly {
+            background: linear-gradient(135deg, #1a472a, #27612e);
+            color: white;
+        }
+
+        .gp-sc-total {
+            background: linear-gradient(135deg, #784212, #9A6B2E);
+            color: white;
+        }
+
+        .gp-sc-saved {
+            background: linear-gradient(135deg, #4A235A, #6C3483);
+            color: white;
+        }
+
+        .gp-sc-icon {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .gp-sc-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 5px;
+        }
+
+        .gp-sc-value {
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .gp-sc-sub {
+            font-size: 10px;
+            opacity: 0.65;
+            font-weight: 500;
+        }
+
+        /* Advice */
+        .gp-advice {
+            background: var(--sand);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            border-left: 3px solid var(--sky);
+        }
+
+        .gp-advice-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 7px;
+        }
+
+        .gp-advice p {
+            font-size: 13px;
+            color: var(--ink);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Compare */
+        .gp-compare {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 12px rgba(28, 18, 9, 0.04);
+        }
+
+        .gp-compare h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .compare-option {
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 2px solid var(--sand-dark);
+        }
+
+        .compare-option.best {
+            border-color: var(--sky);
+            background: rgba(58, 107, 138, 0.04);
+        }
+
+        .co-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 5px;
+        }
+
+        .compare-option.best .co-tag {
+            color: var(--sky);
+        }
+
+        .co-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 5px;
+        }
+
+        .co-detail {
+            font-size: 11px;
+            color: var(--ink-soft);
+            line-height: 1.5;
+        }
+
+        .co-timeline {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--sky);
+            margin-top: 7px;
+        }
+
+        /* Table */
+        .gp-table-wrap {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(28, 18, 9, 0.04);
+            margin-bottom: 14px;
+        }
+
+        .gp-table-head {
+            background: var(--ink);
+            padding: 14px 18px;
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .gp-th {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.6);
+        }
+
+        .gp-table-body {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .gp-table-body::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .gp-table-body::-webkit-scrollbar-thumb {
+            background: var(--sand-dark);
+            border-radius: 3px;
+        }
+
+        .gp-row {
+            display: grid;
+            grid-template-columns: 56px 1fr 1fr 1fr;
+            gap: 8px;
+            padding: 11px 18px;
+            border-bottom: 1px solid var(--sand);
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.15s;
+        }
+
+        .gp-row:hover {
+            background: var(--sand);
+        }
+
+        .gp-row:last-child {
+            border-bottom: none;
+        }
+
+        .gp-row.milestone {
+            background: rgba(58, 107, 138, 0.05);
+        }
+
+        .gp-row.final-row {
+            background: rgba(26, 71, 42, 0.07);
+            font-weight: 700;
+        }
+
+        .gp-col-mo {
+            color: var(--ink-soft);
+        }
+
+        .gp-col-monthly {
+            color: var(--sky);
+        }
+
+        .gp-col-saved {
+            color: #27612e;
+        }
+
+        .gp-col-remaining {
+            color: var(--ink);
+        }
+
+        /* Action buttons */
+        .gp-save-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .gp-save-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .gp-save-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .gp-reset-btn {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            background: transparent;
+            color: var(--ink-soft);
+            border: 2px solid var(--sand-dark);
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 10px;
+        }
+
+        .gp-reset-btn:hover {
+            border-color: var(--sky);
+            color: var(--sky);
+        }
+
+        /* Wisdom */
+        .wisdom {
+            background: var(--ink);
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .wisdom p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: var(--gold-light);
+            font-style: italic;
+            line-height: 1.75;
+        }
+
+        .wisdom cite {
+            display: block;
+            margin-top: 8px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.35);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* ══════════════════════════════════
+           GOALS STRIP
+        ══════════════════════════════════ */
+        .goals-strip-wrap {
+            margin-bottom: 12px;
+        }
+
+        .goals-strip-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .goals-strip-title {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+
+        .goals-strip-see-all {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--sky);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .goals-strip-see-all:hover {
+            opacity: 0.7;
+        }
+
+        .income-tracker {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 6px rgba(28, 18, 9, 0.04);
+        }
+
+        .income-tracker-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        .income-tracker-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .income-tracker-pct {
+            font-size: 12px;
+            font-weight: 900;
+            color: var(--ink);
+        }
+
+        .income-bar-track {
+            height: 5px;
+            background: var(--sand);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .income-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        .income-bar-fill.green {
+            background: #27612e;
+        }
+
+        .income-bar-fill.amber {
+            background: #9A6B2E;
+        }
+
+        .income-bar-fill.red {
+            background: var(--debt-red);
+        }
+
+        .income-tracker-warning {
+            margin-top: 7px;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .income-tracker-warning.amber {
+            background: rgba(201, 168, 76, 0.1);
+            color: #7d4e00;
+            display: block;
+        }
+
+        .income-tracker-warning.red {
+            background: rgba(192, 57, 43, 0.08);
+            color: var(--debt-red);
+            display: block;
+        }
+
+        .goals-pills {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .goal-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid var(--sand-dark);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .goal-pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .goal-pill-dot.green {
+            background: #27612e;
+        }
+
+        .goal-pill-dot.amber {
+            background: #9A6B2E;
+        }
+
+        .goal-pill-dot.red {
+            background: var(--debt-red);
+        }
+
+        .goal-pill-timeline {
+            font-size: 9px;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .goals-strip-empty {
+            font-size: 12px;
+            color: var(--ink-soft);
+            font-style: italic;
+            padding: 4px 0;
+        }
+
+        /* ══════════════════════════════════
+           FULL GOALS VIEW
+        ══════════════════════════════════ */
+        #view-goals {
+            display: none;
+        }
+
+        #view-goals.active {
+            display: block;
+        }
+
+        .full-goals-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .full-goals-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-soft);
+            background: var(--sand);
+            border: none;
+            border-radius: 20px;
+            padding: 7px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .full-goals-back:hover {
+            color: var(--ink);
+            background: var(--sand-dark);
+        }
+
+        .full-goals-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .saved-goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .saved-goal-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            padding: 18px;
+            transition: box-shadow 0.2s;
+        }
+
+        .saved-goal-card:hover {
+            box-shadow: 0 4px 16px rgba(28, 18, 9, 0.08);
+        }
+
+        .sgc-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .sgc-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .sgc-icon.green {
+            background: rgba(26, 71, 42, 0.1);
+        }
+
+        .sgc-icon.amber {
+            background: rgba(154, 107, 46, 0.1);
+        }
+
+        .sgc-icon.red {
+            background: rgba(192, 57, 43, 0.1);
+        }
+
+        .sgc-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 2px;
+        }
+
+        .sgc-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .sgc-verdict-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .sgc-verdict-dot.green {
+            background: #27612e;
+        }
+
+        .sgc-verdict-dot.amber {
+            background: #9A6B2E;
+        }
+
+        .sgc-verdict-dot.red {
+            background: var(--debt-red);
+        }
+
+        .sgc-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .sgc-stat-label {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 1px;
+        }
+
+        .sgc-stat-value {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .sgc-progress-track {
+            height: 4px;
+            background: var(--sand);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .sgc-progress-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: var(--sky);
+            transition: width 0.4s ease;
+        }
+
+        .sgc-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sgc-date {
+            font-size: 9px;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .sgc-delete {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-soft);
+            background: var(--sand);
+            border: none;
+            border-radius: 7px;
+            padding: 4px 9px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sgc-delete:hover {
+            background: rgba(192, 57, 43, 0.1);
+            color: var(--debt-red);
+        }
+
+        /* Check-in banner */
+        #checkin-banner {
+            display: none;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            border-radius: 14px;
+            padding: 16px 20px;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        #checkin-banner.show {
+            display: flex;
+        }
+
+        .checkin-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .checkin-text span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .checkin-btn {
+            padding: 8px 16px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 9px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .checkin-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .checkin-dismiss {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .checkin-dismiss:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ══════════════════════════════════
+           MODALS
+        ══════════════════════════════════ */
+        #savings-modal-overlay,
+        #checkin-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1500;
+            background: rgba(28, 18, 9, 0.85);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        #savings-modal-overlay.open,
+        #checkin-modal-overlay.open {
+            display: flex;
+        }
+
+        .savings-modal,
+        .checkin-modal {
+            background: var(--parchment);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+
+        .savings-modal-header {
+            background: var(--ink);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .savings-modal-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .savings-modal-icon {
+            font-size: 20px;
+        }
+
+        .savings-modal-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold-light);
+        }
+
+        .savings-modal-subtitle {
+            font-size: 10px;
+            color: rgba(232, 201, 122, 0.45);
+            margin-top: 2px;
+        }
+
+        .savings-modal-close {
+            background: rgba(255, 255, 255, 0.07);
+            border: none;
+            color: var(--gold-light);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .savings-modal-close:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .savings-modal-body {
+            padding: 22px;
+        }
+
+        .savings-modal-progress {
+            background: var(--sand);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 18px;
+        }
+
+        .smp-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+        }
+
+        .smp-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .smp-val {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .smp-bar {
+            height: 5px;
+            background: var(--sand-dark);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .smp-fill {
+            height: 100%;
+            background: var(--sky);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .savings-modal-input-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 7px;
+            display: block;
+        }
+
+        .savings-modal-input-wrap {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--sand-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 14px;
+            transition: border-color 0.2s;
+            background: white;
+        }
+
+        .savings-modal-input-wrap:focus-within {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(58, 107, 138, 0.1);
+        }
+
+        .savings-modal-prefix {
+            background: var(--sand);
+            padding: 13px 16px;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--sky);
+            border-right: 2px solid var(--sand-dark);
+            user-select: none;
+        }
+
+        #savings-amount-input,
+        #checkin-amount-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 13px 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--ink);
+            background: transparent;
+            min-width: 0;
+        }
+
+        #savings-amount-input::placeholder,
+        #checkin-amount-input::placeholder {
+            color: var(--sand-dark);
+        }
+
+        .savings-modal-note {
+            font-size: 10px;
+            color: var(--ink-soft);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .savings-modal-btn,
+        .checkin-modal-btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--sky);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .savings-modal-btn:hover,
+        .checkin-modal-btn:hover {
+            background: var(--sky-dark);
+        }
+
+        .checkin-skip-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: var(--ink-soft);
+            border: 1px solid var(--sand-dark);
+            border-radius: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 7px;
+        }
+
+        .checkin-skip-btn:hover {
+            border-color: var(--ink-soft);
+        }
+
+        .checkin-modal-header {
+            background: var(--ink);
+            padding: 18px 22px;
+        }
+
+        .checkin-modal-eyebrow {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.4);
+            margin-bottom: 3px;
+        }
+
+        .checkin-modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        .checkin-modal-step {
+            font-size: 10px;
+            color: rgba(232, 201, 122, 0.35);
+            margin-top: 3px;
+        }
+
+        .checkin-modal-body {
+            padding: 22px;
+        }
+
+        .checkin-goal-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding: 11px 14px;
+            background: var(--sand);
+            border-radius: 10px;
+        }
+
+        .checkin-goal-icon {
+            font-size: 22px;
+        }
+
+        .checkin-goal-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .checkin-goal-target {
+            font-size: 10px;
+            color: var(--ink-soft);
+        }
+
+        /* ══════════════════════════════════
+           TOAST
+        ══════════════════════════════════ */
+        #gp-toast {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-h) + 16px);
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: var(--gold-light);
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(28, 18, 9, 0.25);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        #gp-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Completed goals section */
+        #completed-goals-section {
+            display: none;
+            margin-top: 28px;
+        }
+
+        #active-goals-label,
+        #completed-goals-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        #active-goals-label {
+            color: var(--ink-soft);
+        }
+
+        #completed-goals-label {
+            color: #27612e;
+        }
+
+        /* ══════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════ */
+        @media (max-width: 767px) {
+            .side-drawer {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+
+            .app-main {
+                margin-left: 0;
+                padding-bottom: var(--bottom-nav-h);
+            }
+
+            .app-topbar {
+                padding: 0 20px;
+            }
+
+            .app-content {
+                padding: 16px 20px 20px;
+            }
+
+            #gp-toast {
+                bottom: calc(var(--bottom-nav-h) + 12px);
+            }
+
+            .goal-selector {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .gp-table-head,
+            .gp-row {
+                grid-template-columns: 44px 1fr 1fr 1fr;
+                gap: 4px;
+                padding: 10px 14px;
+                font-size: 10px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
+
+            #gp-toast {
+                bottom: 32px;
+            }
+        }
+
+        /* SVG icon sizing in nav */
+        .drawer-link-icon svg,
+        .bnav-icon svg {
+            display: block;
+            transition: stroke 0.2s;
+        }
+
+        .bnav-icon {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bnav-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .drawer-link-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ─── BABYLON CURRENCY PICKER ─── */
+        #bc-picker-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(28, 18, 9, 0.88);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        #bc-picker-overlay.open {
+            display: flex;
+        }
+
+        #bc-picker-modal {
+            background: var(--parchment);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        #bc-picker-header {
+            background: var(--ink);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        #bc-picker-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        #bc-picker-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.07);
+            border: none;
+            color: rgba(232, 201, 122, 0.6);
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        #bc-picker-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #bc-picker-search-wrap {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--sand-dark);
+            flex-shrink: 0;
+        }
+
+        #bc-picker-input {
+            width: 100%;
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #bc-picker-input:focus {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(58, 107, 138, 0.1);
+        }
+
+        #bc-picker-input::placeholder {
+            color: var(--sand-dark);
+        }
+
+        #bc-picker-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        #bc-picker-list::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        #bc-picker-list::-webkit-scrollbar-thumb {
+            background: var(--sand-dark);
+            border-radius: 3px;
+        }
+
+        .bc-currency-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .bc-currency-row:last-child {
+            border-bottom: none;
+        }
+
+        .bc-currency-row:hover {
+            background: var(--sand);
+        }
+
+        .bc-currency-symbol {
+            width: 36px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink-mid);
+            flex-shrink: 0;
+        }
+
+        .bc-currency-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .bc-currency-code {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+        }
+
+        /* ─── CURRENCY TRIGGER BUTTON ─── */
+        .bc-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            background: var(--sand);
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-bottom: 10px;
+        }
+
+        .bc-trigger:hover {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .bc-trigger-symbol {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--sky);
+        }
+
+        .bc-trigger-code {
+            color: var(--ink-soft);
+        }
+
+        .bc-trigger-arrow {
+            font-size: 10px;
+            color: var(--ink-soft);
+            margin-left: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════════
+         SIDE DRAWER (desktop)
+    ══════════════════════════════════ -->
+    <aside class="side-drawer">
+        <div class="drawer-brand">
+            <a class="drawer-brand-name" href="index.html">The <span>Babylon</span> Method</a>
+            <div class="drawer-brand-sub">Your Money Toolkit</div>
+        </div>
+        <nav class="drawer-nav">
+            <a class="drawer-link" href="index.html">
+                <span class="drawer-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
+                        <polyline points="9,21 9,13 15,13 15,21" />
+                    </svg></span> Home
+            </a>
+            <a class="drawer-link" href="babylon.html">
+                <span class="drawer-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 20V10" />
+                        <path d="M12 20V4" />
+                        <path d="M6 20v-6" />
+                    </svg></span> Money Allocator
+            </a>
+            <a class="drawer-link" href="babylon-debt.html">
+                <span class="drawer-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg></span> Debt Tracker
+            </a>
+            <a class="drawer-link active" href="babylon-goals.html">
+                <span class="drawer-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <circle cx="12" cy="12" r="5" />
+                        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                    </svg></span> Goal Planner
+            </a>
+        </nav>
+        <div class="drawer-footer">Built by Mexuri · 2026</div>
+    </aside>
+
+    <!-- ══════════════════════════════════
+         BOTTOM NAV (mobile)
+    ══════════════════════════════════ -->
+    <nav class="bottom-nav">
+        <a class="bottom-nav-item" href="index.html">
+            <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
+                    <polyline points="9,21 9,13 15,13 15,21" />
+                </svg></span>
+            <span>Home</span>
+        </a>
+        <a class="bottom-nav-item" href="babylon.html">
+            <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 20V10" />
+                    <path d="M12 20V4" />
+                    <path d="M6 20v-6" />
+                </svg></span>
+            <span>Allocator</span>
+        </a>
+        <a class="bottom-nav-item" href="babylon-debt.html">
+            <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg></span>
+            <span>Debt</span>
+        </a>
+        <a class="bottom-nav-item active" href="babylon-goals.html">
+            <span class="bnav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="12" cy="12" r="5" />
+                    <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                </svg></span>
+            <span>Goals</span>
+        </a>
+    </nav>
+
+    <!-- ══════════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════════ -->
+    <main class="app-main">
+
+        <!-- Top bar -->
+        <div class="app-topbar">
+            <div class="app-topbar-title">Goal Planner</div>
+            <div class="app-topbar-greeting" id="topbar-greeting"></div>
+        </div>
+
+        <div class="app-content">
+
+            <!-- Page header -->
+            <div class="page-header">
+                <div class="page-header-eyebrow">Goal Planner</div>
+                <h1>Plan Every Goal.<br><span>See the Math.</span></h1>
+                <p>Pick your goal, enter your numbers, and Babylon shows you exactly how long it takes — and how to get
+                    there faster.</p>
+                <div class="ornament">
+                    <div class="ornament-line"></div>
+                    <div class="ornament-diamond"></div>
+                    <div class="ornament-line right"></div>
+                </div>
+            </div>
+
+            <!-- View A+B: Main planner -->
+            <div id="view-main">
+
+                <!-- Goals strip -->
+                <div class="goals-strip-wrap" id="goals-strip-wrap">
+                    <div class="goals-strip-top">
+                        <div class="goals-strip-title" id="goals-strip-title">✦ Active Goals (0)</div>
+                        <button class="goals-strip-see-all" id="goals-see-all" onclick="showGoalsView()"
+                            style="display:none;">See All →</button>
+                    </div>
+                    <div class="income-tracker" id="income-tracker" style="display:none;">
+                        <div class="income-tracker-top">
+                            <div class="income-tracker-label">Income committed to goals</div>
+                            <div class="income-tracker-pct" id="income-tracker-pct">0%</div>
+                        </div>
+                        <div class="income-bar-track">
+                            <div class="income-bar-fill" id="income-bar-fill" style="width:0%"></div>
+                        </div>
+                        <div class="income-tracker-warning" id="income-tracker-warning"></div>
+                    </div>
+                    <div id="goals-pills-list"></div>
+                </div>
+
+                <!-- Form card -->
+                <div class="gp-card" id="gp-card-form">
+
+                    <!-- Goal type -->
+                    <div class="section-label-sm">Select Your Goal</div>
+                    <div class="goal-selector" id="goal-selector">
+                        <button class="goal-btn active" onclick="selectGoal(this,'travel')">
+                            <div class="goal-btn-icon">✈️</div>
+                            <div class="goal-btn-label">Travel</div>
+                            <div class="goal-btn-sub">Trips & holidays</div>
+                        </button>
+                        <button class="goal-btn" onclick="selectGoal(this,'house')">
+                            <div class="goal-btn-icon">🏠</div>
+                            <div class="goal-btn-label">House</div>
+                            <div class="goal-btn-sub">Rent or buy</div>
+                        </button>
+                        <button class="goal-btn" onclick="selectGoal(this,'car')">
+                            <div class="goal-btn-icon">🚗</div>
+                            <div class="goal-btn-label">Car</div>
+                            <div class="goal-btn-sub">New or used</div>
+                        </button>
+                        <button class="goal-btn" onclick="selectGoal(this,'dates')">
+                            <div class="goal-btn-icon">🍽️</div>
+                            <div class="goal-btn-label">Dates</div>
+                            <div class="goal-btn-sub">Entertainment</div>
+                        </button>
+                        <button class="goal-btn" onclick="selectGoal(this,'education')">
+                            <div class="goal-btn-icon">🎓</div>
+                            <div class="goal-btn-label">Education</div>
+                            <div class="goal-btn-sub">Course or degree</div>
+                        </button>
+                        <button class="goal-btn" onclick="selectGoal(this,'business')">
+                            <div class="goal-btn-icon">💼</div>
+                            <div class="goal-btn-label">Business</div>
+                            <div class="goal-btn-sub">Startup capital</div>
+                        </button>
+                    </div>
+
+                    <!-- House rent/buy toggle -->
+                    <div class="house-toggle-wrap" id="house-toggle-wrap">
+                        <button class="house-toggle-btn active" id="btn-buy" onclick="setHouseMode('buy')">🏡
+                            Buying</button>
+                        <button class="house-toggle-btn" id="btn-rent" onclick="setHouseMode('rent')">🔑
+                            Renting</button>
+                    </div>
+
+                    <!-- Currency -->
+                    <button class="bc-trigger" id="curr-trigger" onclick="openCurrencyPicker(onCurrencySelected)">
+                        <span class="bc-trigger-symbol" id="curr-symbol">₦</span>
+                        <span id="curr-name">Nigerian Naira</span>
+                        <span class="bc-trigger-code" id="curr-code">NGN</span>
+                        <span class="bc-trigger-arrow">▾</span>
+                    </button>
+
+                    <!-- Inputs -->
+                    <div class="gp-grid">
+                        <div class="gp-field">
+                            <label>Goal Cost / Target</label>
+                            <div class="gp-input-wrap">
+                                <div class="gp-prefix" id="gp-curr-prefix">₦</div>
+                                <input type="text" id="gp-cost" placeholder="0" inputmode="numeric"
+                                    oninput="fmtGpInput(this)">
+                            </div>
+                            <div class="gp-note" id="gp-cost-hint">Total amount needed</div>
+                        </div>
+                        <div class="gp-field">
+                            <label>Monthly Income</label>
+                            <div class="gp-input-wrap">
+                                <div class="gp-prefix" id="gp-income-prefix">₦</div>
+                                <input type="text" id="gp-income" placeholder="0" inputmode="numeric"
+                                    oninput="fmtGpInput(this)">
+                            </div>
+                        </div>
+                        <div class="gp-field">
+                            <label>% of Income to Save</label>
+                            <div class="gp-input-wrap">
+                                <input type="number" id="gp-rate" placeholder="10" min="1" max="100"
+                                    style="text-align:center;" oninput="validateGpRate(this)">
+                                <div class="gp-suffix">%</div>
+                            </div>
+                            <div class="gp-note" id="gp-rate-note">Babylon recommends at least 10%</div>
+                        </div>
+                        <div class="gp-field">
+                            <label>Already Saved <span
+                                    style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                            <div class="gp-input-wrap">
+                                <div class="gp-prefix" id="gp-saved-prefix">₦</div>
+                                <input type="text" id="gp-saved" placeholder="0" inputmode="numeric"
+                                    oninput="fmtGpInput(this)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="gp-calc-btn" onclick="calculateGoal()">🎯 Calculate My Timeline</button>
+                </div>
+
+                <!-- Results -->
+                <div id="gp-results">
+                    <div class="gp-result-header" id="gp-result-header">
+                        <div class="gp-result-header-icon" id="gp-result-icon"></div>
+                        <div class="gp-result-header-text">
+                            <strong id="gp-result-title"></strong>
+                            <span id="gp-result-subtitle"></span>
+                        </div>
+                    </div>
+                    <div class="gp-verdict" id="gp-verdict"></div>
+                    <div class="gp-summary-grid" id="gp-summary-grid"></div>
+                    <div class="gp-advice" id="gp-advice"></div>
+                    <div class="gp-compare" id="gp-compare"></div>
+                    <div class="gp-table-wrap">
+                        <div class="gp-table-head">
+                            <div class="gp-th">Mo.</div>
+                            <div class="gp-th">Saved This Mo.</div>
+                            <div class="gp-th">Total Saved</div>
+                            <div class="gp-th">Remaining</div>
+                        </div>
+                        <div class="gp-table-body" id="gp-table-body"></div>
+                    </div>
+                    <button class="gp-save-btn" id="gp-save-btn" onclick="saveCurrentGoal()">🏺 Save This Goal</button>
+                    <button class="gp-reset-btn" onclick="resetGoalPlanner()">↩ Plan Another Goal</button>
+                </div>
+
+            </div><!-- end view-main -->
+
+            <!-- View C: Full goals list -->
+            <div id="view-goals">
+                <div class="full-goals-header">
+                    <button class="full-goals-back" onclick="hideGoalsView()">← Back</button>
+                    <div class="full-goals-title" id="full-goals-title">Your Goals</div>
+                </div>
+                <div id="checkin-banner">
+                    <div class="checkin-text">
+                        <strong>🗓️ Monthly Check-In</strong>
+                        <span>Update how much you've saved toward each goal.</span>
+                    </div>
+                    <button class="checkin-btn" onclick="startCheckin()">Start</button>
+                    <button class="checkin-dismiss" onclick="dismissCheckin()">✕</button>
+                </div>
+                <div class="income-tracker" id="income-tracker-full" style="display:none;">
+                    <div class="income-tracker-top">
+                        <div class="income-tracker-label">Income committed to goals</div>
+                        <div class="income-tracker-pct" id="income-tracker-pct-full">0%</div>
+                    </div>
+                    <div class="income-bar-track">
+                        <div class="income-bar-fill" id="income-bar-fill-full" style="width:0%"></div>
+                    </div>
+                    <div class="income-tracker-warning" id="income-tracker-warning-full"></div>
+                </div>
+                <div id="active-goals-section">
+                    <div id="active-goals-label">Active Goals (0)</div>
+                    <div id="saved-goals-list"></div>
+                </div>
+                <div id="completed-goals-section">
+                    <div id="completed-goals-label">Completed Goals (0)</div>
+                    <div id="completed-goals-list"></div>
+                </div>
+            </div>
+
+            <div class="wisdom">
+                <p>"If you desire to help thy friend, do so in a way that will not bring thy friend's burdens upon
+                    thyself."</p>
+                <cite>— The Richest Man in Babylon · George S. Clason</cite>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Add Savings Modal -->
+    <div id="savings-modal-overlay" onclick="closeSavingsModal(event)">
+        <div class="savings-modal">
+            <div class="savings-modal-header">
+                <div class="savings-modal-header-left">
+                    <div class="savings-modal-icon" id="sm-icon"></div>
+                    <div>
+                        <div class="savings-modal-title" id="sm-title"></div>
+                        <div class="savings-modal-subtitle" id="sm-subtitle"></div>
+                    </div>
+                </div>
+                <button class="savings-modal-close" onclick="closeSavingsModalDirect()">✕</button>
+            </div>
+            <div class="savings-modal-body">
+                <div class="savings-modal-progress">
+                    <div class="smp-row"><span class="smp-label">Saved so far</span><span class="smp-val"
+                            id="sm-saved-so-far"></span></div>
+                    <div class="smp-row"><span class="smp-label">Target</span><span class="smp-val"
+                            id="sm-target"></span></div>
+                    <div class="smp-bar">
+                        <div class="smp-fill" id="sm-progress-fill"></div>
+                    </div>
+                </div>
+                <label class="savings-modal-input-label">Amount saved this time</label>
+                <div class="savings-modal-input-wrap">
+                    <div class="savings-modal-prefix" id="sm-prefix">₦</div>
+                    <input type="text" id="savings-amount-input" placeholder="0" inputmode="numeric"
+                        oninput="fmtSavingsInput(this)">
+                </div>
+                <div class="savings-modal-note" id="sm-note"></div>
+                <button class="savings-modal-btn" onclick="confirmAddSavings()">✓ Add to Goal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check-in Modal -->
+    <div id="checkin-modal-overlay" onclick="closeCheckinModal(event)">
+        <div class="checkin-modal">
+            <div class="checkin-modal-header">
+                <div class="checkin-modal-eyebrow">Monthly Check-In</div>
+                <div class="checkin-modal-title">How much did you save?</div>
+                <div class="checkin-modal-step" id="ci-step"></div>
+            </div>
+            <div class="checkin-modal-body">
+                <div class="checkin-goal-info">
+                    <div class="checkin-goal-icon" id="ci-icon"></div>
+                    <div>
+                        <div class="checkin-goal-name" id="ci-goal-name"></div>
+                        <div class="checkin-goal-target" id="ci-goal-target"></div>
+                    </div>
+                </div>
+                <div class="savings-modal-progress">
+                    <div class="smp-row"><span class="smp-label">Saved so far</span><span class="smp-val"
+                            id="ci-saved-so-far"></span></div>
+                    <div class="smp-row"><span class="smp-label">Remaining</span><span class="smp-val"
+                            id="ci-remaining"></span></div>
+                    <div class="smp-bar">
+                        <div class="smp-fill" id="ci-progress-fill"></div>
+                    </div>
+                </div>
+                <label class="savings-modal-input-label">How much did you save this month?</label>
+                <div class="savings-modal-input-wrap">
+                    <div class="savings-modal-prefix" id="ci-prefix">₦</div>
+                    <input type="text" id="checkin-amount-input" placeholder="0" inputmode="numeric"
+                        oninput="fmtSavingsInput(this)">
+                </div>
+                <button class="checkin-modal-btn" onclick="confirmCheckin()">Add & Continue →</button>
+                <button class="checkin-skip-btn" onclick="skipCheckinGoal()">Nothing saved this month — skip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="gp-toast">🏺 Goal saved</div>
+
+    <script>
+        // Set greeting
+        (function () {
+            try {
+                let name = localStorage.getItem('babylon_user_name') || '';
+                if (name) {
+                    // Clean legacy
+                    name = name.replace(/^(my name is|i am|i'm|call me)\s+/i, '').trim();
+                    document.getElementById('topbar-greeting').innerHTML = `Good day, <span>${name}</span>`;
+                }
+            } catch (e) { }
+        })();
+    </script>
+    <script>
+        /* ─── BABYLON CURRENCY PICKER ─── */
+        const CURRENCIES = [["AFN", "؋", "Afghan Afghani"], ["ALL", "L", "Albanian Lek"], ["DZD", "دج", "Algerian Dinar"], ["AOA", "Kz", "Angolan Kwanza"], ["ARS", "$", "Argentine Peso"], ["AMD", "֏", "Armenian Dram"], ["AWG", "ƒ", "Aruban Florin"], ["AUD", "A$", "Australian Dollar"], ["AZN", "₼", "Azerbaijani Manat"], ["BSD", "B$", "Bahamian Dollar"], ["BHD", ".د.ب", "Bahraini Dinar"], ["BDT", "৳", "Bangladeshi Taka"], ["BBD", "Bds$", "Barbadian Dollar"], ["BYN", "Br", "Belarusian Ruble"], ["BZD", "BZ$", "Belize Dollar"], ["XOF", "CFA", "West African CFA Franc"], ["BTN", "Nu", "Bhutanese Ngultrum"], ["BOB", "Bs.", "Bolivian Boliviano"], ["BAM", "KM", "Bosnian Mark"], ["BWP", "P", "Botswanan Pula"], ["BRL", "R$", "Brazilian Real"], ["BND", "B$", "Brunei Dollar"], ["BGN", "лв", "Bulgarian Lev"], ["BIF", "Fr", "Burundian Franc"], ["GBP", "£", "British Pound"], ["CVE", "$", "Cape Verdean Escudo"], ["KHR", "៛", "Cambodian Riel"], ["XAF", "FCFA", "Central African CFA Franc"], ["CAD", "CA$", "Canadian Dollar"], ["KYD", "CI$", "Cayman Islands Dollar"], ["CLP", "$", "Chilean Peso"], ["CNY", "¥", "Chinese Yuan"], ["COP", "$", "Colombian Peso"], ["KMF", "Fr", "Comorian Franc"], ["CDF", "Fr", "Congolese Franc"], ["CRC", "₡", "Costa Rican Colón"], ["HRK", "kn", "Croatian Kuna"], ["CUP", "$", "Cuban Peso"], ["CZK", "Kč", "Czech Koruna"], ["DKK", "kr", "Danish Krone"], ["DJF", "Fr", "Djiboutian Franc"], ["DOP", "RD$", "Dominican Peso"], ["EGP", "£", "Egyptian Pound"], ["ERN", "Nfk", "Eritrean Nakfa"], ["ETB", "Br", "Ethiopian Birr"], ["EUR", "€", "Euro"], ["FJD", "FJ$", "Fijian Dollar"], ["GMD", "D", "Gambian Dalasi"], ["GEL", "₾", "Georgian Lari"], ["GHS", "₵", "Ghanaian Cedi"], ["GTQ", "Q", "Guatemalan Quetzal"], ["GNF", "Fr", "Guinean Franc"], ["GYD", "G$", "Guyanese Dollar"], ["HTG", "G", "Haitian Gourde"], ["HNL", "L", "Honduran Lempira"], ["HKD", "HK$", "Hong Kong Dollar"], ["HUF", "Ft", "Hungarian Forint"], ["ISK", "kr", "Icelandic Króna"], ["INR", "₹", "Indian Rupee"], ["IDR", "Rp", "Indonesian Rupiah"], ["IRR", "﷼", "Iranian Rial"], ["IQD", "ع.د", "Iraqi Dinar"], ["ILS", "₪", "Israeli Shekel"], ["JMD", "J$", "Jamaican Dollar"], ["JPY", "¥", "Japanese Yen"], ["JOD", "JD", "Jordanian Dinar"], ["KZT", "₸", "Kazakhstani Tenge"], ["KES", "KSh", "Kenyan Shilling"], ["KWD", "KD", "Kuwaiti Dinar"], ["KGS", "с", "Kyrgyzstani Som"], ["LAK", "₭", "Lao Kip"], ["LBP", "ل.ل", "Lebanese Pound"], ["LSL", "L", "Lesotho Loti"], ["LRD", "L$", "Liberian Dollar"], ["LYD", "LD", "Libyan Dinar"], ["MOP", "P", "Macanese Pataca"], ["MKD", "ден", "Macedonian Denar"], ["MGA", "Ar", "Malagasy Ariary"], ["MWK", "MK", "Malawian Kwacha"], ["MYR", "RM", "Malaysian Ringgit"], ["MVR", "Rf", "Maldivian Rufiyaa"], ["MRU", "UM", "Mauritanian Ouguiya"], ["MUR", "₨", "Mauritian Rupee"], ["MXN", "$", "Mexican Peso"], ["MDL", "L", "Moldovan Leu"], ["MNT", "₮", "Mongolian Tögrög"], ["MAD", "MAD", "Moroccan Dirham"], ["MZN", "MT", "Mozambican Metical"], ["MMK", "K", "Myanmar Kyat"], ["NAD", "N$", "Namibian Dollar"], ["NPR", "₨", "Nepalese Rupee"], ["NZD", "NZ$", "New Zealand Dollar"], ["NIO", "C$", "Nicaraguan Córdoba"], ["NGN", "₦", "Nigerian Naira"], ["NOK", "kr", "Norwegian Krone"], ["OMR", "﷼", "Omani Rial"], ["PKR", "₨", "Pakistani Rupee"], ["PAB", "B/.", "Panamanian Balboa"], ["PGK", "K", "Papua New Guinean Kina"], ["PYG", "₲", "Paraguayan Guaraní"], ["PEN", "S/.", "Peruvian Sol"], ["PHP", "₱", "Philippine Peso"], ["PLN", "zł", "Polish Złoty"], ["QAR", "﷼", "Qatari Riyal"], ["RON", "lei", "Romanian Leu"], ["RUB", "₽", "Russian Ruble"], ["RWF", "Fr", "Rwandan Franc"], ["SAR", "﷼", "Saudi Riyal"], ["RSD", "din", "Serbian Dinar"], ["SLL", "Le", "Sierra Leonean Leone"], ["SGD", "S$", "Singapore Dollar"], ["SOS", "Sh", "Somali Shilling"], ["ZAR", "R", "South African Rand"], ["KRW", "₩", "South Korean Won"], ["SSP", "£", "South Sudanese Pound"], ["LKR", "₨", "Sri Lankan Rupee"], ["SDG", "£", "Sudanese Pound"], ["SZL", "L", "Swazi Lilangeni"], ["SEK", "kr", "Swedish Krona"], ["CHF", "Fr", "Swiss Franc"], ["TWD", "NT$", "Taiwan Dollar"], ["TJS", "SM", "Tajikistani Somoni"], ["TZS", "Sh", "Tanzanian Shilling"], ["THB", "฿", "Thai Baht"], ["TOP", "T$", "Tongan Paʻanga"], ["TTD", "TT$", "Trinidad and Tobago Dollar"], ["TND", "DT", "Tunisian Dinar"], ["TRY", "₺", "Turkish Lira"], ["TMT", "T", "Turkmenistan Manat"], ["UGX", "Sh", "Ugandan Shilling"], ["UAH", "₴", "Ukrainian Hryvnia"], ["AED", "د.إ", "UAE Dirham"], ["USD", "$", "US Dollar"], ["UYU", "$U", "Uruguayan Peso"], ["UZS", "лв", "Uzbekistani Som"], ["VUV", "Vt", "Vanuatu Vatu"], ["VES", "Bs.S", "Venezuelan Bolívar"], ["VND", "₫", "Vietnamese Dong"], ["YER", "﷼", "Yemeni Rial"], ["ZMW", "ZK", "Zambian Kwacha"], ["ZWL", "Z$", "Zimbabwean Dollar"]];
+
+        const LOCALE_CURRENCY_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-UG": "UGX", "en-TZ": "TZS", "en-RW": "RWF", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-NZ": "NZD", "en-IN": "INR", "en-PK": "PKR", "en-SG": "SGD", "de": "EUR", "de-DE": "EUR", "de-AT": "EUR", "de-CH": "CHF", "fr": "EUR", "fr-FR": "EUR", "fr-CA": "CAD", "fr-BE": "EUR", "fr-CH": "CHF", "fr-SN": "XOF", "fr-CI": "XOF", "fr-CM": "XAF", "es": "USD", "es-MX": "MXN", "es-AR": "ARS", "es-CO": "COP", "es-CL": "CLP", "es-PE": "PEN", "es-VE": "VES", "pt": "BRL", "pt-BR": "BRL", "pt-PT": "EUR", "pt-AO": "AOA", "pt-MZ": "MZN", "zh": "CNY", "zh-CN": "CNY", "zh-TW": "TWD", "zh-HK": "HKD", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-SA": "SAR", "ar-EG": "EGP", "ar-AE": "AED", "ar-KW": "KWD", "ar-QA": "QAR", "ar-BH": "BHD", "ar-IQ": "IQD", "ar-JO": "JOD", "ar-MA": "MAD", "ar-DZ": "DZD", "ar-TN": "TND", "hi": "INR", "bn": "BDT", "ru": "RUB", "tr": "TRY", "pl": "PLN", "nl": "EUR", "nl-NL": "EUR", "nl-BE": "EUR", "sv": "SEK", "da": "DKK", "nb": "NOK", "fi": "EUR", "cs": "CZK", "hu": "HUF", "ro": "RON", "uk": "UAH", "id": "IDR", "ms": "MYR", "th": "THB", "vi": "VND", "fil": "PHP" };
+
+        // ─── DETECT DEFAULT CURRENCY FROM BROWSER LOCALE ───
+        function detectCurrency() {
+            try {
+                const saved = localStorage.getItem('babylon_currency');
+                if (saved) {
+                    const found = CURRENCIES.find(c => c[0] === saved);
+                    if (found) return found;
+                }
+                const locales = navigator.languages || [navigator.language];
+                for (const loc of locales) {
+                    if (LOCALE_CURRENCY_MAP[loc]) {
+                        const code = LOCALE_CURRENCY_MAP[loc];
+                        return CURRENCIES.find(c => c[0] === code) || CURRENCIES.find(c => c[0] === 'NGN');
+                    }
+                    const base = loc.split('-')[0];
+                    if (LOCALE_CURRENCY_MAP[base]) {
+                        const code = LOCALE_CURRENCY_MAP[base];
+                        return CURRENCIES.find(c => c[0] === code) || CURRENCIES.find(c => c[0] === 'NGN');
+                    }
+                }
+            } catch (e) { }
+            return CURRENCIES.find(c => c[0] === 'NGN');
+        }
+
+        // ─── PICKER STATE ───
+        let _pickerOpen = false;
+        let _pickerCallback = null;
+        let _pickerQuery = '';
+
+        // ─── BUILD PICKER HTML (inject once into body) ───
+        function _ensurePicker() {
+            if (document.getElementById('bc-picker-overlay')) return;
+            const el = document.createElement('div');
+            el.id = 'bc-picker-overlay';
+            el.innerHTML = `
+        <div id="bc-picker-modal">
+            <div id="bc-picker-header">
+                <div id="bc-picker-title">Select Currency</div>
+                <button id="bc-picker-close" onclick="closeCurrencyPicker()">✕</button>
+            </div>
+            <div id="bc-picker-search-wrap">
+                <input id="bc-picker-input" type="text" placeholder="Search by name or code…" oninput="filterCurrencies(this.value)" autocomplete="off" spellcheck="false">
+            </div>
+            <div id="bc-picker-list"></div>
+        </div>`;
+            document.body.appendChild(el);
+            el.addEventListener('click', e => { if (e.target === el) closeCurrencyPicker(); });
+        }
+
+        function renderCurrencyList(query) {
+            const q = query.toLowerCase().trim();
+            const filtered = q ? CURRENCIES.filter(c =>
+                c[2].toLowerCase().includes(q) || c[0].toLowerCase().includes(q) || c[1].includes(q)
+            ) : CURRENCIES;
+            const list = document.getElementById('bc-picker-list');
+            if (!filtered.length) {
+                list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);font-size:12px;">No currencies found</div>';
+                return;
+            }
+            list.innerHTML = filtered.map(c => `
+        <div class="bc-currency-row" onclick="selectCurrency('${c[0]}','${c[1]}','${c[2]}')">
+            <span class="bc-currency-symbol">${c[1]}</span>
+            <span class="bc-currency-name">${c[2]}</span>
+            <span class="bc-currency-code">${c[0]}</span>
+        </div>`).join('');
+        }
+
+        function filterCurrencies(val) {
+            _pickerQuery = val;
+            renderCurrencyList(val);
+        }
+
+        function openCurrencyPicker(callback) {
+            _ensurePicker();
+            _pickerCallback = callback;
+            _pickerQuery = '';
+            document.getElementById('bc-picker-input').value = '';
+            renderCurrencyList('');
+            document.getElementById('bc-picker-overlay').classList.add('open');
+            setTimeout(() => document.getElementById('bc-picker-input').focus(), 80);
+        }
+
+        function closeCurrencyPicker() {
+            const el = document.getElementById('bc-picker-overlay');
+            if (el) el.classList.remove('open');
+        }
+
+        function selectCurrency(code, symbol, name) {
+            try { localStorage.setItem('babylon_currency', code); } catch (e) { }
+            closeCurrencyPicker();
+            if (_pickerCallback) _pickerCallback(code, symbol, name);
+        }
+
+    </script>
+
+    <script>
+
+        let currency = '₦';
+        function onCurrencySelected(code, symbol, name) {
+            currency = symbol;
+            document.getElementById('curr-symbol').textContent = symbol;
+            document.getElementById('curr-name').textContent = name;
+            document.getElementById('curr-code').textContent = code;
+            // Update all prefix elements
+            document.querySelectorAll('#gp-curr-prefix,#gp-income-prefix,#gp-saved-prefix').forEach(el => el.textContent = symbol);
+        }
+        (function () {
+            const d = detectCurrency();
+            currency = d[1];
+            setTimeout(() => {
+                document.getElementById('curr-symbol').textContent = d[1];
+                document.getElementById('curr-name').textContent = d[2];
+                document.getElementById('curr-code').textContent = d[0];
+                document.querySelectorAll('#gp-curr-prefix,#gp-income-prefix,#gp-saved-prefix').forEach(el => el.textContent = d[1]);
+            }, 0);
+        })();
+        let selectedGoal = 'travel';
+        let houseMode = 'buy';
+        let currentGoalData = null;
+
+        // ─── TOAST ───
+        function showToast(msg) {
+            const t = document.getElementById('gp-toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 1800);
+        }
+
+        // ─── FORMAT SAVINGS INPUT ───
+        function fmtSavingsInput(el) {
+            const raw = el.value.replace(/[^0-9]/g, '');
+            el.value = raw === '' ? '' : raw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function getRawSavings(id) {
+            return parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
+        }
+
+        function fmtAmt(n, cur) {
+            if (n >= 1e9) return cur + (n / 1e9).toFixed(2) + 'B';
+            if (n >= 1e6) return cur + (n / 1e6).toFixed(2) + 'M';
+            if (n >= 1e3) return cur + (n / 1e3).toFixed(1) + 'K';
+            return cur + n.toLocaleString();
+        }
+
+        // ─── DYNAMIC TIMELINE RECALC ───
+        function recalcTimeline(goal) {
+            const remaining = Math.max(0, goal.cost - (goal.totalSaved || 0));
+            if (remaining === 0) return { months: 0, label: '✅ Complete!' };
+            const months = Math.ceil(remaining / goal.monthly);
+            return { months, label: monthsToLabel(months) };
+        }
+
+        // ─── ADD SAVINGS MODAL ───
+        let activeSavingsGoalId = null;
+
+        function openSavingsModal(id) {
+            const goals = loadGoals();
+            const g = goals.find(x => x.id === id);
+            if (!g) return;
+            activeSavingsGoalId = id;
+
+            const totalSaved = g.totalSaved || 0;
+            const progress = Math.min((totalSaved / g.cost) * 100, 100);
+            const { label: tlLabel } = recalcTimeline(g);
+
+            document.getElementById('sm-icon').textContent = g.icon;
+            document.getElementById('sm-title').textContent = g.label;
+            document.getElementById('sm-subtitle').textContent = `Target: ${fmtAmt(g.cost, g.currency)} · ${tlLabel} remaining`;
+            document.getElementById('sm-saved-so-far').textContent = fmtAmt(totalSaved, g.currency);
+            document.getElementById('sm-target').textContent = fmtAmt(g.cost, g.currency);
+            document.getElementById('sm-progress-fill').style.width = progress + '%';
+            document.getElementById('sm-prefix').textContent = g.currency;
+            document.getElementById('sm-note').textContent = `Your planned monthly savings: ${fmtAmt(g.monthly, g.currency)}/mo. Enter any amount — partial or full.`;
+            document.getElementById('savings-amount-input').value = '';
+            document.getElementById('savings-modal-overlay').classList.add('open');
+            setTimeout(() => document.getElementById('savings-amount-input').focus(), 100);
+        }
+
+        function closeSavingsModal(e) {
+            if (e.target === document.getElementById('savings-modal-overlay')) closeSavingsModalDirect();
+        }
+        function closeSavingsModalDirect() {
+            document.getElementById('savings-modal-overlay').classList.remove('open');
+            activeSavingsGoalId = null;
+        }
+
+        function confirmAddSavings() {
+            const amount = getRawSavings('savings-amount-input');
+            if (!amount || amount <= 0) {
+                document.getElementById('savings-amount-input').focus();
+                return;
+            }
+            const goals = loadGoals();
+            const idx = goals.findIndex(g => g.id === activeSavingsGoalId);
+            if (idx === -1) return;
+
+            goals[idx].totalSaved = (goals[idx].totalSaved || 0) + amount;
+            goals[idx].lastUpdated = new Date().toISOString().split('T')[0];
+
+            const isComplete = goals[idx].totalSaved >= goals[idx].cost;
+
+            if (isComplete) {
+                goals[idx].timelineLabel = '✅ Complete!';
+                const completedId = goals[idx].id;
+                archiveGoal({ ...goals[idx] });
+                saveGoals(goals.filter(g => g.id !== completedId));
+                closeSavingsModalDirect();
+                renderFullGoals();
+                renderGoalsStrip();
+                showToast('🎉 Goal complete! Well done.');
+            } else {
+                // Recalc remaining timeline proportionally
+                const remaining = Math.max(0, goals[idx].cost - goals[idx].totalSaved);
+                const newMonths = Math.ceil(remaining / goals[idx].monthly);
+                goals[idx].timelineLabel = monthsToLabel(newMonths);
+                goals[idx].months = newMonths;
+                saveGoals(goals);
+                closeSavingsModalDirect();
+                renderFullGoals();
+                renderGoalsStrip();
+                showToast(`💰 ${fmtAmt(amount, goals[idx].currency)} added — ${monthsToLabel(newMonths)} to go!`);
+            }
+        }
+
+        // ─── MONTHLY CHECK-IN ───
+        let checkinQueue = [];
+        let checkinIndex = 0;
+
+        function checkShouldShowCheckin() {
+            const goals = loadGoals().filter(g => (g.totalSaved || 0) < g.cost);
+            if (goals.length === 0) return;
+            const lastCheckin = localStorage.getItem('babylon_last_checkin');
+            // Only show if previously checked in AND 30+ days have passed
+            if (!lastCheckin) return;
+            const daysDiff = (new Date() - new Date(lastCheckin)) / (1000 * 60 * 60 * 24);
+            if (daysDiff >= 30) showCheckinBanner();
+        }
+
+        // ─── DEV HELPER (remove before launch) ───
+        function devTriggerCheckin() {
+            const d = new Date();
+            d.setDate(d.getDate() - 31);
+            localStorage.setItem('babylon_last_checkin', d.toISOString().split('T')[0]);
+            showCheckinBanner();
+            showToast('Dev: check-in triggered');
+        }
+
+        function showCheckinBanner() {
+            const goals = loadGoals().filter(g => (g.totalSaved || 0) < g.cost);
+            if (goals.length > 0) document.getElementById('checkin-banner').classList.add('show');
+        }
+
+        function dismissCheckin() {
+            document.getElementById('checkin-banner').classList.remove('show');
+            localStorage.setItem('babylon_last_checkin', new Date().toISOString().split('T')[0]);
+        }
+
+        function startCheckin() {
+            document.getElementById('checkin-banner').classList.remove('show');
+            checkinQueue = loadGoals().filter(g => (g.totalSaved || 0) < g.cost);
+            checkinIndex = 0;
+            if (checkinQueue.length === 0) return;
+            openCheckinStep();
+        }
+
+        function openCheckinStep() {
+            if (checkinIndex >= checkinQueue.length) {
+                finishCheckin(); return;
+            }
+            const g = checkinQueue[checkinIndex];
+            const totalSaved = g.totalSaved || 0;
+            const remaining = Math.max(0, g.cost - totalSaved);
+            const progress = Math.min((totalSaved / g.cost) * 100, 100);
+
+            document.getElementById('ci-step').textContent = `Goal ${checkinIndex + 1} of ${checkinQueue.length}`;
+            document.getElementById('ci-icon').textContent = g.icon;
+            document.getElementById('ci-goal-name').textContent = g.label;
+            document.getElementById('ci-goal-target').textContent = `Target: ${fmtAmt(g.cost, g.currency)}`;
+            document.getElementById('ci-saved-so-far').textContent = fmtAmt(totalSaved, g.currency);
+            document.getElementById('ci-remaining').textContent = fmtAmt(remaining, g.currency);
+            document.getElementById('ci-progress-fill').style.width = progress + '%';
+            document.getElementById('ci-prefix').textContent = g.currency;
+            document.getElementById('checkin-amount-input').value = '';
+            document.getElementById('checkin-modal-overlay').classList.add('open');
+            setTimeout(() => document.getElementById('checkin-amount-input').focus(), 100);
+        }
+
+        function closeCheckinModal(e) {
+            if (e.target === document.getElementById('checkin-modal-overlay')) finishCheckin();
+        }
+
+        function confirmCheckin() {
+            const amount = getRawSavings('checkin-amount-input');
+            if (amount > 0) {
+                const goals = loadGoals();
+                const g = checkinQueue[checkinIndex];
+                const idx = goals.findIndex(x => x.id === g.id);
+                if (idx !== -1) {
+                    goals[idx].totalSaved = (goals[idx].totalSaved || 0) + amount;
+                    goals[idx].lastUpdated = new Date().toISOString().split('T')[0];
+                    const isComplete = goals[idx].totalSaved >= goals[idx].cost;
+                    if (isComplete) {
+                        goals[idx].timelineLabel = '✅ Complete!';
+                    } else {
+                        const remaining = Math.max(0, goals[idx].cost - goals[idx].totalSaved);
+                        const newMonths = Math.ceil(remaining / goals[idx].monthly);
+                        goals[idx].timelineLabel = monthsToLabel(newMonths);
+                        goals[idx].months = newMonths;
+                    }
+                    saveGoals(goals);
+                }
+            }
+            checkinIndex++;
+            openCheckinStep();
+        }
+
+        function skipCheckinGoal() {
+            checkinIndex++;
+            openCheckinStep();
+        }
+
+        function finishCheckin() {
+            document.getElementById('checkin-modal-overlay').classList.remove('open');
+            localStorage.setItem('babylon_last_checkin', new Date().toISOString().split('T')[0]);
+
+            // Archive and remove completed goals
+            const goals = loadGoals();
+            const completed = goals.filter(g => (g.totalSaved || 0) >= g.cost);
+            if (completed.length > 0) {
+                completed.forEach(g => archiveGoal({ ...g }));
+                saveGoals(goals.filter(g => (g.totalSaved || 0) < g.cost));
+                showToast(`🎉 ${completed.length} goal${completed.length > 1 ? 's' : ''} complete!`);
+            } else {
+                showToast('✓ Check-in complete!');
+            }
+
+            renderFullGoals();
+            renderGoalsStrip();
+        }
+
+        // ─── VIEW MANAGEMENT ───
+        function showGoalsView() {
+            document.getElementById('view-main').style.display = 'none';
+            document.getElementById('view-goals').classList.add('active');
+            renderFullGoals();
+            checkShouldShowCheckin();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideGoalsView() {
+            document.getElementById('view-goals').classList.remove('active');
+            document.getElementById('view-main').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ─── GOAL STORAGE ───
+        function loadGoals() {
+            try { return JSON.parse(localStorage.getItem('babylon_goals') || '[]'); } catch (e) { return []; }
+        }
+        function saveGoals(goals) {
+            try { localStorage.setItem('babylon_goals', JSON.stringify(goals)); } catch (e) { }
+        }
+        function loadCompletedGoals() {
+            try { return JSON.parse(localStorage.getItem('babylon_completed_goals') || '[]'); } catch (e) { return []; }
+        }
+        function saveCompletedGoals(goals) {
+            try { localStorage.setItem('babylon_completed_goals', JSON.stringify(goals)); } catch (e) { }
+        }
+        function archiveGoal(goal) {
+            goal.completedAt = new Date().toISOString().split('T')[0];
+            const completed = loadCompletedGoals();
+            completed.unshift(goal); // most recent first
+            saveCompletedGoals(completed);
+        }
+
+        function getTotalCommittedRate(goals) {
+            return goals.reduce((sum, g) => sum + (g.rate || 0), 0);
+        }
+
+        // ─── COMPACT STRIP (View A) ───
+        function renderGoalsStrip() {
+            const goals = loadGoals();
+            const completed = loadCompletedGoals();
+            const seeAllBtn = document.getElementById('goals-see-all');
+            const trackerEl = document.getElementById('income-tracker');
+            const pillsList = document.getElementById('goals-pills-list');
+            const titleEl = document.getElementById('goals-strip-title');
+
+            const activeCount = goals.length;
+            const completedCount = completed.length;
+            let titleText = `✦ Active Goals (${activeCount})`;
+            if (completedCount > 0) titleText += ` · ${completedCount} completed`;
+            titleEl.textContent = titleText;
+
+            if (goals.length === 0 && completed.length === 0) {
+                seeAllBtn.style.display = 'none';
+                trackerEl.style.display = 'none';
+                pillsList.innerHTML = `<div class="goals-strip-empty">No goals saved yet — calculate one below and save it.</div>`;
+                return;
+            }
+
+            seeAllBtn.style.display = 'block';
+
+            // Income bar
+            const totalRate = getTotalCommittedRate(goals);
+            trackerEl.style.display = 'block';
+            document.getElementById('income-tracker-pct').textContent = totalRate + '%';
+            const fill = document.getElementById('income-bar-fill');
+            const warning = document.getElementById('income-tracker-warning');
+            fill.style.width = Math.min(totalRate, 100) + '%';
+            if (totalRate >= 60) {
+                fill.className = 'income-bar-fill red';
+                warning.className = 'income-tracker-warning red';
+                warning.textContent = `⚠️ ${totalRate}% committed — too many masters. Focus on fewer goals.`;
+            } else if (totalRate >= 40) {
+                fill.className = 'income-bar-fill amber';
+                warning.className = 'income-tracker-warning amber';
+                warning.textContent = `⚡ ${totalRate}% committed — you're stretching. Prioritise wisely.`;
+            } else {
+                fill.className = 'income-bar-fill green';
+                warning.className = 'income-tracker-warning';
+            }
+
+            // Pills
+            pillsList.innerHTML = `<div class="goals-pills">
+                ${goals.map(g => {
+                const totalSaved = g.totalSaved || 0;
+                const pct = Math.min(Math.round((totalSaved / g.cost) * 100), 100);
+                const { label: tl } = recalcTimeline(g);
+                return `<div class="goal-pill">
+                        <span>${g.icon}</span>
+                        <div class="goal-pill-dot ${g.verdict}"></div>
+                        <span>${g.label}</span>
+                        <span class="goal-pill-timeline">${pct > 0 ? pct + '% · ' : ''}${tl}</span>
+                    </div>`;
+            }).join('')}
+            </div>`;
+        }
+
+        // ─── FULL GOALS VIEW (View C) ───
+        function renderFullGoals() {
+            const goals = loadGoals();
+            const completed = loadCompletedGoals();
+            const listEl = document.getElementById('saved-goals-list');
+            const completedListEl = document.getElementById('completed-goals-list');
+            const completedSection = document.getElementById('completed-goals-section');
+            const trackerEl = document.getElementById('income-tracker-full');
+
+            // Update header title
+            const total = goals.length + completed.length;
+            document.getElementById('full-goals-title').textContent = `Your Goals`;
+            document.getElementById('active-goals-label').textContent = `Active Goals (${goals.length})`;
+            document.getElementById('completed-goals-label').textContent = `Completed Goals (${completed.length})`;
+
+            // Active goals
+            if (goals.length === 0) {
+                trackerEl.style.display = 'none';
+                listEl.innerHTML = `
+                    <div style="text-align:center;padding:32px 20px;background:white;border:1px dashed var(--sand-dark);border-radius:16px;color:var(--ink-soft);">
+                        <div style="font-size:28px;margin-bottom:10px;">🎯</div>
+                        <p style="font-size:12px;line-height:1.6;">No active goals. Go back and plan one.</p>
+                    </div>`;
+            } else {
+                // Income bar
+                const totalRate = getTotalCommittedRate(goals);
+                trackerEl.style.display = 'block';
+                document.getElementById('income-tracker-pct-full').textContent = totalRate + '%';
+                const fillF = document.getElementById('income-bar-fill-full');
+                const warnF = document.getElementById('income-tracker-warning-full');
+                fillF.style.width = Math.min(totalRate, 100) + '%';
+                if (totalRate >= 60) {
+                    fillF.className = 'income-bar-fill red';
+                    warnF.className = 'income-tracker-warning red';
+                    warnF.textContent = `⚠️ ${totalRate}% of your income is committed. Babylon says: too many masters. Focus on fewer goals or grow your income first.`;
+                } else if (totalRate >= 40) {
+                    fillF.className = 'income-bar-fill amber';
+                    warnF.className = 'income-tracker-warning amber';
+                    warnF.textContent = `⚡ ${totalRate}% committed. You're stretching. Prioritise your most important goals.`;
+                } else {
+                    fillF.className = 'income-bar-fill green';
+                    warnF.className = 'income-tracker-warning';
+                }
+                listEl.innerHTML = `<div class="saved-goals-grid">${goals.map(g => renderGoalCard(g)).join('')}</div>`;
+            }
+
+            // Completed goals
+            if (completed.length > 0) {
+                completedSection.style.display = 'block';
+                completedListEl.innerHTML = `<div class="saved-goals-grid">${completed.map(g => renderCompletedCard(g)).join('')}</div>`;
+            } else {
+                completedSection.style.display = 'none';
+            }
+        }
+
+        function renderGoalCard(g) {
+            const totalSaved = g.totalSaved || 0;
+            const progress = Math.min((totalSaved / g.cost) * 100, 100);
+            const isComplete = totalSaved >= g.cost;
+            const date = new Date(g.savedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            const { label: currentTimeline } = recalcTimeline(g);
+
+            return `<div class="saved-goal-card" style="${isComplete ? 'border-color:#27612e;' : ''}">
+                <div class="sgc-top">
+                    <div class="sgc-icon ${g.verdict}">${g.icon}</div>
+                    <div>
+                        <div class="sgc-label">${g.label}${isComplete ? ' · ✅ Complete' : ''}</div>
+                        <div class="sgc-name">${g.currency}${Number(g.cost).toLocaleString()}</div>
+                    </div>
+                    <div class="sgc-verdict-dot ${g.verdict}"></div>
+                </div>
+                <div class="sgc-stats">
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">Monthly</div>
+                        <div class="sgc-stat-value">${g.currency}${Number(g.monthly).toLocaleString()}</div>
+                    </div>
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">${isComplete ? 'Saved' : 'Remaining'}</div>
+                        <div class="sgc-stat-value" style="${isComplete ? 'color:#27612e' : ''}">${isComplete ? currentTimeline : fmtAmt(Math.max(0, g.cost - totalSaved), g.currency)}</div>
+                    </div>
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">Saved</div>
+                        <div class="sgc-stat-value">${fmtAmt(totalSaved, g.currency)}</div>
+                    </div>
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">Timeline</div>
+                        <div class="sgc-stat-value">${currentTimeline}</div>
+                    </div>
+                </div>
+                <div class="sgc-progress-track">
+                    <div class="sgc-progress-fill" style="width:${progress}%;${isComplete ? 'background:#27612e' : ''}"></div>
+                </div>
+                <div class="sgc-bottom">
+                    <div class="sgc-date">Saved ${date}${g.lastUpdated ? ` · Updated ${new Date(g.lastUpdated).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}` : ''}</div>
+                    <div style="display:flex;gap:6px;">
+                        ${!isComplete ? `<button class="sgc-delete" style="background:rgba(58,107,138,0.1);color:var(--sky);" onclick="openSavingsModal('${g.id}')">+ Add</button>` : ''}
+                        <button class="sgc-delete" onclick="deleteGoal('${g.id}')">Remove</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function renderCompletedCard(g) {
+            const completedDate = g.completedAt ? new Date(g.completedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+            return `<div class="saved-goal-card" style="border-color:rgba(26,71,42,0.3);opacity:0.85;">
+                <div class="sgc-top">
+                    <div class="sgc-icon green">${g.icon}</div>
+                    <div>
+                        <div class="sgc-label" style="color:#27612e;">✅ Completed</div>
+                        <div class="sgc-name">${g.label} — ${g.currency}${Number(g.cost).toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="sgc-stats">
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">Saved</div>
+                        <div class="sgc-stat-value" style="color:#27612e;">${fmtAmt(g.totalSaved || g.cost, g.currency)}</div>
+                    </div>
+                    <div class="sgc-stat-item">
+                        <div class="sgc-stat-label">Completed</div>
+                        <div class="sgc-stat-value">${completedDate}</div>
+                    </div>
+                </div>
+                <div class="sgc-progress-track">
+                    <div class="sgc-progress-fill" style="width:100%;background:#27612e;"></div>
+                </div>
+                <div class="sgc-bottom">
+                    <div class="sgc-date">Started ${new Date(g.savedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                    <button class="sgc-delete" onclick="deleteCompletedGoal('${g.id}')">Remove</button>
+                </div>
+            </div>`;
+        }
+
+        function deleteCompletedGoal(id) {
+            saveCompletedGoals(loadCompletedGoals().filter(g => g.id !== id));
+            renderFullGoals();
+            renderGoalsStrip();
+            showToast('Removed from completed');
+        }
+
+        function saveCurrentGoal() {
+            if (!currentGoalData) return;
+            const goals = loadGoals();
+            const isDupe = goals.some(g => g.goal === currentGoalData.goal && g.cost === currentGoalData.cost);
+            if (isDupe) {
+                document.getElementById('gp-save-btn').textContent = '✓ Already Saved';
+                document.getElementById('gp-save-btn').disabled = true;
+                return;
+            }
+            goals.push(currentGoalData);
+            saveGoals(goals);
+
+            // Update UI
+            const btn = document.getElementById('gp-save-btn');
+            btn.textContent = '✓ Goal Saved!';
+            btn.disabled = true;
+            btn.style.background = '#27612e';
+            btn.style.color = 'white';
+
+            renderGoalsStrip();
+            showToast('🏺 Goal saved');
+            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300);
+        }
+
+        function deleteGoal(id) {
+            const goals = loadGoals().filter(g => g.id !== id);
+            saveGoals(goals);
+            renderFullGoals();
+            renderGoalsStrip();
+            showToast('Goal removed');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGoalsStrip();
+            toggleMobileNav && document.querySelectorAll('.nav-mobile-menu .nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('nav-mobile-menu').classList.remove('open');
+                    document.getElementById('nav-hamburger').classList.remove('open');
+                });
+            });
+        });
+
+        const GOAL_META = {
+            travel: { label: 'Travel', icon: '✈️', hint: 'Total trip cost including flights, hotel, and spending money', altLabel: 'Budget Version' },
+            house: { label: 'House', icon: '🏠', hint: 'Full purchase price or down payment amount', altLabel: 'Rent First' },
+            car: { label: 'Car', icon: '🚗', hint: 'Full cost of the vehicle you want', altLabel: 'Used Car' },
+            dates: { label: 'Dates', icon: '🍽️', hint: 'Monthly or one-time entertainment/social budget', altLabel: 'Budget Option' },
+            education: { label: 'Education', icon: '🎓', hint: 'Total tuition, materials, and fees', altLabel: 'Free Alternative' },
+            business: { label: 'Business', icon: '💼', hint: 'Minimum viable startup capital needed', altLabel: 'Lean Launch' },
+        };
+
+        function setHouseMode(mode) {
+            houseMode = mode;
+            document.getElementById('btn-buy').classList.toggle('active', mode === 'buy');
+            document.getElementById('btn-rent').classList.toggle('active', mode === 'rent');
+            const hint = mode === 'buy'
+                ? 'Full purchase price or down payment amount'
+                : 'Annual rent amount or deposit + first year rent';
+            document.getElementById('gp-cost-hint').textContent = hint;
+        }
+
+        function selectGoal(btn, goal) {
+            selectedGoal = goal;
+            document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const meta = GOAL_META[goal];
+            document.getElementById('gp-cost-hint').textContent = meta.hint;
+            // Show rent/buy toggle only for house
+            const houseWrap = document.getElementById('house-toggle-wrap');
+            if (goal === 'house') {
+                houseWrap.classList.add('visible');
+                setHouseMode(houseMode);
+            } else {
+                houseWrap.classList.remove('visible');
+            }
+        }
+
+        function setCurrency(sym, e) {
+            currency = sym;
+            ['gp-curr-prefix', 'gp-income-prefix', 'gp-saved-prefix'].forEach(id => {
+                document.getElementById(id).textContent = sym;
+            });
+            document.querySelectorAll('.goal-btn[onclick*="setCurrency"]').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+        }
+
+        function fmtGpInput(el) {
+            const raw = el.value.replace(/[^0-9]/g, '');
+            el.value = raw === '' ? '' : raw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function getRawGp(id) {
+            return parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
+        }
+
+        function fmtGp(n) {
+            const parts = n.toFixed(2).split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return currency + parts.join('.');
+        }
+
+        function fmtGpShort(n) {
+            if (n >= 1e9) return currency + (n / 1e9).toFixed(2) + 'B';
+            if (n >= 1e6) return currency + (n / 1e6).toFixed(2) + 'M';
+            if (n >= 1e3) return currency + (n / 1e3).toFixed(1) + 'K';
+            return currency + n.toFixed(0);
+        }
+
+        function monthsToLabel(months) {
+            const yrs = Math.floor(months / 12);
+            const mos = months % 12;
+            if (yrs === 0) return `${mos} month${mos !== 1 ? 's' : ''}`;
+            if (mos === 0) return `${yrs} year${yrs !== 1 ? 's' : ''}`;
+            return `${yrs} yr${yrs !== 1 ? 's' : ''} ${mos} mo`;
+        }
+
+        function validateGpRate(el) {
+            const val = parseFloat(el.value);
+            const note = document.getElementById('gp-rate-note');
+            if (el.value === '' || isNaN(val)) {
+                note.style.color = ''; note.textContent = 'Babylon recommends saving at least 10% toward goals'; return;
+            }
+            if (val < 5) {
+                note.style.color = '#C0392B';
+                note.textContent = `⚠️ At ${val}%, this goal will take a very long time. Try at least 10%.`;
+            } else if (val > 80) {
+                note.style.color = '#784212';
+                note.textContent = `⚠️ Saving ${val}% leaves very little to live on. Babylon urges balance.`;
+            } else {
+                note.style.color = '#27612e';
+                note.textContent = `✓ ${val}% is a solid savings rate for this goal.`;
+            }
+        }
+
+        function getVerdict(goal, cost, income, monthly, months, alreadySaved) {
+            const pct = ((monthly / income) * 100).toFixed(0);
+            const savingRatio = monthly / income;
+
+            // ─── HOUSE ───
+            if (goal === 'house') {
+                if (houseMode === 'rent') {
+                    // Renting — evaluate if the rent is proportionate
+                    const rentRatio = cost / (income * 12); // annual rent vs annual income
+                    if (rentRatio > 0.4) {
+                        return {
+                            level: 'red',
+                            icon: '🚨',
+                            tag: 'Babylon\'s Verdict — Too Expensive',
+                            headline: 'This rent would consume too much of your income.',
+                            text: `Spending <strong>${((cost / income) * 100).toFixed(0)}% of your annual income on rent</strong> leaves very little for saving and investing. Babylon's rule: rent should never exceed 30% of your income. Find a more affordable option — protect your ability to build wealth.`,
+                            counsel: `A roof over your head is necessary. An expensive roof that prevents you from building wealth is a trap. Choose shelter wisely.`
+                        };
+                    } else if (months > 3) {
+                        return {
+                            level: 'amber',
+                            icon: '🔑',
+                            tag: 'Babylon\'s Verdict — Manageable, But Plan Ahead',
+                            headline: 'Renting is fine for now — but don\'t stop there.',
+                            text: `It will take <strong>${monthsToLabel(months)}</strong> to save your rental deposit and first payments. That is acceptable. But Babylon is clear: renting is a temporary shelter, not a destination. While you rent, invest the difference aggressively so that owning becomes possible sooner.`,
+                            counsel: `The man who rents wisely and saves diligently is closer to owning than the man who buys what he cannot afford.`
+                        };
+                    } else {
+                        return {
+                            level: 'green',
+                            icon: '🔑',
+                            tag: 'Babylon\'s Verdict — Smart Move',
+                            headline: 'A proportionate, well-planned rental.',
+                            text: `<strong>${monthsToLabel(months)}</strong> to secure your rental — quick and within your means. This is sensible. Renting at the right price frees your income to invest and grow toward ownership. Use this period intentionally.`,
+                            counsel: `Rent wisely, save aggressively, and let your growing wealth bring you closer to owning your home.`
+                        };
+                    }
+                } else {
+                    // Buying
+                    if (savingRatio > 0.4 || months > 84) {
+                        return {
+                            level: 'red',
+                            icon: '🏚️',
+                            tag: 'Babylon\'s Verdict — Not Yet',
+                            headline: 'This house would chain you, not free you.',
+                            text: `At your current income, buying this property requires saving <strong>${((savingRatio) * 100).toFixed(0)}% of what you earn</strong> and would take <strong>${monthsToLabel(months)}</strong>. Babylon is clear: do not burden yourself with a home you cannot comfortably afford. <strong>Rent wisely for now.</strong> When your income grows and the timeline drops under 3 years, buy — from strength, not desperation.`,
+                            counsel: `While renting: invest your savings into income-generating assets. Let your money work to bring the house closer, not wait idle.`
+                        };
+                    } else if (months > 36) {
+                        return {
+                            level: 'amber',
+                            icon: '🏠',
+                            tag: 'Babylon\'s Verdict — Proceed Carefully',
+                            headline: 'Achievable, but the road is long.',
+                            text: `<strong>${monthsToLabel(months)}</strong> is a significant commitment. You can get there, but keep your current rent low, your expenses lean, and your savings rate steady. Consider whether a smaller property or different location could shorten this timeline.`,
+                            counsel: `The Richest Man in Babylon owned his home — but only after he had built other income streams first. Build income, then buy.`
+                        };
+                    } else {
+                        return {
+                            level: 'green',
+                            icon: '🏡',
+                            tag: 'Babylon\'s Verdict — Own It',
+                            headline: 'You are on the right path. Buy your home.',
+                            text: `<strong>${monthsToLabel(months)}</strong> is a realistic, disciplined timeline. Babylon teaches that a man's home is his foundation — and you are close to laying it. Stay consistent, avoid lifestyle inflation, and do not touch this savings fund for anything else.`,
+                            counsel: `Own your home. It is one of the five laws of gold — the ground beneath your feet should belong to you.`
+                        };
+                    }
+                }
+            }
+
+            // ─── CAR ───
+            if (goal === 'car') {
+                if (months > 24) {
+                    return {
+                        level: 'red',
+                        icon: '🚌',
+                        tag: 'Babylon\'s Verdict — Too Much, Too Long',
+                        headline: 'This car costs more than your timeline can justify.',
+                        text: `<strong>${monthsToLabel(months)}</strong> for a car is too long. A depreciating asset is not worth years of sacrifice. Babylon would say: use what you have — public transport, ride-hailing — and save aggressively for a <strong>more affordable vehicle</strong>. A used, reliable car at 50–60% of this price would free you in under a year.`,
+                        counsel: `A car is a tool, not a trophy. Get the tool that works, not the one that impresses. Save the difference and invest it.`
+                    };
+                } else if (months > 12) {
+                    return {
+                        level: 'amber',
+                        icon: '🚗',
+                        tag: 'Babylon\'s Verdict — Consider Your Options',
+                        headline: 'Doable, but a smarter choice exists.',
+                        text: `<strong>${monthsToLabel(months)}</strong> is manageable, but consider this: a quality used vehicle at 60–70% of this price gets you mobile sooner, depreciates slower, and leaves money to invest. Unless this car is essential to your income, the budget version is the wiser move.`,
+                        counsel: `Babylon does not forbid comfort — but it demands you count the cost honestly before you commit.`
+                    };
+                } else {
+                    return {
+                        level: 'green',
+                        icon: '🚗',
+                        tag: 'Babylon\'s Verdict — Solid Plan',
+                        headline: 'Within a year. This is disciplined thinking.',
+                        text: `<strong>${monthsToLabel(months)}</strong> is a reasonable timeline for a vehicle. You are not overreaching. Stay the course, don't dip into this fund, and drive away debt-free.`,
+                        counsel: `Pay in full where you can. A car bought without debt is a car that works for you — not one you work for.`
+                    };
+                }
+            }
+
+            // ─── TRAVEL ───
+            if (goal === 'travel') {
+                if (months > 12) {
+                    return {
+                        level: 'amber',
+                        icon: '✈️',
+                        tag: 'Babylon\'s Verdict — Scale It Down',
+                        headline: 'A year is too long to wait for a trip.',
+                        text: `If a holiday takes <strong>${monthsToLabel(months)}</strong> to save for, Babylon says: plan a smaller version now, and the full experience later. A budget trip to a closer destination can be achieved in 2–3 months, gives you the reset you need, and keeps your savings intact.`,
+                        counsel: `Enjoy life's pleasures — but never at the cost of your financial foundation. A shorter trip is still a trip.`
+                    };
+                } else {
+                    return {
+                        level: 'green',
+                        icon: '✈️',
+                        tag: 'Babylon\'s Verdict — You\'ve Earned It',
+                        headline: 'A well-planned trip within reach.',
+                        text: `<strong>${monthsToLabel(months)}</strong> is perfectly reasonable for travel. You are planning ahead, not impulse-spending — and that is exactly what Babylon teaches. Book early, lock in your prices, and enjoy.`,
+                        counsel: `Reward yourself wisely. The merchant who never rests grows weary; the merchant who rests wisely grows wealthy.`
+                    };
+                }
+            }
+
+            // ─── EDUCATION ───
+            if (goal === 'education') {
+                if (months > 36) {
+                    return {
+                        level: 'red',
+                        icon: '📚',
+                        tag: 'Babylon\'s Verdict — Find a Faster Path',
+                        headline: 'Three years to start learning is too long.',
+                        text: `<strong>${monthsToLabel(months)}</strong> means you would delay your education and therefore your income growth significantly. Babylon urges a different path: find a shorter, more affordable certification to start now. Build income with that, then fund the fuller programme later.`,
+                        counsel: `Knowledge compounds like gold. Start smaller, start sooner, and let your growing income fund the rest.`
+                    };
+                } else if (months > 18) {
+                    return {
+                        level: 'amber',
+                        icon: '🎓',
+                        tag: 'Babylon\'s Verdict — Explore Payment Plans',
+                        headline: 'Long but worth it — if you start sooner.',
+                        text: `<strong>${monthsToLabel(months)}</strong> is a stretch. Many institutions offer payment plans or scholarships that could get you enrolled sooner. Investigate those options — starting now with installments is better than waiting ${monthsToLabel(months)} to begin.`,
+                        counsel: `An investment in knowledge pays the best interest. Don't delay it longer than necessary.`
+                    };
+                } else {
+                    return {
+                        level: 'green',
+                        icon: '🎓',
+                        tag: 'Babylon\'s Verdict — Invest in Yourself',
+                        headline: 'A worthy investment on a sound timeline.',
+                        text: `<strong>${monthsToLabel(months)}</strong> for education is a disciplined, forward-thinking plan. This is exactly how Babylon's richest men built their wealth — by investing in skills that multiplied their earning power.`,
+                        counsel: `Of all the things you can own, a sharpened mind is the most valuable. Guard this savings fund carefully.`
+                    };
+                }
+            }
+
+            // ─── BUSINESS ───
+            if (goal === 'business') {
+                if (months > 36) {
+                    return {
+                        level: 'red',
+                        icon: '🌱',
+                        tag: 'Babylon\'s Verdict — Launch Lean',
+                        headline: 'Do not wait three years to start your business.',
+                        text: `<strong>${monthsToLabel(months)}</strong> to launch is too long — markets shift, ideas age, and momentum dies. Babylon would say: cut the budget to what is truly necessary. Most businesses need far less to launch than founders think. Define your MVP, slash the cost, and start in months — not years.`,
+                        counsel: `The richest man did not wait for perfect conditions. He started with what he had, then grew. Do the same.`
+                    };
+                } else if (months > 18) {
+                    return {
+                        level: 'amber',
+                        icon: '💼',
+                        tag: 'Babylon\'s Verdict — Trim and Launch Faster',
+                        headline: 'You can start sooner with a leaner plan.',
+                        text: `<strong>${monthsToLabel(months)}</strong> is workable, but ask yourself: what is the minimum you need to validate this idea? A lean launch at 50–60% of this budget, started sooner, is almost always better than a fully funded launch delayed by a year.`,
+                        counsel: `Begin where you stand. Use what you have. Do what you can.`
+                    };
+                } else {
+                    return {
+                        level: 'green',
+                        icon: '💼',
+                        tag: 'Babylon\'s Verdict — Build Your Future',
+                        headline: 'A sound timeline for a serious venture.',
+                        text: `<strong>${monthsToLabel(months)}</strong> to build your startup capital is focused and realistic. Use this time wisely — validate your idea, build your network, and prepare so that when the money is ready, so are you.`,
+                        counsel: `Gold comes to he who saves with purpose and acts with preparation. Your launch day is coming.`
+                    };
+                }
+            }
+
+            // ─── DATES / ENTERTAINMENT ───
+            if (goal === 'dates') {
+                if (months > 2) {
+                    return {
+                        level: 'amber',
+                        icon: '🍽️',
+                        tag: 'Babylon\'s Verdict — Recalibrate',
+                        headline: 'Your entertainment budget exceeds your means.',
+                        text: `If it takes <strong>${monthsToLabel(months)}</strong> to fund your social/entertainment budget, it is too high for your current income. Babylon does not forbid enjoyment — but it must come from surplus, not sacrifice. Scale this back until it fits within 1–2 months of saving.`,
+                        counsel: `Enjoy life, but never let pleasure drain the purse that builds your future.`
+                    };
+                } else {
+                    return {
+                        level: 'green',
+                        icon: '🍽️',
+                        tag: 'Babylon\'s Verdict — Enjoy, You\'ve Earned It',
+                        headline: 'A well-proportioned treat.',
+                        text: `<strong>${monthsToLabel(months)}</strong> — quick, planned, and deliberate. This is how Babylon's merchants enjoyed life: with intention, not impulse. Go ahead and enjoy it.`,
+                        counsel: `A portion of all you earn is for enjoyment. This is the right way to use it.`
+                    };
+                }
+            }
+
+            // fallback
+            return {
+                level: 'green', icon: '🎯', tag: 'Babylon\'s Verdict',
+                headline: 'Your plan is in motion.',
+                text: `At your current savings rate, you will reach this goal in <strong>${monthsToLabel(months)}</strong>. Stay consistent and trust the process.`,
+                counsel: `Wealth grows in he who plants steadily and harvests patiently.`
+            };
+        }
+
+        function getGoalAdvice(goal, cost, income, monthly, months, alreadySaved) {
+            const meta = GOAL_META[goal];
+            const pct = ((monthly / income) * 100).toFixed(0);
+            return `Saving ${fmtGp(monthly)}/mo (${pct}% of income) toward your ${meta.label.toLowerCase()} goal.${alreadySaved > 0 ? ` Your ${fmtGpShort(alreadySaved)} head start has already shortened the road.` : ''}`
+        }
+
+        function getComparisons(goal, cost, income, monthly, months) {
+            const meta = GOAL_META[goal];
+            const comparisons = [];
+
+            // Base: current plan
+            const baseLabel = goal === 'house' ? (houseMode === 'buy' ? '🏡 Buying' : '🔑 Renting') : `${meta.icon} ${meta.label}`;
+            comparisons.push({
+                tag: 'Your Plan', title: baseLabel,
+                detail: `Save ${fmtGpShort(monthly)}/mo at your current rate.`,
+                timeline: monthsToLabel(months), best: false
+            });
+
+            // Faster: save more
+            const fasterMonthly = monthly * 1.5;
+            const fasterMonths = Math.ceil(cost / fasterMonthly);
+            comparisons.push({
+                tag: 'Save More', title: `⚡ Accelerated`,
+                detail: `Increase savings to ${fmtGpShort(fasterMonthly)}/mo (+50%).`,
+                timeline: monthsToLabel(fasterMonths), best: fasterMonths < months
+            });
+
+            // Goal-specific alternative
+            const altCost = cost * 0.65;
+            const altMonths = Math.ceil(altCost / monthly);
+            const altLabels = {
+                car: { title: '🚗 Used Car (65% cost)', detail: `A solid used vehicle at ${fmtGpShort(altCost)}.` },
+                house: houseMode === 'buy'
+                    ? { title: '🔑 Rent First', detail: `Rent while saving — lower upfront cost, more flexibility.` }
+                    : { title: '🏡 Buy Eventually', detail: `Use this rental period to save toward ownership.` },
+                travel: { title: '✈️ Budget Trip', detail: `Same destination, budget options — 65% of the cost.` },
+                education: { title: '📚 Shorter Course', detail: `A focused certification at 65% of full program cost.` },
+                business: { title: '🌱 Lean MVP', detail: `Launch lean at 65% of your ideal budget.` },
+                dates: { title: '💡 Budget Plan', detail: `65% of budget, smarter choices, same fun.` },
+            };
+            const alt = altLabels[goal];
+            const altTimeline = goal === 'house' && houseMode === 'rent'
+                ? 'Long-term plan' : monthsToLabel(altMonths);
+            comparisons.push({
+                tag: meta.altLabel, title: alt.title,
+                detail: alt.detail, timeline: altTimeline,
+                best: altMonths <= fasterMonths && altMonths < months
+            });
+
+            return comparisons;
+        }
+
+        function calculateGoal() {
+            const cost = getRawGp('gp-cost');
+            const income = getRawGp('gp-income');
+            const rate = parseFloat(document.getElementById('gp-rate').value) || 10;
+            const alreadySaved = getRawGp('gp-saved');
+
+            if (!cost || cost <= 0) { document.getElementById('gp-cost').focus(); return; }
+            if (!income || income <= 0) { document.getElementById('gp-income').focus(); return; }
+
+            const monthly = income * (rate / 100);
+            const remaining = Math.max(0, cost - alreadySaved);
+            const months = Math.ceil(remaining / monthly);
+            const meta = GOAL_META[selectedGoal];
+            const goalLabel = selectedGoal === 'house'
+                ? (houseMode === 'buy' ? 'Buying a House' : 'Renting a House')
+                : meta.label;
+            const goalIcon = selectedGoal === 'house'
+                ? (houseMode === 'buy' ? '🏡' : '🔑')
+                : meta.icon;
+
+            // Hide form, show result header
+            document.getElementById('gp-card-form').style.display = 'none';
+            document.getElementById('gp-result-icon').textContent = goalIcon;
+            document.getElementById('gp-result-title').textContent = goalLabel + ' — ' + fmtGpShort(cost);
+            document.getElementById('gp-result-subtitle').textContent = `Saving ${fmtGpShort(monthly)}/mo · ${rate}% of income${alreadySaved > 0 ? ` · ${fmtGpShort(alreadySaved)} head start` : ''}`;
+            document.getElementById('gp-result-header').classList.add('visible');
+
+            // Reset save button
+            const saveBtn = document.getElementById('gp-save-btn');
+            saveBtn.textContent = '🏺 Save This Goal';
+            saveBtn.disabled = false;
+            saveBtn.style.background = '';
+            saveBtn.style.color = '';
+
+            const verdict = getVerdict(selectedGoal, cost, income, monthly, months, alreadySaved);
+
+            // Store current goal for saving (after verdict is declared)
+            currentGoalData = {
+                id: 'goal_' + Date.now(),
+                goal: selectedGoal,
+                houseMode: selectedGoal === 'house' ? houseMode : null,
+                label: goalLabel,
+                icon: goalIcon,
+                cost, income, monthly,
+                rate,
+                alreadySaved,
+                months,
+                timelineLabel: monthsToLabel(months),
+                verdict: verdict.level,
+                currency,
+                savedAt: new Date().toISOString().split('T')[0]
+            };
+            const verdictEl = document.getElementById('gp-verdict');
+            verdictEl.className = `gp-verdict ${verdict.level}`;
+            verdictEl.innerHTML = `
+                <div class="verdict-icon">${verdict.icon}</div>
+                <div class="verdict-body">
+                    <div class="verdict-tag">${verdict.tag}</div>
+                    <div class="verdict-headline">${verdict.headline}</div>
+                    <div class="verdict-text">${verdict.text}<br><br><em>${verdict.counsel}</em></div>
+                </div>
+            `;
+
+            // Summary cards
+            const summaryData = [
+                { cls: 'gp-sc-timeline', icon: '🎯', label: 'Goal Reached In', value: monthsToLabel(months), sub: `${months} monthly saves` },
+                { cls: 'gp-sc-monthly', icon: '💰', label: 'Monthly Savings', value: fmtGpShort(monthly), sub: `${rate}% of income` },
+                { cls: 'gp-sc-total', icon: meta.icon, label: meta.label + ' Goal', value: fmtGpShort(cost), sub: 'total target' },
+                ...(alreadySaved > 0 ? [{ cls: 'gp-sc-saved', icon: '🏦', label: 'Head Start', value: fmtGpShort(alreadySaved), sub: `${((alreadySaved / cost) * 100).toFixed(1)}% already saved` }] : []),
+            ];
+
+            document.getElementById('gp-summary-grid').innerHTML = summaryData.map(s =>
+                `<div class="gp-sc ${s.cls}">
+                    <div class="gp-sc-icon">${s.icon}</div>
+                    <div class="gp-sc-label">${s.label}</div>
+                    <div class="gp-sc-value">${s.value}</div>
+                    <div class="gp-sc-sub">${s.sub}</div>
+                </div>`
+            ).join('');
+
+            // Advice
+            document.getElementById('gp-advice').innerHTML = `
+                <div class="gp-advice-label">✦ Babylon's Counsel</div>
+                <p>${getGoalAdvice(selectedGoal, cost, income, monthly, months, alreadySaved)}</p>
+            `;
+
+            // Comparisons
+            const comps = getComparisons(selectedGoal, remaining, income, monthly, months);
+            document.getElementById('gp-compare').innerHTML = `
+                <h3>📊 Compare Your Options</h3>
+                <div class="compare-grid">
+                    ${comps.map(c => `
+                        <div class="compare-option ${c.best ? 'best' : ''}">
+                            <div class="co-tag">${c.tag}${c.best ? ' · ✓ Fastest' : ''}</div>
+                            <div class="co-title">${c.title}</div>
+                            <div class="co-detail">${c.detail}</div>
+                            <div class="co-timeline">${c.timeline}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Monthly savings table
+            const schedule = [];
+            let saved = alreadySaved;
+            for (let m = 1; m <= months; m++) {
+                saved = Math.min(saved + monthly, cost);
+                schedule.push({ month: m, savedThisMonth: Math.min(monthly, cost - (saved - monthly)), totalSaved: saved, remaining: Math.max(0, cost - saved) });
+            }
+
+            const milestones = new Set([
+                Math.floor(months * 0.25), Math.floor(months * 0.5),
+                Math.floor(months * 0.75), months
+            ]);
+
+            document.getElementById('gp-table-body').innerHTML = schedule.map(row => {
+                const isMilestone = milestones.has(row.month);
+                const isFinal = row.remaining === 0;
+                return `<div class="gp-row ${isMilestone ? 'milestone' : ''} ${isFinal ? 'final-row' : ''}">
+                    <div class="gp-col-mo">${row.month}</div>
+                    <div class="gp-col-monthly">${fmtGpShort(row.savedThisMonth)}</div>
+                    <div class="gp-col-saved">${fmtGpShort(row.totalSaved)}</div>
+                    <div class="gp-col-remaining">${row.remaining < 1 ? '✅ Reached!' : fmtGpShort(row.remaining)}</div>
+                </div>`;
+            }).join('');
+
+            const results = document.getElementById('gp-results');
+            results.classList.add('visible');
+            setTimeout(() => {
+                document.getElementById('gp-verdict').classList.add('show');
+                document.querySelectorAll('.gp-sc').forEach((c, i) => {
+                    setTimeout(() => c.classList.add('show'), i * 80);
+                });
+            }, 100);
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetGoalPlanner() {
+            document.getElementById('gp-cost').value = '';
+            document.getElementById('gp-income').value = '';
+            document.getElementById('gp-rate').value = '';
+            document.getElementById('gp-saved').value = '';
+            document.getElementById('gp-results').classList.remove('visible');
+            document.getElementById('gp-verdict').classList.remove('show');
+            document.getElementById('gp-result-header').classList.remove('visible');
+            document.getElementById('gp-card-form').style.display = 'block';
+            document.querySelectorAll('.gp-sc').forEach(c => c.classList.remove('show'));
+            currentGoalData = null;
+            renderGoalsStrip();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileNav() {
+            const menu = document.getElementById('nav-mobile-menu');
+            const btn = document.getElementById('nav-hamburger');
+            menu.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+        // Close mobile menu on link click
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-mobile-menu .nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('nav-mobile-menu').classList.remove('open');
+                    document.getElementById('nav-hamburger').classList.remove('open');
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

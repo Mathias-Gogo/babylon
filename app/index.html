@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLHVN03SHK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-GLHVN03SHK');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="The Babylon Method — ancient wisdom for modern money. Split your income, crush your debt, and plan every goal.">
+    <meta property="og:title" content="The Babylon Method — Master Your Money">
+    <meta property="og:description"
+        content="Three tools. One mission. Make your money work the way Babylon's richest merchants did.">
+    <meta property="og:type" content="website">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1C1209">
+    <link rel="icon" type="image/png" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <title>The Babylon Method — Home</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8C97A;
+            --sand: #F7F1E3;
+            --sand-dark: #EDE3CC;
+            --ink: #1C1209;
+            --ink-mid: #3D2B12;
+            --ink-soft: #6B5035;
+            --parchment: #FBF7EE;
+            --debt-red: #C0392B;
+            --sky: #3A6B8A;
+            --nav-w: 240px;
+            --bottom-nav-h: 64px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--parchment);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(ellipse at 15% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(58, 107, 138, 0.06) 0%, transparent 55%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* ─── SIDE DRAWER ─── */
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--nav-w);
+            z-index: 300;
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0 20px;
+            box-shadow: 4px 0 24px rgba(28, 18, 9, 0.12);
+        }
+
+        .drawer-brand {
+            padding: 0 20px 24px;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+            margin-bottom: 12px;
+        }
+
+        .drawer-brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-light);
+            text-decoration: none;
+            display: block;
+        }
+
+        .drawer-brand-name span {
+            color: var(--gold);
+        }
+
+        .drawer-brand-sub {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.3);
+            margin-top: 4px;
+        }
+
+        .drawer-nav {
+            flex: 1;
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(232, 201, 122, 0.5);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .drawer-link:hover {
+            background: rgba(201, 168, 76, 0.08);
+            color: var(--gold-light);
+        }
+
+        .drawer-link.active {
+            background: rgba(201, 168, 76, 0.12);
+            color: var(--gold-light);
+            border-left: 2px solid var(--gold);
+        }
+
+        .drawer-link-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .drawer-footer {
+            padding: 16px 24px 0;
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            font-size: 10px;
+            color: rgba(232, 201, 122, 0.2);
+            font-weight: 500;
+        }
+
+        /* ─── BOTTOM NAV ─── */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--bottom-nav-h);
+            z-index: 300;
+            background: var(--ink);
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 0 8px;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(232, 201, 122, 0.35);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--gold);
+        }
+
+        .bnav-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* ─── MAIN ─── */
+        .app-main {
+            margin-left: var(--nav-w);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(251, 247, 238, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(237, 227, 204, 0.8);
+            padding: 0 40px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-topbar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .app-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar-chat-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--ink);
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .topbar-chat-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
+        }
+
+        .topbar-chat-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold-light);
+        }
+
+        .app-content {
+            padding: 24px 36px 40px;
+            max-width: 1000px;
+        }
+
+        /* ─── HERO GREETING ─── */
+        .home-hero {
+            margin-bottom: 12px;
+        }
+
+        .home-hero-eyebrow {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .home-hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .home-hero h1 span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .home-hero p {
+            font-size: 14px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            max-width: 440px;
+        }
+
+        /* ─── TOOL CARDS ─── */
+        .tools-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 10px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .tool-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 2px 16px rgba(28, 18, 9, 0.05);
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: -24px;
+            right: -24px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: 0.07;
+            transition: opacity 0.25s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(28, 18, 9, 0.1);
+        }
+
+        .tool-card:hover::after {
+            opacity: 0.14;
+        }
+
+        .tool-card.allocator::after {
+            background: var(--gold);
+        }
+
+        .tool-card.debt::after {
+            background: var(--debt-red);
+        }
+
+        .tool-card.goals::after {
+            background: var(--sky);
+        }
+
+        .tool-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .tool-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .allocator .tool-card-icon {
+            background: rgba(201, 168, 76, 0.1);
+        }
+
+        .debt .tool-card-icon {
+            background: rgba(192, 57, 43, 0.09);
+        }
+
+        .goals .tool-card-icon {
+            background: rgba(58, 107, 138, 0.09);
+        }
+
+        .tool-card-badge {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--sand);
+            color: var(--ink-soft);
+            border: 1px solid var(--sand-dark);
+        }
+
+        .tool-card-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .allocator .tool-card-tag {
+            color: var(--gold);
+        }
+
+        .debt .tool-card-tag {
+            color: var(--debt-red);
+        }
+
+        .goals .tool-card-tag {
+            color: var(--sky);
+        }
+
+        .tool-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+            line-height: 1.2;
+        }
+
+        .tool-card p {
+            font-size: 12px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            flex: 1;
+            margin-bottom: 14px;
+        }
+
+        .tool-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            transition: all 0.2s;
+            align-self: flex-start;
+        }
+
+        .allocator .tool-card-cta {
+            background: var(--ink);
+            color: var(--gold-light);
+        }
+
+        .debt .tool-card-cta {
+            background: var(--debt-red);
+            color: white;
+        }
+
+        .goals .tool-card-cta {
+            background: var(--sky);
+            color: white;
+        }
+
+        .tool-card:hover .tool-card-cta {
+            opacity: 0.88;
+        }
+
+        /* ─── WISDOM ─── */
+        .wisdom {
+            background: var(--ink);
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .wisdom p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17px;
+            color: var(--gold-light);
+            font-style: italic;
+            line-height: 1.75;
+        }
+
+        .wisdom cite {
+            display: block;
+            margin-top: 8px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(232, 201, 122, 0.35);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* ─── CHAT OVERLAY (genie) ─── */
+        #chat-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(28, 18, 9, 0.0);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            transition: background 0.4s ease;
+        }
+
+        #chat-overlay.genie-open {
+            background: rgba(28, 18, 9, 0.92);
+            backdrop-filter: blur(6px);
+        }
+
+        .chat-box {
+            background: var(--parchment);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 168, 76, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+            transform-origin: bottom right;
+            transform: scale(0.05) translate(40vw, 40vh);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.35s ease, border-radius 0.4s ease;
+            will-change: transform, opacity;
+        }
+
+        .chat-box.genie-in {
+            transform: scale(1) translate(0, 0);
+            opacity: 1;
+            border-radius: 24px;
+        }
+
+        .chat-box.genie-out {
+            transform: scale(0.05) translate(40vw, 40vh);
+            opacity: 0;
+            border-radius: 50%;
+        }
+
+        .chat-header {
+            background: var(--ink);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .chat-header-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        .chat-header-text span {
+            font-size: 9px;
+            color: rgba(232, 201, 122, 0.45);
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .chat-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4CAF50;
+            display: inline-block;
+            margin-right: 4px;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 18px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 180px;
+            max-height: 360px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--sand-dark);
+            border-radius: 3px;
+        }
+
+        .msg {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+            animation: msg-in 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes msg-in {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .msg.user {
+            flex-direction: row-reverse;
+        }
+
+        .msg-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .msg-avatar.user-av {
+            background: var(--sand-dark);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .msg-bubble {
+            max-width: 82%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .msg.bot .msg-bubble {
+            background: white;
+            color: var(--ink);
+            border-bottom-left-radius: 3px;
+            border: 1px solid var(--sand-dark);
+        }
+
+        .msg.user .msg-bubble {
+            background: var(--ink);
+            color: var(--gold-light);
+            border-bottom-right-radius: 3px;
+            font-weight: 500;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .typing-dots {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 14px;
+            border-bottom-left-radius: 3px;
+            padding: 10px 14px;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dots span {
+            width: 5px;
+            height: 5px;
+            background: var(--sand-dark);
+            border-radius: 50%;
+            animation: dot-bounce 1.2s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dot-bounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                background: var(--sand-dark)
+            }
+
+            30% {
+                transform: translateY(-5px);
+                background: var(--gold)
+            }
+        }
+
+        .chat-input-area {
+            padding: 14px 18px 18px;
+            border-top: 1px solid var(--sand-dark);
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #chat-input {
+            flex: 1;
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            background: var(--parchment);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #chat-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+        }
+
+        #chat-input::placeholder {
+            color: var(--sand-dark);
+        }
+
+        #chat-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #chat-send {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--ink);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        #chat-send:hover {
+            background: var(--ink-mid);
+            transform: scale(1.05);
+        }
+
+        #chat-send:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #chat-send svg {
+            width: 15px;
+            height: 15px;
+            fill: var(--gold-light);
+        }
+
+        .chat-cta-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 13px;
+            background: var(--gold);
+            color: var(--ink);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: none;
+        }
+
+        .chat-cta-btn:hover {
+            background: var(--gold-light);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 767px) {
+            .side-drawer {
+                display: none;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+
+            .app-main {
+                margin-left: 0;
+                padding-bottom: var(--bottom-nav-h);
+            }
+
+            .app-topbar {
+                padding: 0 20px;
+            }
+
+            .app-content {
+                padding: 16px 20px 20px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-box {
+                max-height: 95vh;
+            }
+        }
+
+        /* SVG icon sizing in nav */
+        .drawer-link-icon svg,
+        .bnav-icon svg {
+            display: block;
+            transition: stroke 0.2s;
+        }
+
+        .bnav-icon {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bnav-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .drawer-link-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDE DRAWER -->
+    <aside class="side-drawer">
+        <div class="drawer-brand">
+            <a class="drawer-brand-name" href="index.html">Babylon</a>
+            <div class="drawer-brand-sub">Your Money Toolkit</div>
+        </div>
+        <nav class="drawer-nav">
+            <a class="drawer-link active" href="index.html"><span class="drawer-link-icon"><svg width="18" height="18"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
+                        <polyline points="9,21 9,13 15,13 15,21" />
+                    </svg></span> Home</a>
+            <a class="drawer-link" href="babylon.html"><span class="drawer-link-icon"><svg width="18" height="18"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 20V10" />
+                        <path d="M12 20V4" />
+                        <path d="M6 20v-6" />
+                    </svg></span> Money Allocator</a>
+            <a class="drawer-link" href="babylon-debt.html"><span class="drawer-link-icon"><svg width="18" height="18"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg></span> Debt Tracker</a>
+            <a class="drawer-link" href="babylon-goals.html"><span class="drawer-link-icon"><svg width="18" height="18"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <circle cx="12" cy="12" r="5" />
+                        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                    </svg></span> Goal Planner</a>
+        </nav>
+        <div class="drawer-footer">Built by Mexuri · 2026</div>
+    </aside>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a class="bottom-nav-item active" href="index.html"><span class="bnav-icon"><svg width="18" height="18"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
+                    <polyline points="9,21 9,13 15,13 15,21" />
+                </svg></span><span>Home</span></a>
+        <a class="bottom-nav-item" href="babylon.html"><span class="bnav-icon"><svg width="18" height="18"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M18 20V10" />
+                    <path d="M12 20V4" />
+                    <path d="M6 20v-6" />
+                </svg></span><span>Allocator</span></a>
+        <a class="bottom-nav-item" href="babylon-debt.html"><span class="bnav-icon"><svg width="18" height="18"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg></span><span>Debt</span></a>
+        <a class="bottom-nav-item" href="babylon-goals.html"><span class="bnav-icon"><svg width="18" height="18"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="12" cy="12" r="5" />
+                    <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+                </svg></span><span>Goals</span></a>
+    </nav>
+
+    <!-- CHAT OVERLAY -->
+    <div id="chat-overlay">
+        <div class="chat-box">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#E8C97A"
+                            opacity="0.2" stroke="#E8C97A" stroke-width="1.5" />
+                        <circle cx="9" cy="10" r="1" fill="#E8C97A" />
+                        <circle cx="12" cy="10" r="1" fill="#E8C97A" />
+                        <circle cx="15" cy="10" r="1" fill="#E8C97A" />
+                    </svg>
+                </div>
+                <div class="chat-header-text">
+                    <strong>Babylon</strong>
+                    <span><span class="chat-status-dot"></span>Your Money Guide</span>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-area">
+                <div class="chat-input-row">
+                    <input type="text" id="chat-input" placeholder="Type your name…" disabled autocomplete="off">
+                    <button id="chat-send" disabled onclick="handleChatSend()">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M2 21L23 12 2 3v7l15 2-15 2v7z" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="chat-cta-btn" id="chat-cta" onclick="closeChatOverlay()">✦ Explore the Tools</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <main class="app-main">
+        <div class="app-topbar">
+            <div class="app-topbar-title">Home</div>
+            <div class="app-topbar-right">
+                <button class="topbar-chat-btn" onclick="reopenChat()" title="Open Babylon Guide">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="app-content">
+
+            <div class="home-hero">
+                <div class="home-hero-eyebrow">✦ The Babylon Method</div>
+                <h1>Welcome back,<br><span id="hero-name">Master</span>.</h1>
+                <p>Ancient wisdom. Modern tools. Choose a tool below and put your money to work.</p>
+            </div>
+
+            <div class="tools-label">✦ Your Tools</div>
+
+            <div class="tools-grid">
+                <a class="tool-card allocator" href="babylon.html">
+                    <div class="tool-card-top">
+                        <div class="tool-card-icon">📊</div>
+                        <div class="tool-card-badge">Allocator</div>
+                    </div>
+                    <div class="tool-card-tag">Money Allocator</div>
+                    <h3>Split Your Income the Babylon Way</h3>
+                    <p>Enter any amount and instantly see how the richest merchants of Babylon would divide it — invest,
+                        save, protect, and spend.</p>
+                    <span class="tool-card-cta">Open Tool →</span>
+                </a>
+
+                <a class="tool-card debt" href="babylon-debt.html">
+                    <div class="tool-card-top">
+                        <div class="tool-card-icon">⚖️</div>
+                        <div class="tool-card-badge">Debt Tracker</div>
+                    </div>
+                    <div class="tool-card-tag">Debt Tracker</div>
+                    <h3>Kill Your Debt. Own Your Future.</h3>
+                    <p>Enter your debt, income, and repayment rate. Get an exact freedom date with a full month-by-month
+                        breakdown.</p>
+                    <span class="tool-card-cta">Open Tool →</span>
+                </a>
+
+                <a class="tool-card goals" href="babylon-goals.html">
+                    <div class="tool-card-top">
+                        <div class="tool-card-icon">🎯</div>
+                        <div class="tool-card-badge">Goal Planner</div>
+                    </div>
+                    <div class="tool-card-tag">Goal Planner</div>
+                    <h3>Plan Every Goal. See the Math.</h3>
+                    <p>Car, house, travel, business — Babylon shows you exactly how long it takes and whether you should
+                        proceed.</p>
+                    <span class="tool-card-cta">Open Tool →</span>
+                </a>
+            </div>
+
+            <div class="wisdom">
+                <p>"Wealth is not his that has it, but his that enjoys it."</p>
+                <cite>— The Richest Man in Babylon · George S. Clason</cite>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Greeting
+        (function () {
+            try {
+                let name = localStorage.getItem('babylon_user_name') || '';
+                if (name) {
+                    name = name.replace(/^(my name is|i am|i'm|call me)\s+/i, '').trim();
+                    document.getElementById('hero-name').textContent = name;
+                }
+            } catch (e) { }
+        })();
+
+        let chatStep = 'idle', userName = '';
+        const TYPING_DELAY = 900, MSG_GAP = 400;
+
+        function getStoredUser() {
+            try { let n = localStorage.getItem('babylon_user_name') || ''; if (n) n = extractName(n); return n; } catch (e) { return ''; }
+        }
+        function storeUser(n) { try { localStorage.setItem('babylon_user_name', n); } catch (e) { } }
+        function extractName(input) {
+            return input.replace(/^(my name is|i am|i'm|call me|it's|its|hi i'm|hey i'm|hello i'm|hi,?\s*i'm|they call me)\s+/i, '').replace(/^(hi|hey|hello)[,!\s]+/i, '').trim();
+        }
+
+        function appendMsg(text, role = 'bot') {
+            return new Promise(resolve => {
+                const messages = document.getElementById('chat-messages');
+                const msg = document.createElement('div'); msg.className = `msg ${role}`;
+                const avatar = document.createElement('div'); avatar.className = role === 'bot' ? 'msg-avatar' : 'msg-avatar user-av';
+                avatar.textContent = role === 'bot' ? '✦' : (userName ? userName[0].toUpperCase() : '👤');
+                const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = text;
+                msg.appendChild(avatar); msg.appendChild(bubble); messages.appendChild(msg);
+                messages.scrollTop = messages.scrollHeight; resolve();
+            });
+        }
+        function showTyping() {
+            const messages = document.getElementById('chat-messages');
+            const t = document.createElement('div'); t.className = 'typing-indicator'; t.id = 'typing';
+            t.innerHTML = `<div class="msg-avatar">✦</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+            messages.appendChild(t); messages.scrollTop = messages.scrollHeight;
+        }
+        function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+        async function botSay(text, delay = TYPING_DELAY) { showTyping(); await new Promise(r => setTimeout(r, delay)); removeTyping(); await appendMsg(text, 'bot'); }
+        function enableInput(ph) { const i = document.getElementById('chat-input'), s = document.getElementById('chat-send'); i.disabled = false; s.disabled = false; i.placeholder = ph; i.focus(); }
+        function disableInput() { document.getElementById('chat-input').disabled = true; document.getElementById('chat-send').disabled = true; }
+        function showCTA() { document.getElementById('chat-cta').style.display = 'block'; disableInput(); }
+
+        async function startNewUserFlow() {
+            chatStep = 'new_greeting';
+            await botSay("Hey there! I'm Babylon — your personal money guide. I help you allocate income, crush debt, and plan your goals. No savings account here, just clarity on your money. 💛", 600);
+            await botSay("Before we dive in — what's your name?", MSG_GAP);
+            chatStep = 'awaiting_name'; enableInput('Type your name…');
+        }
+        async function startReturningUserFlow(name) {
+            userName = name; chatStep = 'returning';
+            await botSay(`Welcome back, ${name}! 👋 Ready to take control of your money today?`, 600);
+            chatStep = 'done'; showCTA();
+        }
+        async function handleNameInput(name) {
+            userName = extractName(name.trim()); storeUser(userName); disableInput();
+            await appendMsg(userName, 'user');
+            await botSay(`Nice to meet you, ${userName}! 🏺 Three tools, one mission — make your money work for you.`, 800);
+            await botSay(`Pick a tool below and let's get started.`, MSG_GAP);
+            chatStep = 'done'; showCTA();
+            document.getElementById('hero-name').textContent = userName;
+        }
+        function handleChatSend() {
+            const input = document.getElementById('chat-input'); const val = input.value.trim();
+            if (!val) return; input.value = '';
+            if (chatStep === 'awaiting_name') handleNameInput(val);
+        }
+
+        function genieOpen() {
+            const overlay = document.getElementById('chat-overlay'), box = overlay.querySelector('.chat-box');
+            box.classList.remove('genie-in', 'genie-out'); overlay.style.display = 'flex';
+            requestAnimationFrame(() => requestAnimationFrame(() => { box.classList.add('genie-in'); overlay.classList.add('genie-open'); }));
+        }
+        function closeChatOverlay() {
+            const overlay = document.getElementById('chat-overlay'), box = overlay.querySelector('.chat-box');
+            box.classList.remove('genie-in'); box.classList.add('genie-out'); overlay.classList.remove('genie-open');
+            setTimeout(() => { overlay.style.display = 'none'; box.classList.remove('genie-out'); }, 480);
+        }
+        function reopenChat() {
+            genieOpen();
+            document.getElementById('chat-messages').innerHTML = '';
+            document.getElementById('chat-cta').style.display = 'none';
+            const name = getStoredUser();
+            if (name) startReturningUserFlow(name); else startNewUserFlow();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
+            const stored = getStoredUser();
+            if (!stored) { genieOpen(); startNewUserFlow(); }
+        });
+    </script>
+</body>
+
+</html>
