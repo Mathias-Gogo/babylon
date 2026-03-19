@@ -11,20 +11,9 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="The Babylon Method — ancient wisdom for modern money. Split your income, crush your debt, and plan every goal.">
-    <meta property="og:title" content="The Babylon Method — Master Your Money">
-    <meta property="og:description"
-        content="Three tools. One mission. Make your money work the way Babylon's richest merchants did.">
-    <meta property="og:type" content="website">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1C1209">
-    <link rel="icon" type="image/png" href="/icons/icon-192.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <title>The Babylon Method — Home</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700;900&display=swap"
-        rel="stylesheet">
+    <title>The Babylon Method — Money Allocator</title>
+    <link href="../fonts/fonts.css" rel="stylesheet">
+    <script src="../lib/chart.min.js"></script>
     <style>
         :root {
             --gold: #C9A84C;
@@ -49,11 +38,6 @@
             box-sizing: border-box;
         }
 
-        html,
-        body {
-            height: 100%;
-        }
-
         body {
             font-family: 'Montserrat', sans-serif;
             background: var(--parchment);
@@ -67,13 +51,10 @@
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            background-image:
-                radial-gradient(ellipse at 15% 15%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 85%, rgba(58, 107, 138, 0.06) 0%, transparent 55%),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-image: radial-gradient(ellipse at 20% 10%, rgba(201, 168, 76, 0.07) 0%, transparent 55%), radial-gradient(ellipse at 80% 90%, rgba(184, 92, 56, 0.05) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
         }
 
-        /* ─── SIDE DRAWER ─── */
+        /* NAV */
         .side-drawer {
             position: fixed;
             top: 0;
@@ -91,11 +72,11 @@
         .drawer-brand {
             padding: 0 20px 24px;
             border-bottom: 1px solid rgba(201, 168, 76, 0.12);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .drawer-brand-name {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 20px;
             font-weight: 700;
             color: var(--gold-light);
@@ -160,10 +141,8 @@
             border-top: 1px solid rgba(201, 168, 76, 0.1);
             font-size: 10px;
             color: rgba(232, 201, 122, 0.2);
-            font-weight: 500;
         }
 
-        /* ─── BOTTOM NAV ─── */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -206,7 +185,7 @@
             line-height: 1;
         }
 
-        /* ─── MAIN ─── */
+        /* MAIN */
         .app-main {
             margin-left: var(--nav-w);
             min-height: 100vh;
@@ -235,47 +214,27 @@
             color: var(--ink);
         }
 
-        .app-topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .app-topbar-greeting {
+            font-size: 12px;
+            color: var(--ink-soft);
         }
 
-        .topbar-chat-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--ink);
-            border: 2px solid var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .topbar-chat-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.25);
-        }
-
-        .topbar-chat-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--gold-light);
+        .app-topbar-greeting span {
+            color: var(--gold);
+            font-weight: 700;
         }
 
         .app-content {
             padding: 24px 36px 40px;
-            max-width: 1000px;
+            max-width: 900px;
         }
 
-        /* ─── HERO GREETING ─── */
-        .home-hero {
-            margin-bottom: 12px;
+        /* PAGE HEADER */
+        .page-header {
+            margin-bottom: 14px;
         }
 
-        .home-hero-eyebrow {
+        .page-header-eyebrow {
             font-size: 9px;
             font-weight: 700;
             letter-spacing: 3px;
@@ -284,215 +243,551 @@
             margin-bottom: 8px;
         }
 
-        .home-hero h1 {
+        .page-header h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(36px, 5vw, 56px);
+            font-size: clamp(32px, 4vw, 48px);
             font-weight: 700;
             color: var(--ink);
             line-height: 1.1;
             letter-spacing: -0.5px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .home-hero h1 span {
+        .page-header h1 span {
             color: var(--gold);
             font-style: italic;
         }
 
-        .home-hero p {
-            font-size: 14px;
+        .page-header p {
+            font-size: 13px;
             color: var(--ink-soft);
             line-height: 1.7;
             max-width: 440px;
         }
 
-        /* ─── TOOL CARDS ─── */
-        .tools-label {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--ink-soft);
-            margin-bottom: 10px;
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0 20px;
+            width: fit-content;
         }
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 12px;
+        .ornament-line {
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold));
         }
 
-        .tool-card {
+        .ornament-line.right {
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .ornament-diamond {
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* INPUT CARD */
+        .input-card {
             background: white;
             border: 1px solid var(--sand-dark);
             border-radius: 20px;
-            padding: 22px;
-            box-shadow: 0 2px 16px rgba(28, 18, 9, 0.05);
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
+            padding: 24px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 20px rgba(28, 18, 9, 0.05);
         }
 
-        .tool-card::after {
-            content: '';
-            position: absolute;
-            top: -24px;
-            right: -24px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            opacity: 0.07;
-            transition: opacity 0.25s;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 32px rgba(28, 18, 9, 0.1);
-        }
-
-        .tool-card:hover::after {
-            opacity: 0.14;
-        }
-
-        .tool-card.allocator::after {
-            background: var(--gold);
-        }
-
-        .tool-card.debt::after {
-            background: var(--debt-red);
-        }
-
-        .tool-card.goals::after {
-            background: var(--sky);
-        }
-
-        .tool-card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .tool-card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .allocator .tool-card-icon {
-            background: rgba(201, 168, 76, 0.1);
-        }
-
-        .debt .tool-card-icon {
-            background: rgba(192, 57, 43, 0.09);
-        }
-
-        .goals .tool-card-icon {
-            background: rgba(58, 107, 138, 0.09);
-        }
-
-        .tool-card-badge {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: var(--sand);
-            color: var(--ink-soft);
-            border: 1px solid var(--sand-dark);
-        }
-
-        .tool-card-tag {
+        .input-card label {
+            display: block;
             font-size: 9px;
             font-weight: 700;
             letter-spacing: 2.5px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            color: var(--ink-soft);
+            margin-bottom: 8px;
         }
 
-        .allocator .tool-card-tag {
+        .currency-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .curr-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--sand-dark);
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--ink-soft);
+            transition: all 0.2s;
+        }
+
+        .curr-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: white;
+        }
+
+        .amount-row {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--sand-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .amount-row:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.1);
+        }
+
+        .currency-badge {
+            background: var(--sand);
+            padding: 13px 18px;
+            font-size: 17px;
+            font-weight: 700;
             color: var(--gold);
+            border-right: 2px solid var(--sand-dark);
+            white-space: nowrap;
+            user-select: none;
         }
 
-        .debt .tool-card-tag {
-            color: var(--debt-red);
-        }
-
-        .goals .tool-card-tag {
-            color: var(--sky);
-        }
-
-        .tool-card h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
+        #amount {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 13px 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 26px;
             font-weight: 700;
             color: var(--ink);
-            margin-bottom: 8px;
-            letter-spacing: -0.2px;
-            line-height: 1.2;
+            background: transparent;
+            width: 100%;
         }
 
-        .tool-card p {
+        #amount::placeholder {
+            color: var(--sand-dark);
+        }
+
+        /* DEBT TOGGLE */
+        .debt-toggle {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: var(--sand);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .debt-toggle:hover {
+            border-color: var(--debt-red);
+        }
+
+        .debt-toggle.active {
+            background: #FDF0ED;
+            border-color: var(--debt-red);
+        }
+
+        .debt-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .debt-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(192, 57, 43, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .debt-toggle-text strong {
+            display: block;
             font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .debt-toggle-text small {
+            font-size: 10px;
             color: var(--ink-soft);
-            line-height: 1.7;
+        }
+
+        .toggle-switch {
+            width: 40px;
+            height: 22px;
+            border-radius: 11px;
+            background: var(--sand-dark);
+            position: relative;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .debt-toggle.active .toggle-switch {
+            background: var(--debt-red);
+        }
+
+        .debt-toggle.active .toggle-switch::after {
+            transform: translateX(18px);
+        }
+
+        .debt-slider-wrap {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .debt-slider-wrap.open {
+            max-height: 100px;
+            margin-top: 10px;
+        }
+
+        .debt-slider-inner {
+            padding: 12px 18px;
+            background: #FDF0ED;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .debt-slider-inner label {
+            font-size: 10px;
+            color: var(--debt-red);
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+
+        input[type=range] {
             flex: 1;
+            accent-color: var(--debt-red);
+            cursor: pointer;
+        }
+
+        .debt-pct-display {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--debt-red);
+            min-width: 38px;
+            text-align: right;
+        }
+
+        .debt-note {
+            background: #FDF0ED;
+            border-radius: 0 0 10px 10px;
+            font-size: 10px;
+            color: var(--debt-red);
+            padding: 5px 18px 9px;
+            font-weight: 500;
+            opacity: 0.75;
+        }
+
+        .calc-btn {
+            width: 100%;
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--ink);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .calc-btn:hover {
+            background: var(--ink-mid);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(28, 18, 9, 0.2);
+        }
+
+        /* RESULTS */
+        #results {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        #results.visible {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+
+        .results-header {
+            margin-bottom: 16px;
+        }
+
+        .results-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .results-header p {
+            color: var(--ink-soft);
+            font-size: 13px;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .amount-headline {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-top: 4px;
+        }
+
+        .allocation-bar {
+            display: flex;
+            height: 12px;
+            border-radius: 7px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bar-segment {
+            height: 100%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
             margin-bottom: 14px;
         }
 
-        .tool-card-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
+        .alloc-card {
+            border-radius: 16px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .alloc-card.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .alloc-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .card-invest {
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            color: white;
+        }
+
+        .card-invest::before {
+            background: #5DADE2;
+        }
+
+        .card-save {
+            background: linear-gradient(135deg, #1a472a, #27612e);
+            color: white;
+        }
+
+        .card-save::before {
+            background: #58D68D;
+        }
+
+        .card-spend {
+            background: linear-gradient(135deg, #784212, #9A6B2E);
+            color: white;
+        }
+
+        .card-spend::before {
+            background: var(--gold-light);
+        }
+
+        .card-debt {
+            background: linear-gradient(135deg, #641e16, #922B21);
+            color: white;
+        }
+
+        .card-debt::before {
+            background: #EC7063;
+        }
+
+        .card-emergency {
+            background: linear-gradient(135deg, #4A235A, #6C3483);
+            color: white;
+        }
+
+        .card-emergency::before {
+            background: #C39BD3;
+        }
+
+        .card-label {
+            font-size: 8px;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            padding: 9px 18px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 7px;
+        }
+
+        .card-icon {
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .card-amount {
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+        .card-pct {
+            font-size: 10px;
+            opacity: 0.65;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 10px;
+            opacity: 0.8;
+            line-height: 1.55;
+        }
+
+        .growth-card {
+            background: white;
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(28, 18, 9, 0.04);
+        }
+
+        .growth-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .growth-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1px;
+            background: var(--sand-dark);
             border-radius: 10px;
-            transition: all 0.2s;
-            align-self: flex-start;
+            overflow: hidden;
+            margin-bottom: 16px;
         }
 
-        .allocator .tool-card-cta {
-            background: var(--ink);
-            color: var(--gold-light);
+        .growth-cell {
+            background: var(--sand);
+            padding: 12px 14px;
+            text-align: center;
         }
 
-        .debt .tool-card-cta {
-            background: var(--debt-red);
-            color: white;
+        .growth-cell:first-child {
+            background: var(--parchment);
         }
 
-        .goals .tool-card-cta {
-            background: var(--sky);
-            color: white;
+        .growth-year {
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 3px;
+            font-weight: 600;
         }
 
-        .tool-card:hover .tool-card-cta {
-            opacity: 0.88;
+        .growth-val {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--sky);
         }
 
-        /* ─── WISDOM ─── */
+        .chart-section-label {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 10px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 260px;
+        }
+
         .wisdom {
             background: var(--ink);
             border-radius: 16px;
             padding: 20px 24px;
             text-align: center;
+            margin-top: 20px;
         }
 
         .wisdom p {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 17px;
+            font-size: 16px;
             color: var(--gold-light);
             font-style: italic;
             line-height: 1.75;
@@ -509,325 +804,67 @@
             font-weight: 600;
         }
 
-        /* ─── CHAT OVERLAY (genie) ─── */
-        #chat-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: rgba(28, 18, 9, 0.0);
+        /* GOAL NUDGE */
+        .goal-nudge {
             display: none;
+            margin-top: 16px;
+            background: linear-gradient(135deg, #0f3460, #1a5276);
+            border-radius: 16px;
+            padding: 20px 24px;
             align-items: center;
-            justify-content: center;
-            padding: 24px;
-            transition: background 0.4s ease;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
-        #chat-overlay.genie-open {
-            background: rgba(28, 18, 9, 0.92);
-            backdrop-filter: blur(6px);
-        }
-
-        .chat-box {
-            background: var(--parchment);
-            border-radius: 24px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 168, 76, 0.2);
-            overflow: hidden;
+        .goal-nudge.visible {
             display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-            transform-origin: bottom right;
-            transform: scale(0.05) translate(40vw, 40vh);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.35s ease, border-radius 0.4s ease;
-            will-change: transform, opacity;
         }
 
-        .chat-box.genie-in {
-            transform: scale(1) translate(0, 0);
-            opacity: 1;
-            border-radius: 24px;
-        }
-
-        .chat-box.genie-out {
-            transform: scale(0.05) translate(40vw, 40vh);
-            opacity: 0;
-            border-radius: 50%;
-        }
-
-        .chat-header {
-            background: var(--ink);
-            padding: 18px 22px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
-        }
-
-        .chat-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .chat-header-text strong {
+        .goal-nudge-text strong {
             display: block;
             font-size: 13px;
-            font-weight: 700;
-            color: var(--gold-light);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 3px;
         }
 
-        .chat-header-text span {
-            font-size: 9px;
-            color: rgba(232, 201, 122, 0.45);
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
+        .goal-nudge-text span {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
         }
 
-        .chat-status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #4CAF50;
-            display: inline-block;
-            margin-right: 4px;
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: 0.4
-            }
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 18px 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-height: 180px;
-            max-height: 360px;
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: var(--sand-dark);
-            border-radius: 3px;
-        }
-
-        .msg {
-            display: flex;
-            gap: 8px;
-            align-items: flex-end;
-            animation: msg-in 0.3s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes msg-in {
-            from {
-                opacity: 0;
-                transform: translateY(8px)
-            }
-
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        .msg.user {
-            flex-direction: row-reverse;
-        }
-
-        .msg-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-
-        .msg-avatar.user-av {
-            background: var(--sand-dark);
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--ink-soft);
-        }
-
-        .msg-bubble {
-            max-width: 82%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        .msg.bot .msg-bubble {
-            background: white;
-            color: var(--ink);
-            border-bottom-left-radius: 3px;
-            border: 1px solid var(--sand-dark);
-        }
-
-        .msg.user .msg-bubble {
-            background: var(--ink);
-            color: var(--gold-light);
-            border-bottom-right-radius: 3px;
-            font-weight: 500;
-        }
-
-        .typing-indicator {
-            display: flex;
-            gap: 8px;
-            align-items: flex-end;
-        }
-
-        .typing-dots {
-            background: white;
-            border: 1px solid var(--sand-dark);
-            border-radius: 14px;
-            border-bottom-left-radius: 3px;
-            padding: 10px 14px;
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        .typing-dots span {
-            width: 5px;
-            height: 5px;
-            background: var(--sand-dark);
-            border-radius: 50%;
-            animation: dot-bounce 1.2s infinite;
-        }
-
-        .typing-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes dot-bounce {
-
-            0%,
-            60%,
-            100% {
-                transform: translateY(0);
-                background: var(--sand-dark)
-            }
-
-            30% {
-                transform: translateY(-5px);
-                background: var(--gold)
-            }
-        }
-
-        .chat-input-area {
-            padding: 14px 18px 18px;
-            border-top: 1px solid var(--sand-dark);
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .chat-input-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        #chat-input {
-            flex: 1;
-            border: 2px solid var(--sand-dark);
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--ink);
-            background: var(--parchment);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        #chat-input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
-        }
-
-        #chat-input::placeholder {
-            color: var(--sand-dark);
-        }
-
-        #chat-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        #chat-send {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: var(--ink);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        #chat-send:hover {
-            background: var(--ink-mid);
-            transform: scale(1.05);
-        }
-
-        #chat-send:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        #chat-send svg {
-            width: 15px;
-            height: 15px;
-            fill: var(--gold-light);
-        }
-
-        .chat-cta-btn {
-            width: 100%;
-            margin-top: 8px;
-            padding: 13px;
+        .goal-nudge-btn {
+            padding: 10px 20px;
             background: var(--gold);
             color: var(--ink);
             border: none;
             border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .goal-nudge-btn:hover {
+            background: var(--gold-light);
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            background: transparent;
+            color: var(--ink-soft);
+            border: 2px solid var(--sand-dark);
+            border-radius: 14px;
             font-family: 'Montserrat', sans-serif;
             font-size: 12px;
             font-weight: 700;
@@ -835,15 +872,14 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.25s;
-            display: none;
         }
 
-        .chat-cta-btn:hover {
-            background: var(--gold-light);
+        .reset-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 767px) {
+        @media (max-width:767px) {
             .side-drawer {
                 display: none;
             }
@@ -865,12 +901,12 @@
                 padding: 16px 20px 20px;
             }
 
-            .tools-grid {
-                grid-template-columns: 1fr;
+            #amount {
+                font-size: 22px;
             }
 
-            .chat-box {
-                max-height: 95vh;
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -899,25 +935,213 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* ─── BABYLON CURRENCY PICKER ─── */
+        #bc-picker-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(28, 18, 9, 0.88);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        #bc-picker-overlay.open {
+            display: flex;
+        }
+
+        #bc-picker-modal {
+            background: var(--parchment);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        #bc-picker-header {
+            background: var(--ink);
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        #bc-picker-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        #bc-picker-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.07);
+            border: none;
+            color: rgba(232, 201, 122, 0.6);
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        #bc-picker-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #bc-picker-search-wrap {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--sand-dark);
+            flex-shrink: 0;
+        }
+
+        #bc-picker-input {
+            width: 100%;
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #bc-picker-input:focus {
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(58, 107, 138, 0.1);
+        }
+
+        #bc-picker-input::placeholder {
+            color: var(--sand-dark);
+        }
+
+        #bc-picker-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        #bc-picker-list::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        #bc-picker-list::-webkit-scrollbar-thumb {
+            background: var(--sand-dark);
+            border-radius: 3px;
+        }
+
+        .bc-currency-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .bc-currency-row:last-child {
+            border-bottom: none;
+        }
+
+        .bc-currency-row:hover {
+            background: var(--sand);
+        }
+
+        .bc-currency-symbol {
+            width: 36px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink-mid);
+            flex-shrink: 0;
+        }
+
+        .bc-currency-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .bc-currency-code {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+        }
+
+        /* ─── CURRENCY TRIGGER BUTTON ─── */
+        .bc-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            background: var(--sand);
+            border: 2px solid var(--sand-dark);
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-bottom: 10px;
+        }
+
+        .bc-trigger:hover {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .bc-trigger-symbol {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--sky);
+        }
+
+        .bc-trigger-code {
+            color: var(--ink-soft);
+        }
+
+        .bc-trigger-arrow {
+            font-size: 10px;
+            color: var(--ink-soft);
+            margin-left: 2px;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- SIDE DRAWER -->
     <aside class="side-drawer">
         <div class="drawer-brand">
-            <a class="drawer-brand-name" href="index.html">Babylon</a>
+            <a class="drawer-brand-name" href="index.html">The <span>Babylon</span> Method</a>
             <div class="drawer-brand-sub">Your Money Toolkit</div>
         </div>
         <nav class="drawer-nav">
-            <a class="drawer-link active" href="index.html"><span class="drawer-link-icon"><svg width="18" height="18"
+            <a class="drawer-link" href="index.html"><span class="drawer-link-icon"><svg width="18" height="18"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
                         <polyline points="9,21 9,13 15,13 15,21" />
                     </svg></span> Home</a>
-            <a class="drawer-link" href="babylon.html"><span class="drawer-link-icon"><svg width="18" height="18"
+            <a class="drawer-link active" href="babylon.html"><span class="drawer-link-icon"><svg width="18" height="18"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M18 20V10" />
@@ -940,15 +1164,14 @@
         <div class="drawer-footer">Built by Mexuri · 2026</div>
     </aside>
 
-    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
-        <a class="bottom-nav-item active" href="index.html"><span class="bnav-icon"><svg width="18" height="18"
+        <a class="bottom-nav-item" href="index.html"><span class="bnav-icon"><svg width="18" height="18"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" />
                     <polyline points="9,21 9,13 15,13 15,21" />
                 </svg></span><span>Home</span></a>
-        <a class="bottom-nav-item" href="babylon.html"><span class="bnav-icon"><svg width="18" height="18"
+        <a class="bottom-nav-item active" href="babylon.html"><span class="bnav-icon"><svg width="18" height="18"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="M18 20V10" />
@@ -969,202 +1192,283 @@
                 </svg></span><span>Goals</span></a>
     </nav>
 
-    <!-- CHAT OVERLAY -->
-    <div id="chat-overlay">
-        <div class="chat-box">
-            <div class="chat-header">
-                <div class="chat-avatar">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="#E8C97A"
-                            opacity="0.2" stroke="#E8C97A" stroke-width="1.5" />
-                        <circle cx="9" cy="10" r="1" fill="#E8C97A" />
-                        <circle cx="12" cy="10" r="1" fill="#E8C97A" />
-                        <circle cx="15" cy="10" r="1" fill="#E8C97A" />
-                    </svg>
-                </div>
-                <div class="chat-header-text">
-                    <strong>Babylon</strong>
-                    <span><span class="chat-status-dot"></span>Your Money Guide</span>
-                </div>
-            </div>
-            <div class="chat-messages" id="chat-messages"></div>
-            <div class="chat-input-area">
-                <div class="chat-input-row">
-                    <input type="text" id="chat-input" placeholder="Type your name…" disabled autocomplete="off">
-                    <button id="chat-send" disabled onclick="handleChatSend()">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M2 21L23 12 2 3v7l15 2-15 2v7z" />
-                        </svg>
-                    </button>
-                </div>
-                <button class="chat-cta-btn" id="chat-cta" onclick="closeChatOverlay()">✦ Explore the Tools</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN -->
     <main class="app-main">
         <div class="app-topbar">
-            <div class="app-topbar-title">Home</div>
-            <div class="app-topbar-right">
-                <button class="topbar-chat-btn" onclick="reopenChat()" title="Open Babylon Guide">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg>
-                </button>
-            </div>
+            <div class="app-topbar-title">Money Allocator</div>
+            <div class="app-topbar-greeting" id="topbar-greeting"></div>
         </div>
 
         <div class="app-content">
-
-            <div class="home-hero">
-                <div class="home-hero-eyebrow">✦ The Babylon Method</div>
-                <h1>Welcome back,<br><span id="hero-name">Master</span>.</h1>
-                <p>Ancient wisdom. Modern tools. Choose a tool below and put your money to work.</p>
+            <div class="page-header">
+                <div class="page-header-eyebrow">Money Allocator</div>
+                <h1>Spend <span>Wisely.</span><br>Grow Steadily.</h1>
+                <p>Rooted in ancient wisdom. Enter any amount and discover how the richest merchants of Babylon would
+                    divide it.</p>
+                <div class="ornament">
+                    <div class="ornament-line"></div>
+                    <div class="ornament-diamond"></div>
+                    <div class="ornament-line right"></div>
+                </div>
             </div>
 
-            <div class="tools-label">✦ Your Tools</div>
-
-            <div class="tools-grid">
-                <a class="tool-card allocator" href="babylon.html">
-                    <div class="tool-card-top">
-                        <div class="tool-card-icon">📊</div>
-                        <div class="tool-card-badge">Allocator</div>
+            <div class="input-card" id="input-card-main">
+                <button class="bc-trigger" id="curr-trigger" onclick="openCurrencyPicker(onCurrencySelected)">
+                    <span class="bc-trigger-symbol" id="curr-symbol">₦</span>
+                    <span id="curr-name">Nigerian Naira</span>
+                    <span class="bc-trigger-code" id="curr-code">NGN</span>
+                    <span class="bc-trigger-arrow">▾</span>
+                </button>
+                <label for="amount">Your Amount</label>
+                <div class="amount-row">
+                    <div class="currency-badge" id="curr-symbol">₦</div>
+                    <input type="text" id="amount" placeholder="0" inputmode="numeric" oninput="onAmountInput(this)">
+                </div>
+                <div class="debt-toggle" id="debt-toggle" onclick="toggleDebt()">
+                    <div class="debt-toggle-left">
+                        <div class="debt-icon">⚖️</div>
+                        <div class="debt-toggle-text">
+                            <strong>I currently have debt</strong>
+                            <small>A portion will go toward clearing it</small>
+                        </div>
                     </div>
-                    <div class="tool-card-tag">Money Allocator</div>
-                    <h3>Split Your Income the Babylon Way</h3>
-                    <p>Enter any amount and instantly see how the richest merchants of Babylon would divide it — invest,
-                        save, protect, and spend.</p>
-                    <span class="tool-card-cta">Open Tool →</span>
-                </a>
-
-                <a class="tool-card debt" href="babylon-debt.html">
-                    <div class="tool-card-top">
-                        <div class="tool-card-icon">⚖️</div>
-                        <div class="tool-card-badge">Debt Tracker</div>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="debt-slider-wrap" id="debt-slider-wrap">
+                    <div class="debt-slider-inner">
+                        <label>Debt portion</label>
+                        <input type="range" id="debt-pct" min="20" max="50" value="20" oninput="updateDebtPct()">
+                        <div class="debt-pct-display" id="debt-pct-display">20%</div>
                     </div>
-                    <div class="tool-card-tag">Debt Tracker</div>
-                    <h3>Kill Your Debt. Own Your Future.</h3>
-                    <p>Enter your debt, income, and repayment rate. Get an exact freedom date with a full month-by-month
-                        breakdown.</p>
-                    <span class="tool-card-cta">Open Tool →</span>
-                </a>
-
-                <a class="tool-card goals" href="babylon-goals.html">
-                    <div class="tool-card-top">
-                        <div class="tool-card-icon">🎯</div>
-                        <div class="tool-card-badge">Goal Planner</div>
-                    </div>
-                    <div class="tool-card-tag">Goal Planner</div>
-                    <h3>Plan Every Goal. See the Math.</h3>
-                    <p>Car, house, travel, business — Babylon shows you exactly how long it takes and whether you should
-                        proceed.</p>
-                    <span class="tool-card-cta">Open Tool →</span>
-                </a>
+                    <div class="debt-note">★ Minimum 20% — Babylon demands debts be settled with urgency</div>
+                </div>
+                <button class="calc-btn" id="calc-btn" onclick="calculate()">✦ Break It Down</button>
             </div>
 
-            <div class="wisdom">
-                <p>"Wealth is not his that has it, but his that enjoys it."</p>
-                <cite>— The Richest Man in Babylon · George S. Clason</cite>
+            <div id="results">
+                <div class="results-header">
+                    <h2>Your Babylon Plan</h2>
+                    <p id="total-label">Based on your income</p>
+                </div>
+                <div class="allocation-bar" id="alloc-bar"></div>
+                <div class="cards-grid" id="cards-grid"></div>
+                <div class="growth-card">
+                    <h3>📈 Investment Growth at 20% Annual Return</h3>
+                    <div class="growth-table" id="growth-table"></div>
+                    <div class="chart-section-label">Compound growth curve — 20 years</div>
+                    <div class="chart-wrap"><canvas id="growthChart"></canvas></div>
+                </div>
+                <div class="wisdom">
+                    <p>"A part of all you earn is yours to keep. It should be not less than a tenth no matter how little
+                        you earn."</p>
+                    <cite>— The Richest Man in Babylon · George S. Clason</cite>
+                </div>
+                <div class="goal-nudge" id="goal-nudge">
+                    <div class="goal-nudge-text">
+                        <strong>🎯 Have a goal in mind?</strong>
+                        <span>Use your savings allocation to plan your next big move.</span>
+                    </div>
+                    <a class="goal-nudge-btn" href="babylon-goals.html">Plan a Goal →</a>
+                </div>
+                <button class="reset-btn" onclick="resetCalculator()">↩ Calculate New Amount</button>
             </div>
-
         </div>
     </main>
 
     <script>
-        // Greeting
-        (function () {
+        /* ─── BABYLON CURRENCY PICKER ─── */
+        const CURRENCIES = [["AFN", "؋", "Afghan Afghani"], ["ALL", "L", "Albanian Lek"], ["DZD", "دج", "Algerian Dinar"], ["AOA", "Kz", "Angolan Kwanza"], ["ARS", "$", "Argentine Peso"], ["AMD", "֏", "Armenian Dram"], ["AWG", "ƒ", "Aruban Florin"], ["AUD", "A$", "Australian Dollar"], ["AZN", "₼", "Azerbaijani Manat"], ["BSD", "B$", "Bahamian Dollar"], ["BHD", ".د.ب", "Bahraini Dinar"], ["BDT", "৳", "Bangladeshi Taka"], ["BBD", "Bds$", "Barbadian Dollar"], ["BYN", "Br", "Belarusian Ruble"], ["BZD", "BZ$", "Belize Dollar"], ["XOF", "CFA", "West African CFA Franc"], ["BTN", "Nu", "Bhutanese Ngultrum"], ["BOB", "Bs.", "Bolivian Boliviano"], ["BAM", "KM", "Bosnian Mark"], ["BWP", "P", "Botswanan Pula"], ["BRL", "R$", "Brazilian Real"], ["BND", "B$", "Brunei Dollar"], ["BGN", "лв", "Bulgarian Lev"], ["BIF", "Fr", "Burundian Franc"], ["GBP", "£", "British Pound"], ["CVE", "$", "Cape Verdean Escudo"], ["KHR", "៛", "Cambodian Riel"], ["XAF", "FCFA", "Central African CFA Franc"], ["CAD", "CA$", "Canadian Dollar"], ["KYD", "CI$", "Cayman Islands Dollar"], ["CLP", "$", "Chilean Peso"], ["CNY", "¥", "Chinese Yuan"], ["COP", "$", "Colombian Peso"], ["KMF", "Fr", "Comorian Franc"], ["CDF", "Fr", "Congolese Franc"], ["CRC", "₡", "Costa Rican Colón"], ["HRK", "kn", "Croatian Kuna"], ["CUP", "$", "Cuban Peso"], ["CZK", "Kč", "Czech Koruna"], ["DKK", "kr", "Danish Krone"], ["DJF", "Fr", "Djiboutian Franc"], ["DOP", "RD$", "Dominican Peso"], ["EGP", "£", "Egyptian Pound"], ["ERN", "Nfk", "Eritrean Nakfa"], ["ETB", "Br", "Ethiopian Birr"], ["EUR", "€", "Euro"], ["FJD", "FJ$", "Fijian Dollar"], ["GMD", "D", "Gambian Dalasi"], ["GEL", "₾", "Georgian Lari"], ["GHS", "₵", "Ghanaian Cedi"], ["GTQ", "Q", "Guatemalan Quetzal"], ["GNF", "Fr", "Guinean Franc"], ["GYD", "G$", "Guyanese Dollar"], ["HTG", "G", "Haitian Gourde"], ["HNL", "L", "Honduran Lempira"], ["HKD", "HK$", "Hong Kong Dollar"], ["HUF", "Ft", "Hungarian Forint"], ["ISK", "kr", "Icelandic Króna"], ["INR", "₹", "Indian Rupee"], ["IDR", "Rp", "Indonesian Rupiah"], ["IRR", "﷼", "Iranian Rial"], ["IQD", "ع.د", "Iraqi Dinar"], ["ILS", "₪", "Israeli Shekel"], ["JMD", "J$", "Jamaican Dollar"], ["JPY", "¥", "Japanese Yen"], ["JOD", "JD", "Jordanian Dinar"], ["KZT", "₸", "Kazakhstani Tenge"], ["KES", "KSh", "Kenyan Shilling"], ["KWD", "KD", "Kuwaiti Dinar"], ["KGS", "с", "Kyrgyzstani Som"], ["LAK", "₭", "Lao Kip"], ["LBP", "ل.ل", "Lebanese Pound"], ["LSL", "L", "Lesotho Loti"], ["LRD", "L$", "Liberian Dollar"], ["LYD", "LD", "Libyan Dinar"], ["MOP", "P", "Macanese Pataca"], ["MKD", "ден", "Macedonian Denar"], ["MGA", "Ar", "Malagasy Ariary"], ["MWK", "MK", "Malawian Kwacha"], ["MYR", "RM", "Malaysian Ringgit"], ["MVR", "Rf", "Maldivian Rufiyaa"], ["MRU", "UM", "Mauritanian Ouguiya"], ["MUR", "₨", "Mauritian Rupee"], ["MXN", "$", "Mexican Peso"], ["MDL", "L", "Moldovan Leu"], ["MNT", "₮", "Mongolian Tögrög"], ["MAD", "MAD", "Moroccan Dirham"], ["MZN", "MT", "Mozambican Metical"], ["MMK", "K", "Myanmar Kyat"], ["NAD", "N$", "Namibian Dollar"], ["NPR", "₨", "Nepalese Rupee"], ["NZD", "NZ$", "New Zealand Dollar"], ["NIO", "C$", "Nicaraguan Córdoba"], ["NGN", "₦", "Nigerian Naira"], ["NOK", "kr", "Norwegian Krone"], ["OMR", "﷼", "Omani Rial"], ["PKR", "₨", "Pakistani Rupee"], ["PAB", "B/.", "Panamanian Balboa"], ["PGK", "K", "Papua New Guinean Kina"], ["PYG", "₲", "Paraguayan Guaraní"], ["PEN", "S/.", "Peruvian Sol"], ["PHP", "₱", "Philippine Peso"], ["PLN", "zł", "Polish Złoty"], ["QAR", "﷼", "Qatari Riyal"], ["RON", "lei", "Romanian Leu"], ["RUB", "₽", "Russian Ruble"], ["RWF", "Fr", "Rwandan Franc"], ["SAR", "﷼", "Saudi Riyal"], ["RSD", "din", "Serbian Dinar"], ["SLL", "Le", "Sierra Leonean Leone"], ["SGD", "S$", "Singapore Dollar"], ["SOS", "Sh", "Somali Shilling"], ["ZAR", "R", "South African Rand"], ["KRW", "₩", "South Korean Won"], ["SSP", "£", "South Sudanese Pound"], ["LKR", "₨", "Sri Lankan Rupee"], ["SDG", "£", "Sudanese Pound"], ["SZL", "L", "Swazi Lilangeni"], ["SEK", "kr", "Swedish Krona"], ["CHF", "Fr", "Swiss Franc"], ["TWD", "NT$", "Taiwan Dollar"], ["TJS", "SM", "Tajikistani Somoni"], ["TZS", "Sh", "Tanzanian Shilling"], ["THB", "฿", "Thai Baht"], ["TOP", "T$", "Tongan Paʻanga"], ["TTD", "TT$", "Trinidad and Tobago Dollar"], ["TND", "DT", "Tunisian Dinar"], ["TRY", "₺", "Turkish Lira"], ["TMT", "T", "Turkmenistan Manat"], ["UGX", "Sh", "Ugandan Shilling"], ["UAH", "₴", "Ukrainian Hryvnia"], ["AED", "د.إ", "UAE Dirham"], ["USD", "$", "US Dollar"], ["UYU", "$U", "Uruguayan Peso"], ["UZS", "лв", "Uzbekistani Som"], ["VUV", "Vt", "Vanuatu Vatu"], ["VES", "Bs.S", "Venezuelan Bolívar"], ["VND", "₫", "Vietnamese Dong"], ["YER", "﷼", "Yemeni Rial"], ["ZMW", "ZK", "Zambian Kwacha"], ["ZWL", "Z$", "Zimbabwean Dollar"]];
+
+        const LOCALE_CURRENCY_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-UG": "UGX", "en-TZ": "TZS", "en-RW": "RWF", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-NZ": "NZD", "en-IN": "INR", "en-PK": "PKR", "en-SG": "SGD", "de": "EUR", "de-DE": "EUR", "de-AT": "EUR", "de-CH": "CHF", "fr": "EUR", "fr-FR": "EUR", "fr-CA": "CAD", "fr-BE": "EUR", "fr-CH": "CHF", "fr-SN": "XOF", "fr-CI": "XOF", "fr-CM": "XAF", "es": "USD", "es-MX": "MXN", "es-AR": "ARS", "es-CO": "COP", "es-CL": "CLP", "es-PE": "PEN", "es-VE": "VES", "pt": "BRL", "pt-BR": "BRL", "pt-PT": "EUR", "pt-AO": "AOA", "pt-MZ": "MZN", "zh": "CNY", "zh-CN": "CNY", "zh-TW": "TWD", "zh-HK": "HKD", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-SA": "SAR", "ar-EG": "EGP", "ar-AE": "AED", "ar-KW": "KWD", "ar-QA": "QAR", "ar-BH": "BHD", "ar-IQ": "IQD", "ar-JO": "JOD", "ar-MA": "MAD", "ar-DZ": "DZD", "ar-TN": "TND", "hi": "INR", "bn": "BDT", "ru": "RUB", "tr": "TRY", "pl": "PLN", "nl": "EUR", "nl-NL": "EUR", "nl-BE": "EUR", "sv": "SEK", "da": "DKK", "nb": "NOK", "fi": "EUR", "cs": "CZK", "hu": "HUF", "ro": "RON", "uk": "UAH", "id": "IDR", "ms": "MYR", "th": "THB", "vi": "VND", "fil": "PHP" };
+
+        // ─── DETECT DEFAULT CURRENCY FROM BROWSER LOCALE ───
+        function detectCurrency() {
             try {
-                let name = localStorage.getItem('babylon_user_name') || '';
-                if (name) {
-                    name = name.replace(/^(my name is|i am|i'm|call me)\s+/i, '').trim();
-                    document.getElementById('hero-name').textContent = name;
+                const saved = localStorage.getItem('babylon_currency');
+                if (saved) {
+                    const found = CURRENCIES.find(c => c[0] === saved);
+                    if (found) return found;
+                }
+                const locales = navigator.languages || [navigator.language];
+                for (const loc of locales) {
+                    if (LOCALE_CURRENCY_MAP[loc]) {
+                        const code = LOCALE_CURRENCY_MAP[loc];
+                        return CURRENCIES.find(c => c[0] === code) || CURRENCIES.find(c => c[0] === 'NGN');
+                    }
+                    const base = loc.split('-')[0];
+                    if (LOCALE_CURRENCY_MAP[base]) {
+                        const code = LOCALE_CURRENCY_MAP[base];
+                        return CURRENCIES.find(c => c[0] === code) || CURRENCIES.find(c => c[0] === 'NGN');
+                    }
                 }
             } catch (e) { }
+            return CURRENCIES.find(c => c[0] === 'NGN');
+        }
+
+        // ─── PICKER STATE ───
+        let _pickerOpen = false;
+        let _pickerCallback = null;
+        let _pickerQuery = '';
+
+        // ─── BUILD PICKER HTML (inject once into body) ───
+        function _ensurePicker() {
+            if (document.getElementById('bc-picker-overlay')) return;
+            const el = document.createElement('div');
+            el.id = 'bc-picker-overlay';
+            el.innerHTML = `
+        <div id="bc-picker-modal">
+            <div id="bc-picker-header">
+                <div id="bc-picker-title">Select Currency</div>
+                <button id="bc-picker-close" onclick="closeCurrencyPicker()">✕</button>
+            </div>
+            <div id="bc-picker-search-wrap">
+                <input id="bc-picker-input" type="text" placeholder="Search by name or code…" oninput="filterCurrencies(this.value)" autocomplete="off" spellcheck="false">
+            </div>
+            <div id="bc-picker-list"></div>
+        </div>`;
+            document.body.appendChild(el);
+            el.addEventListener('click', e => { if (e.target === el) closeCurrencyPicker(); });
+        }
+
+        function renderCurrencyList(query) {
+            const q = query.toLowerCase().trim();
+            const filtered = q ? CURRENCIES.filter(c =>
+                c[2].toLowerCase().includes(q) || c[0].toLowerCase().includes(q) || c[1].includes(q)
+            ) : CURRENCIES;
+            const list = document.getElementById('bc-picker-list');
+            if (!filtered.length) {
+                list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-soft);font-size:12px;">No currencies found</div>';
+                return;
+            }
+            list.innerHTML = filtered.map(c => `
+        <div class="bc-currency-row" onclick="selectCurrency('${c[0]}','${c[1]}','${c[2]}')">
+            <span class="bc-currency-symbol">${c[1]}</span>
+            <span class="bc-currency-name">${c[2]}</span>
+            <span class="bc-currency-code">${c[0]}</span>
+        </div>`).join('');
+        }
+
+        function filterCurrencies(val) {
+            _pickerQuery = val;
+            renderCurrencyList(val);
+        }
+
+        function openCurrencyPicker(callback) {
+            _ensurePicker();
+            _pickerCallback = callback;
+            _pickerQuery = '';
+            document.getElementById('bc-picker-input').value = '';
+            renderCurrencyList('');
+            document.getElementById('bc-picker-overlay').classList.add('open');
+            setTimeout(() => document.getElementById('bc-picker-input').focus(), 80);
+        }
+
+        function closeCurrencyPicker() {
+            const el = document.getElementById('bc-picker-overlay');
+            if (el) el.classList.remove('open');
+        }
+
+        function selectCurrency(code, symbol, name) {
+            try { localStorage.setItem('babylon_currency', code); } catch (e) { }
+            closeCurrencyPicker();
+            if (_pickerCallback) _pickerCallback(code, symbol, name);
+        }
+
+    </script>
+
+    <script>
+        (function () { try { let n = localStorage.getItem('babylon_user_name') || ''; if (n) { n = n.replace(/^(my name is|i am|i'm|call me)\s+/i, '').trim(); document.getElementById('topbar-greeting').innerHTML = `Good day, <span>${n}</span>`; } } catch (e) { } }());
+
+        // ─── CURRENCY ───
+        let currencyData = ['NGN', '₦', 'Nigerian Naira'];
+        let currency = '₦';
+        function onCurrencySelected(code, symbol, name) {
+            currencyData = [code, symbol, name];
+            currency = symbol;
+            document.getElementById('curr-symbol').textContent = symbol;
+            document.getElementById('curr-name').textContent = name;
+            document.getElementById('curr-code').textContent = code;
+            document.getElementById('curr-symbol').textContent = symbol;
+            if (document.getElementById('results').classList.contains('visible')) calculate();
+        }
+        // Init from locale
+        (function () {
+            const detected = detectCurrency();
+            currencyData = detected;
+            currency = detected[1];
+            document.getElementById('curr-symbol').textContent = detected[1];
+            document.getElementById('curr-name').textContent = detected[2];
+            document.getElementById('curr-code').textContent = detected[0];
         })();
 
-        let chatStep = 'idle', userName = '';
-        const TYPING_DELAY = 900, MSG_GAP = 400;
+        let debtActive = false, debtPct = 20, growthChart = null;
 
-        function getStoredUser() {
-            try { let n = localStorage.getItem('babylon_user_name') || ''; if (n) n = extractName(n); return n; } catch (e) { return ''; }
-        }
-        function storeUser(n) { try { localStorage.setItem('babylon_user_name', n); } catch (e) { } }
-        function extractName(input) {
-            return input.replace(/^(my name is|i am|i'm|call me|it's|its|hi i'm|hey i'm|hello i'm|hi,?\s*i'm|they call me)\s+/i, '').replace(/^(hi|hey|hello)[,!\s]+/i, '').trim();
-        }
+        function compound(p, r, y) { return p * Math.pow(1 + r, y); }
+        function fmt(n) { const parts = n.toFixed(2).split('.'); parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); return currency + parts.join('.'); }
+        function fmtShort(n) { if (n >= 1e9) return currency + (n / 1e9).toFixed(1) + 'B'; if (n >= 1e6) return currency + (n / 1e6).toFixed(1) + 'M'; if (n >= 1e3) return currency + (n / 1e3).toFixed(1) + 'K'; return currency + n.toFixed(0); }
 
-        function appendMsg(text, role = 'bot') {
-            return new Promise(resolve => {
-                const messages = document.getElementById('chat-messages');
-                const msg = document.createElement('div'); msg.className = `msg ${role}`;
-                const avatar = document.createElement('div'); avatar.className = role === 'bot' ? 'msg-avatar' : 'msg-avatar user-av';
-                avatar.textContent = role === 'bot' ? '✦' : (userName ? userName[0].toUpperCase() : '👤');
-                const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = text;
-                msg.appendChild(avatar); msg.appendChild(bubble); messages.appendChild(msg);
-                messages.scrollTop = messages.scrollHeight; resolve();
-            });
-        }
-        function showTyping() {
-            const messages = document.getElementById('chat-messages');
-            const t = document.createElement('div'); t.className = 'typing-indicator'; t.id = 'typing';
-            t.innerHTML = `<div class="msg-avatar">✦</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
-            messages.appendChild(t); messages.scrollTop = messages.scrollHeight;
-        }
-        function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
-        async function botSay(text, delay = TYPING_DELAY) { showTyping(); await new Promise(r => setTimeout(r, delay)); removeTyping(); await appendMsg(text, 'bot'); }
-        function enableInput(ph) { const i = document.getElementById('chat-input'), s = document.getElementById('chat-send'); i.disabled = false; s.disabled = false; i.placeholder = ph; i.focus(); }
-        function disableInput() { document.getElementById('chat-input').disabled = true; document.getElementById('chat-send').disabled = true; }
-        function showCTA() { document.getElementById('chat-cta').style.display = 'block'; disableInput(); }
 
-        async function startNewUserFlow() {
-            chatStep = 'new_greeting';
-            await botSay("Hey there! I'm Babylon — your personal money guide. I help you allocate income, crush debt, and plan your goals. No savings account here, just clarity on your money. 💛", 600);
-            await botSay("Before we dive in — what's your name?", MSG_GAP);
-            chatStep = 'awaiting_name'; enableInput('Type your name…');
-        }
-        async function startReturningUserFlow(name) {
-            userName = name; chatStep = 'returning';
-            await botSay(`Welcome back, ${name}! 👋 Ready to take control of your money today?`, 600);
-            chatStep = 'done'; showCTA();
-        }
-        async function handleNameInput(name) {
-            userName = extractName(name.trim()); storeUser(userName); disableInput();
-            await appendMsg(userName, 'user');
-            await botSay(`Nice to meet you, ${userName}! 🏺 Three tools, one mission — make your money work for you.`, 800);
-            await botSay(`Pick a tool below and let's get started.`, MSG_GAP);
-            chatStep = 'done'; showCTA();
-            document.getElementById('hero-name').textContent = userName;
-        }
-        function handleChatSend() {
-            const input = document.getElementById('chat-input'); const val = input.value.trim();
-            if (!val) return; input.value = '';
-            if (chatStep === 'awaiting_name') handleNameInput(val);
+        function toggleDebt() { debtActive = !debtActive; document.getElementById('debt-toggle').classList.toggle('active', debtActive); document.getElementById('debt-slider-wrap').classList.toggle('open', debtActive); if (document.getElementById('results').classList.contains('visible')) calculate(); }
+        function updateDebtPct() { debtPct = parseInt(document.getElementById('debt-pct').value); document.getElementById('debt-pct-display').textContent = debtPct + '%'; if (document.getElementById('results').classList.contains('visible')) calculate(); }
+        function onAmountInput(el) { const raw = el.value.replace(/[^0-9]/g, ''); el.value = raw === '' ? '' : raw.replace(/\B(?=(\d{3})+(?!\d))/g, ','); if (document.getElementById('results').classList.contains('visible')) calculate(); }
+        function getRawAmount() { return parseFloat(document.getElementById('amount').value.replace(/,/g, '')) || 0; }
+
+        function resetCalculator() {
+            document.getElementById('amount').value = '';
+            document.getElementById('results').classList.remove('visible');
+            document.getElementById('calc-btn').style.display = 'block';
+            document.getElementById('input-card-main').style.display = 'block';
+            if (debtActive) toggleDebt();
+            if (growthChart) { growthChart.destroy(); growthChart = null; }
+            document.getElementById('goal-nudge').classList.remove('visible');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function genieOpen() {
-            const overlay = document.getElementById('chat-overlay'), box = overlay.querySelector('.chat-box');
-            box.classList.remove('genie-in', 'genie-out'); overlay.style.display = 'flex';
-            requestAnimationFrame(() => requestAnimationFrame(() => { box.classList.add('genie-in'); overlay.classList.add('genie-open'); }));
-        }
-        function closeChatOverlay() {
-            const overlay = document.getElementById('chat-overlay'), box = overlay.querySelector('.chat-box');
-            box.classList.remove('genie-in'); box.classList.add('genie-out'); overlay.classList.remove('genie-open');
-            setTimeout(() => { overlay.style.display = 'none'; box.classList.remove('genie-out'); }, 480);
-        }
-        function reopenChat() {
-            genieOpen();
-            document.getElementById('chat-messages').innerHTML = '';
-            document.getElementById('chat-cta').style.display = 'none';
-            const name = getStoredUser();
-            if (name) startReturningUserFlow(name); else startNewUserFlow();
+        function calculate() {
+            const raw = getRawAmount();
+            if (!raw || raw <= 0) { document.getElementById('amount').focus(); return; }
+            const invest = raw * 0.20, save = raw * 0.10, debtSlice = debtActive ? raw * (debtPct / 100) : 0, emergency = raw * 0.10, actual_spend = raw * 0.70 - debtSlice - emergency;
+            function pctOf(amt) { return (amt / raw * 100).toFixed(1); }
+
+            document.getElementById('alloc-bar').innerHTML = [
+                `<div class="bar-segment" style="width:${pctOf(invest)}%;background:#1a5276"></div>`,
+                `<div class="bar-segment" style="width:${pctOf(save)}%;background:#1a472a"></div>`,
+                debtActive ? `<div class="bar-segment" style="width:${pctOf(debtSlice)}%;background:#922B21"></div>` : '',
+                `<div class="bar-segment" style="width:${pctOf(emergency)}%;background:#6C3483"></div>`,
+                `<div class="bar-segment" style="width:${pctOf(actual_spend)}%;background:#9A6B2E"></div>`,
+            ].join('');
+
+            const cards = [
+                { cls: 'card-invest', icon: '📈', label: 'Invest', amount: invest, pct: '20% of income', desc: 'Put this to work. Stocks, business, or any asset that earns while you sleep.' },
+                { cls: 'card-save', icon: '🏺', label: 'Save', amount: save, pct: '10% of income', desc: "Sacred and untouchable. Your future self's foundation." },
+                ...(debtActive ? [{ cls: 'card-debt', icon: '⚖️', label: 'Debt Repayment', amount: debtSlice, pct: `${debtPct}% of income`, desc: "Pay today's debts before tomorrow's desires." }] : []),
+                { cls: 'card-emergency', icon: '🛡️', label: 'Emergency Buffer', amount: emergency, pct: '10% of income', desc: 'Your shield against misfortune. Never touch this unless the walls truly fall.' },
+                { cls: 'card-spend', icon: '🌾', label: 'Live & Enjoy', amount: actual_spend, pct: `${pctOf(actual_spend)}% of income`, desc: 'Spend freely within this boundary. Enjoy the fruits of your discipline.' },
+            ];
+
+            document.getElementById('cards-grid').innerHTML = cards.map(c => `<div class="alloc-card ${c.cls}"><div class="card-icon">${c.icon}</div><div class="card-label">${c.label}</div><div class="card-amount">${fmt(c.amount)}</div><div class="card-pct">${c.pct}</div><div class="card-desc">${c.desc}</div></div>`).join('');
+
+            const tableYears = [1, 3, 5, 10];
+            document.getElementById('growth-table').innerHTML = `<div class="growth-cell"><div class="growth-year">Invested</div><div class="growth-val" style="color:var(--ink-soft)">${fmt(invest)}</div></div>` + tableYears.map(y => `<div class="growth-cell"><div class="growth-year">${y} Yr${y > 1 ? 's' : ''}</div><div class="growth-val">${fmt(compound(invest, 0.20, y))}</div></div>`).join('');
+
+            const years = Array.from({ length: 21 }, (_, i) => i);
+            const vals = years.map(y => y === 0 ? invest : compound(invest, 0.20, y));
+            const labels = years.map(y => y === 0 ? 'Now' : `Yr ${y}`);
+            if (growthChart) growthChart.destroy();
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 260);
+            grad.addColorStop(0, 'rgba(201,168,76,0.25)'); grad.addColorStop(1, 'rgba(201,168,76,0.02)');
+            growthChart = new Chart(ctx, { type: 'line', data: { labels, datasets: [{ label: 'Investment Value', data: vals, borderColor: '#C9A84C', backgroundColor: grad, borderWidth: 2.5, pointRadius: years.map(y => [0, 5, 10, 15, 20].includes(y) ? 5 : 0), pointBackgroundColor: '#1C1209', pointBorderColor: '#C9A84C', pointBorderWidth: 2, fill: true, tension: 0.4 }, { label: 'Without Growth', data: years.map(() => invest), borderColor: 'rgba(107,80,53,0.25)', borderWidth: 1.5, borderDash: [5, 5], pointRadius: 0, fill: false, tension: 0 }] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: true, position: 'top', labels: { font: { family: 'Montserrat', size: 10, weight: '600' }, color: '#6B5035', boxWidth: 14, padding: 14 } }, tooltip: { backgroundColor: '#1C1209', titleColor: '#C9A84C', bodyColor: '#E8C97A', titleFont: { family: 'Montserrat', weight: '700', size: 11 }, bodyFont: { family: 'Montserrat', size: 12, weight: '600' }, padding: 10, cornerRadius: 8, callbacks: { title: (items) => items[0].label === 'Now' ? 'Starting Amount' : `After ${items[0].label.replace('Yr ', '')} Year${items[0].label === 'Yr 1' ? '' : 's'}`, label: (item) => `  ${item.dataset.label}: ${fmt(item.raw)}` } } }, scales: { x: { grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false }, ticks: { font: { family: 'Montserrat', size: 9, weight: '600' }, color: '#6B5035', maxTicksLimit: 11 } }, y: { grid: { color: 'rgba(237,227,204,0.6)', drawBorder: false }, ticks: { font: { family: 'Montserrat', size: 9, weight: '600' }, color: '#6B5035', callback: v => fmtShort(v) } } } } });
+
+            document.getElementById('total-label').innerHTML = `Breaking down <span class="amount-headline">${fmt(raw)}</span>`;
+            document.getElementById('calc-btn').style.display = 'none';
+            document.getElementById('input-card-main').style.display = 'none';
+            const results = document.getElementById('results');
+            results.classList.add('visible');
+            setTimeout(() => { document.querySelectorAll('.alloc-card').forEach((c, i) => { setTimeout(() => c.classList.add('show'), i * 80); }); }, 100);
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('goal-nudge').classList.add('visible');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
-            const stored = getStoredUser();
-            if (!stored) { genieOpen(); startNewUserFlow(); }
-        });
     </script>
 </body>
 
