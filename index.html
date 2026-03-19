@@ -15,7 +15,6 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="/icons/icon-192.png">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1C1209">
     <title>The Babylon Method — Master Your Money</title>
     <link
@@ -1979,15 +1978,6 @@
                 if (e.key === 'Enter') runDemo();
             });
         });
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(reg => console.log('SW registered:', reg.scope))
-                    .catch(err => console.log('SW failed:', err));
-            });
-        }
     </script>
 </body>
 
