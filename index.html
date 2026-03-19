@@ -9,18 +9,12 @@
     <meta property="og:title" content="The Babylon Method — Master Your Money">
     <meta property="og:description"
         content="Three tools. One mission. Make your money work the way Babylon's richest merchants did.">
-    <meta property="og:image"
-        content="https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773918872/A_horizontal_cinematic_202603191213_wnt1xu.jpg">
+    <meta property="og:image" content="og-image.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" type="image/png" href="/icons/icon-192.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1C1209">
     <title>The Babylon Method — Master Your Money</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700;900&display=swap"
-        rel="stylesheet">
+    <link href="/babylon/fonts/fonts.css" rel="stylesheet">
     <style>
         :root {
             --gold: #C9A84C;
@@ -888,11 +882,11 @@
             line-height: 1.6;
         }
 
-        /* ─── TESTIMONIALS CAROUSEL ─── */
+        /* ─── TESTIMONIALS ─── */
         .testimonials-section {
             position: relative;
             z-index: 1;
-            padding: 100px 32px;
+            padding: 100px 0;
             background: var(--ink);
             overflow: hidden;
         }
@@ -901,17 +895,22 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 80% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 60%);
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 20%, rgba(58, 107, 138, 0.04) 0%, transparent 55%);
             pointer-events: none;
         }
 
         .testimonials-section .section-label {
-            color: rgba(232, 201, 122, 0.4);
+            color: rgba(232, 201, 122, 0.35);
+            text-align: center;
         }
 
         .testimonials-section .section-title {
             color: var(--gold-light);
-            margin-bottom: 48px;
+            margin-bottom: 56px;
+            text-align: center;
+            padding: 0 32px;
         }
 
         .testimonials-section .section-title span {
@@ -919,195 +918,188 @@
         }
 
         .testimonial-carousel {
-            max-width: 960px;
+            max-width: 1100px;
             margin: 0 auto;
             position: relative;
+            padding: 0 32px;
         }
 
-        .testimonial-track {
-            position: relative;
-            overflow: hidden;
-            border-radius: 24px;
-        }
-
+        /* The slide — full bleed photo with overlay */
         .testimonial-slide {
             display: none;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(201, 168, 76, 0.12);
-            border-radius: 24px;
+            position: relative;
+            height: 520px;
+            border-radius: 20px;
             overflow: hidden;
+            cursor: default;
         }
 
         .testimonial-slide.active {
-            display: flex;
-            animation: slide-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            display: block;
+            animation: t-fade 0.5s ease;
         }
 
-        @keyframes slide-in {
+        @keyframes t-fade {
             from {
                 opacity: 0;
-                transform: translateX(28px);
+                transform: scale(0.995);
             }
 
             to {
                 opacity: 1;
-                transform: none;
+                transform: scale(1);
             }
         }
 
-        /* Photo panel */
-        .testimonial-photo {
-            width: 280px;
-            flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-            min-height: 300px;
-            background: linear-gradient(160deg, rgba(201, 168, 76, 0.08), rgba(28, 18, 9, 0.4));
-        }
-
-        .testimonial-photo img {
+        /* Full bleed photo */
+        .t-bg-photo {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center top;
+            filter: brightness(0.45) saturate(0.7);
             display: block;
-            filter: brightness(0.92) contrast(1.05);
         }
 
-        /* Gradient overlay on photo — fades into the card */
-        .testimonial-photo::after {
-            content: '';
+        /* Fallback gradient if no photo */
+        .t-bg-fallback {
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, transparent 60%, rgba(28, 18, 9, 0.6));
+            background: linear-gradient(135deg, #1C1209 0%, #3D2B12 50%, #1a1108 100%);
         }
 
-        /* Fallback initial when no photo */
-        .testimonial-photo-fallback {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 32px;
-        }
-
-        .testimonial-photo-initial {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--ink);
-            flex-shrink: 0;
-        }
-
-        .testimonial-photo-name {
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(232, 201, 122, 0.45);
-            letter-spacing: 1px;
-        }
-
-        /* Content panel */
-        .testimonial-content {
-            flex: 1;
-            padding: 44px 48px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
-
-        .testimonial-stars {
-            color: var(--gold);
-            font-size: 13px;
-            letter-spacing: 4px;
-            margin-bottom: 22px;
-        }
-
-        /* Big decorative quote mark */
-        .testimonial-content::before {
-            content: '\201C';
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 120px;
-            font-weight: 700;
-            color: rgba(201, 168, 76, 0.08);
+        /* Multi-layer overlay for readability */
+        .t-overlay {
             position: absolute;
-            top: 12px;
-            left: 36px;
-            line-height: 1;
-            pointer-events: none;
+            inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(28, 18, 9, 0.15) 0%,
+                    rgba(28, 18, 9, 0.2) 30%,
+                    rgba(28, 18, 9, 0.75) 65%,
+                    rgba(28, 18, 9, 0.96) 100%);
         }
 
-        .testimonial-quote {
+        /* Gold accent line — left edge */
+        .t-accent {
+            position: absolute;
+            top: 48px;
+            bottom: 48px;
+            left: 0;
+            width: 3px;
+            background: linear-gradient(180deg, transparent, var(--gold), transparent);
+            opacity: 0.6;
+        }
+
+        /* Content sits at the bottom */
+        .t-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 52px 44px;
+        }
+
+        /* Large decorative quote mark */
+        .t-quote-mark {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(18px, 2.2vw, 24px);
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.92);
-            line-height: 1.6;
-            margin-bottom: 32px;
-            position: relative;
-            z-index: 1;
+            font-size: 96px;
+            font-weight: 700;
+            color: var(--gold);
+            opacity: 0.5;
+            line-height: 0.8;
+            display: block;
+            margin-bottom: 4px;
+            user-select: none;
         }
 
-        .testimonial-author {
+        .t-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(20px, 2.4vw, 28px);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.5;
+            margin-bottom: 28px;
+            max-width: 760px;
+        }
+
+        /* Thin gold separator */
+        .t-sep {
+            width: 48px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.5;
+            margin-bottom: 18px;
+        }
+
+        .t-author {
             display: flex;
             align-items: center;
             gap: 14px;
-            border-top: 1px solid rgba(201, 168, 76, 0.12);
-            padding-top: 20px;
         }
 
-        .testimonial-author-avatar {
-            width: 40px;
-            height: 40px;
+        .t-author-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            flex-shrink: 0;
             object-fit: cover;
             object-position: center top;
-            border: 2px solid rgba(201, 168, 76, 0.3);
+            border: 1.5px solid rgba(201, 168, 76, 0.5);
+            flex-shrink: 0;
         }
 
-        .testimonial-author-avatar-fallback {
-            width: 40px;
-            height: 40px;
+        .t-author-avatar-fallback {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            background: rgba(201, 168, 76, 0.15);
+            border: 1.5px solid rgba(201, 168, 76, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--ink);
-            border: 2px solid rgba(201, 168, 76, 0.3);
+            color: var(--gold);
+            flex-shrink: 0;
         }
 
-        .testimonial-author-info {
-            flex: 1;
-        }
-
-        .testimonial-author-name {
+        .t-author-name {
             font-size: 13px;
             font-weight: 700;
             color: var(--gold-light);
             margin-bottom: 2px;
+            letter-spacing: 0.3px;
         }
 
-        .testimonial-author-role {
+        .t-author-role {
             font-size: 10px;
-            color: rgba(232, 201, 122, 0.4);
+            color: rgba(232, 201, 122, 0.45);
             font-weight: 500;
-            letter-spacing: 0.3px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .t-stars {
+            margin-left: auto;
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Number badge — top right */
+        .t-index {
+            position: absolute;
+            top: 32px;
+            right: 44px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(232, 201, 122, 0.3);
+            letter-spacing: 3px;
         }
 
         /* Controls */
@@ -1125,10 +1117,10 @@
         }
 
         .testimonial-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
-            background: rgba(201, 168, 76, 0.25);
+            background: rgba(201, 168, 76, 0.2);
             cursor: pointer;
             transition: all 0.25s;
             border: none;
@@ -1136,8 +1128,8 @@
 
         .testimonial-dot.active {
             background: var(--gold);
-            width: 22px;
-            border-radius: 3px;
+            width: 24px;
+            border-radius: 2px;
         }
 
         .testimonial-nav {
@@ -1146,13 +1138,13 @@
         }
 
         .testimonial-nav-btn {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            border: 1px solid rgba(201, 168, 76, 0.25);
+            border: 1px solid rgba(201, 168, 76, 0.2);
             background: rgba(255, 255, 255, 0.03);
-            color: rgba(232, 201, 122, 0.65);
-            font-size: 16px;
+            color: rgba(232, 201, 122, 0.55);
+            font-size: 15px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1163,42 +1155,65 @@
         .testimonial-nav-btn:hover {
             border-color: var(--gold);
             color: var(--gold);
-            background: rgba(201, 168, 76, 0.08);
-            transform: scale(1.05);
+            background: rgba(201, 168, 76, 0.06);
         }
 
-        /* Counter */
         .testimonial-counter {
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: rgba(232, 201, 122, 0.3);
+            color: rgba(232, 201, 122, 0.25);
         }
 
         .testimonial-counter span {
-            color: rgba(232, 201, 122, 0.7);
+            color: rgba(232, 201, 122, 0.6);
         }
 
         @media (max-width: 700px) {
-            .testimonial-slide.active {
+            .testimonial-slide {
+                height: auto;
+                min-height: 500px;
+            }
+
+            .t-content {
+                padding: 28px 28px 32px;
+                position: relative;
+            }
+
+            .t-bg-photo {
+                height: 200px;
+                position: relative;
+            }
+
+            .testimonial-slide {
+                display: none;
                 flex-direction: column;
+                border-radius: 16px;
             }
 
-            .testimonial-photo {
-                width: 100%;
-                min-height: 220px;
+            .testimonial-slide.active {
+                display: flex;
             }
 
-            .testimonial-photo::after {
-                background: linear-gradient(180deg, transparent 50%, rgba(28, 18, 9, 0.7));
+            .t-overlay {
+                display: none;
             }
 
-            .testimonial-content {
-                padding: 28px 24px;
+            .t-accent {
+                display: none;
             }
 
-            .testimonial-content::before {
-                font-size: 80px;
+            .t-index {
+                top: 16px;
+                right: 20px;
+            }
+
+            .t-quote {
+                font-size: 18px;
+            }
+
+            .t-quote-mark {
+                font-size: 64px;
             }
         }
 
@@ -1433,7 +1448,7 @@
     <!-- ─── NAV ─── -->
     <nav>
         <div class="nav-inner">
-            <a class="nav-logo" href="#" style="font-family: Montserrat, sans-serif;">Babylon</a>
+            <a class="nav-logo" href="#">The <span>Babylon</span> Method</a>
             <button class="nav-cta" id="nav-install-btn" onclick="triggerInstall()">
                 <span>⬇</span> <span>Install Free</span>
             </button>
@@ -1452,7 +1467,7 @@
                 <span class="btn-install-icon">⬇</span>
                 Install the App — It's Free
             </button>
-            <a class="btn-open" href="index.html">Open in Browser →</a>
+            <a class="btn-open" href="/babylon/app/index.html">Open in Browser →</a>
             <div class="hero-installed-msg" id="hero-installed-msg">
                 ✓ App installed — open it from your home screen
             </div>
@@ -1527,12 +1542,8 @@
 
         <div class="demo-wrap reveal">
             <div class="demo-input-card">
-                <div class="demo-curr-row" id="demo-curr-row">
-                    <button class="demo-curr-btn active" onclick="setDemoCurr('₦',event)">₦ NGN</button>
-                    <button class="demo-curr-btn" onclick="setDemoCurr('$',event)">$ USD</button>
-                    <button class="demo-curr-btn" onclick="setDemoCurr('£',event)">£ GBP</button>
-                    <button class="demo-curr-btn" onclick="setDemoCurr('€',event)">€ EUR</button>
-                </div>
+                <!-- currency auto-detected from IP, no UI needed -->
+                <div id="demo-curr-row" style="display:none;"></div>
                 <div class="demo-amount-wrap">
                     <div class="demo-curr-badge" id="demo-curr-badge">₦</div>
                     <input type="text" id="demo-amount" placeholder="0" inputmode="numeric" oninput="onDemoInput(this)">
@@ -1544,7 +1555,7 @@
                 <div class="demo-bar" id="demo-bar"></div>
                 <div class="demo-cards" id="demo-cards"></div>
                 <div class="demo-cta">
-                    <a href="index.html">Open the full app for debt tracking, goal planning & more →</a>
+                    <a href="/babylon/app/index.html">Open the full app for debt tracking, goal planning & more →</a>
                 </div>
             </div>
         </div>
@@ -1653,15 +1664,22 @@
                     <div class="footer-brand">The <span>Babylon</span> Method</div>
                     <p class="footer-tagline">Ancient wisdom. Modern tools. Your money, finally working for you.</p>
                 </div>
-                <!-- <div>
+                <div>
                     <div class="footer-link-label">Tools</div>
                     <div class="footer-links">
-                        <a class="footer-link" href="babylon.html">Money Allocator</a>
-                        <a class="footer-link" href="babylon-debt.html">Debt Tracker</a>
-                        <a class="footer-link" href="babylon-goals.html">Goal Planner</a>
-                        <a class="footer-link" href="index.html">Open App</a>
+                        <a class="footer-link" href="/babylon/app/babylon.html">Money Allocator</a>
+                        <a class="footer-link" href="/babylon/app/babylon-debt.html">Debt Tracker</a>
+                        <a class="footer-link" href="/babylon/app/babylon-goals.html">Goal Planner</a>
+                        <a class="footer-link" href="/babylon/app/index.html">Open App</a>
                     </div>
-                </div> -->
+                </div>
+                <div>
+                    <div class="footer-link-label">About</div>
+                    <div class="footer-links">
+                        <a class="footer-link" href="#try-it">Try the Demo</a>
+                        <a class="footer-link" href="/babylon/app/index.html">Launch App</a>
+                    </div>
+                </div>
             </div>
             <div class="footer-bottom">
                 <div class="footer-copy">© 2026 The Babylon Method. All rights reserved.</div>
@@ -1745,14 +1763,37 @@
         // ─── DEMO ALLOCATOR ───
         let demoCurr = '₦';
 
-        function setDemoCurr(sym, e) {
-            demoCurr = sym;
-            document.getElementById('demo-curr-badge').textContent = sym;
-            document.querySelectorAll('.demo-curr-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            const raw = getRawDemo();
-            if (raw > 0) runDemo();
-        }
+        // Silent IP geolocation → currency
+        (async function () {
+            try {
+                const LOCALE_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-UG": "UGX", "en-TZ": "TZS", "en-RW": "RWF", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-NZ": "NZD", "en-IN": "INR", "en-PK": "PKR", "en-SG": "SGD", "de": "EUR", "de-DE": "EUR", "fr": "EUR", "fr-FR": "EUR", "fr-CA": "CAD", "fr-SN": "XOF", "fr-CI": "XOF", "fr-CM": "XAF", "es": "USD", "es-MX": "MXN", "es-AR": "ARS", "es-CO": "COP", "es-CL": "CLP", "pt": "BRL", "pt-BR": "BRL", "zh": "CNY", "zh-CN": "CNY", "zh-TW": "TWD", "zh-HK": "HKD", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-SA": "SAR", "ar-EG": "EGP", "ar-AE": "AED", "ar-KW": "KWD", "ar-QA": "QAR", "hi": "INR", "bn": "BDT", "ru": "RUB", "tr": "TRY", "pl": "PLN", "nl": "EUR", "sv": "SEK", "da": "DKK", "nb": "NOK", "id": "IDR", "ms": "MYR", "th": "THB", "vi": "VND", "fil": "PHP" };
+                const SYMBOLS = { "NGN": "₦", "GHS": "₵", "KES": "KSh", "ZAR": "R", "UGX": "Sh", "TZS": "Sh", "RWF": "Fr", "USD": "$", "GBP": "£", "AUD": "A$", "CAD": "CA$", "NZD": "NZ$", "INR": "₹", "PKR": "₨", "SGD": "S$", "EUR": "€", "CHF": "Fr", "XOF": "CFA", "XAF": "FCFA", "MXN": "$", "ARS": "$", "COP": "$", "CLP": "$", "PEN": "S/.", "BRL": "R$", "AOA": "Kz", "MZN": "MT", "CNY": "¥", "TWD": "NT$", "HKD": "HK$", "JPY": "¥", "KRW": "₩", "SAR": "﷼", "EGP": "£", "AED": "د.إ", "KWD": "KD", "QAR": "﷼", "BHD": ".د.ب", "IQD": "ع.د", "JOD": "JD", "MAD": "MAD", "DZD": "دج", "TND": "DT", "IDR": "Rp", "MYR": "RM", "THB": "฿", "VND": "₫", "PHP": "₱", "BDT": "৳", "RUB": "₽", "TRY": "₺", "PLN": "zł", "SEK": "kr", "DKK": "kr", "NOK": "kr", "CZK": "Kč", "HUF": "Ft", "RON": "lei", "UAH": "₴" };
+                // Try IP geolocation first
+                const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.currency && SYMBOLS[d.currency]) {
+                        demoCurr = SYMBOLS[d.currency];
+                        document.getElementById('demo-curr-badge').textContent = demoCurr;
+                        return;
+                    }
+                }
+            } catch (e) { }
+            // Fallback: browser locale
+            try {
+                const LOCALE_MAP = { "en-NG": "NGN", "en-GH": "GHS", "en-KE": "KES", "en-ZA": "ZAR", "en-US": "USD", "en-GB": "GBP", "en-AU": "AUD", "en-CA": "CAD", "en-IN": "INR", "de": "EUR", "fr": "EUR", "es": "USD", "es-MX": "MXN", "pt": "BRL", "pt-BR": "BRL", "zh": "CNY", "ja": "JPY", "ko": "KRW", "ar": "SAR", "ar-AE": "AED", "hi": "INR", "ru": "RUB", "tr": "TRY" };
+                const SYMBOLS = { "NGN": "₦", "GHS": "₵", "KES": "KSh", "ZAR": "R", "USD": "$", "GBP": "£", "AUD": "A$", "CAD": "CA$", "INR": "₹", "EUR": "€", "MXN": "$", "BRL": "R$", "CNY": "¥", "JPY": "¥", "KRW": "₩", "SAR": "﷼", "AED": "د.إ", "RUB": "₽", "TRY": "₺" };
+                const locs = navigator.languages || [navigator.language];
+                for (const loc of locs) {
+                    const code = LOCALE_MAP[loc] || LOCALE_MAP[loc.split('-')[0]];
+                    if (code && SYMBOLS[code]) {
+                        demoCurr = SYMBOLS[code];
+                        document.getElementById('demo-curr-badge').textContent = demoCurr;
+                        return;
+                    }
+                }
+            } catch (e) { }
+        })();
 
         function onDemoInput(el) {
             const raw = el.value.replace(/[^0-9]/g, '');
@@ -1831,42 +1872,26 @@
             {
                 name: "Wobo Bright C.",
                 occupation: "Student / AI Developer",
-                location: "Rivers State, Nigeria",
-                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937714/bright_kh5dlk.jpg",
+                location: "Port Harcourt",
+                photo: "",
                 quote: "It was cool honestly. I first saw everyone entering small amounts, so I went for a higher amount and it worked seamlessly. You can even predict your future income and expenses using the Babylon calculator.",
-                stars: 4
+                stars: 5
             },
             {
                 name: "Rejoice Anusi",
                 occupation: "Creative Manager",
-                location: "Rivers State, Nigeria",
-                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937714/rejoice_llk4rb.jpg",
+                location: "Asaba",
+                photo: "",
                 quote: "I really believe this app has the potential to become a leading financial management app. It's simple, practical, and makes staying intentional with your finances feel easy — especially for students and young adults.",
                 stars: 5
             },
             {
                 name: "Sylvia Owei T.",
                 occupation: "UI/UX Designer",
-                location: "Rivers State, Nigeria",
-                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/sylvia_xwyvy2.jpg",
+                location: "Port Harcourt",
+                photo: "",
                 quote: "I really love the Babylon app. It teaches you how to manage money wisely and accounts for how to go about paying your debts. If you like to build better habits around money, this app is for you.",
                 stars: 5
-            },
-            {
-                name: "Shambhavi Hiwase.",
-                occupation: "AI Developer",
-                location: "India",
-                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773937716/shambhavi_b9zwbe.png",
-                quote: "Its unique concept gives it a distinctive and memorable identity. Navigation is simple and user-friendly, making the experience smooth. The minimal layout keeps the focus clear and avoids unnecessary clutter. Overall, it’s a visually appealing and promising platform with strong potential.",
-                stars: 5
-            },
-            {
-                name: "Divine Nelson",
-                occupation: "Entrepreneur",
-                location: "Rivers State, Nigeria",
-                photo: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1773938135/nelson_h187n1.jpg",
-                quote: "Using the Babylon app has actually helped me in making better and smarter financial choices in terms of how to invest profits that I generate from my brand. You should try it too.",
-                stars: 4
             }
         ];
 
@@ -1879,38 +1904,35 @@
 
         function buildPhotoPanel(t) {
             if (t.photo) {
-                return `<div class="testimonial-photo">
-                    <img src="${t.photo}" alt="${t.name}" loading="lazy">
-                </div>`;
+                return `<img class="t-bg-photo" src="${t.photo}" alt="${t.name}" loading="lazy">`;
             }
-            const initial = t.name.charAt(0).toUpperCase();
-            return `<div class="testimonial-photo">
-                <div class="testimonial-photo-fallback">
-                    <div class="testimonial-photo-initial">${initial}</div>
-                    <div class="testimonial-photo-name">${t.name}</div>
-                </div>
-            </div>`;
+            return `<div class="t-bg-fallback"></div>`;
         }
 
         function buildAvatarEl(t) {
             if (t.photo) {
-                return `<img class="testimonial-author-avatar" src="${t.photo}" alt="${t.name}" loading="lazy">`;
+                return `<img class="t-author-avatar" src="${t.photo}" alt="${t.name}" loading="lazy">`;
             }
-            return `<div class="testimonial-author-avatar-fallback">${t.name.charAt(0).toUpperCase()}</div>`;
+            return `<div class="t-author-avatar-fallback">${t.name.charAt(0).toUpperCase()}</div>`;
         }
 
         function buildSlide(t, index) {
             return `<div class="testimonial-slide${index === 0 ? ' active' : ''}" data-index="${index}">
                 ${buildPhotoPanel(t)}
-                <div class="testimonial-content">
-                    <div class="testimonial-stars">${renderStars(t.stars)}</div>
-                    <p class="testimonial-quote">"${t.quote}"</p>
-                    <div class="testimonial-author">
+                <div class="t-overlay"></div>
+                <div class="t-accent"></div>
+                <div class="t-index"><span>${String(index + 1).padStart(2, '0')}</span> / ${String(TESTIMONIALS.length).padStart(2, '0')}</div>
+                <div class="t-content">
+                    <span class="t-quote-mark">"</span>
+                    <p class="t-quote">${t.quote}"</p>
+                    <div class="t-sep"></div>
+                    <div class="t-author">
                         ${buildAvatarEl(t)}
-                        <div class="testimonial-author-info">
-                            <div class="testimonial-author-name">${t.name}</div>
-                            <div class="testimonial-author-role">${t.occupation} · ${t.location}</div>
+                        <div>
+                            <div class="t-author-name">${t.name}</div>
+                            <div class="t-author-role">${t.occupation} · ${t.location}</div>
                         </div>
+                        <div class="t-stars">${renderStars(t.stars)}</div>
                     </div>
                 </div>
             </div>`;
@@ -1980,10 +2002,11 @@
             });
         });
     </script>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
+                navigator.serviceWorker.register('/babylon/service-worker.js')
                     .then(reg => console.log('SW registered:', reg.scope))
                     .catch(err => console.log('SW failed:', err));
             });

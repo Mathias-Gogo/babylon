@@ -1,30 +1,29 @@
 // ─── BABYLON SERVICE WORKER ───
-// Bump version on every deploy to bust old cache
 const CACHE_VERSION = 'babylon-v1';
 
 const PRECACHE_URLS = [
-    '/',
-    '/index.html',
-    '/app/',
-    '/app/index.html',
-    '/app/babylon.html',
-    '/app/babylon-debt.html',
-    '/app/babylon-goals.html',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png',
-    '/fonts/fonts.css',
-    '/fonts/cormorant-garamond-v21-latin-regular.woff2',
-    '/fonts/cormorant-garamond-v21-latin-italic.woff2',
-    '/fonts/cormorant-garamond-v21-latin-600.woff2',
-    '/fonts/cormorant-garamond-v21-latin-600italic.woff2',
-    '/fonts/cormorant-garamond-v21-latin-700.woff2',
-    '/fonts/cormorant-garamond-v21-latin-700italic.woff2',
-    '/fonts/montserrat-v31-latin-regular.woff2',
-    '/fonts/montserrat-v31-latin-500.woff2',
-    '/fonts/montserrat-v31-latin-600.woff2',
-    '/fonts/montserrat-v31-latin-700.woff2',
-    '/fonts/montserrat-v31-latin-900.woff2',
-    '/lib/chart.min.js'
+    '/babylon/',
+    '/babylon/index.html',
+    '/babylon/app/',
+    '/babylon/app/index.html',
+    '/babylon/app/babylon.html',
+    '/babylon/app/babylon-debt.html',
+    '/babylon/app/babylon-goals.html',
+    '/babylon/icons/icon-192.png',
+    '/babylon/icons/icon-512.png',
+    '/babylon/fonts/fonts.css',
+    '/babylon/fonts/cormorant-garamond-v21-latin-regular.woff2',
+    '/babylon/fonts/cormorant-garamond-v21-latin-italic.woff2',
+    '/babylon/fonts/cormorant-garamond-v21-latin-600.woff2',
+    '/babylon/fonts/cormorant-garamond-v21-latin-600italic.woff2',
+    '/babylon/fonts/cormorant-garamond-v21-latin-700.woff2',
+    '/babylon/fonts/cormorant-garamond-v21-latin-700italic.woff2',
+    '/babylon/fonts/montserrat-v31-latin-regular.woff2',
+    '/babylon/fonts/montserrat-v31-latin-500.woff2',
+    '/babylon/fonts/montserrat-v31-latin-600.woff2',
+    '/babylon/fonts/montserrat-v31-latin-700.woff2',
+    '/babylon/fonts/montserrat-v31-latin-900.woff2',
+    '/babylon/lib/chart.min.js'
 ];
 
 self.addEventListener('install', event => {
@@ -68,7 +67,7 @@ self.addEventListener('fetch', event => {
                     })
                     .catch(() => {
                         if (event.request.destination === 'document') {
-                            return caches.match('/app/index.html');
+                            return caches.match('/babylon/app/index.html');
                         }
                     });
             })
