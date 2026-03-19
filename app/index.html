@@ -507,6 +507,149 @@
             font-weight: 600;
         }
 
+        /* ─── INSTALL PROMPT ─── */
+        #install-prompt {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: var(--parchment);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 32px;
+            text-align: center;
+            animation: ip-in 0.4s ease;
+        }
+
+        #install-prompt.show {
+            display: flex;
+        }
+
+        @keyframes ip-in {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .ip-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 22px;
+            background: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(28, 18, 9, 0.2);
+        }
+
+        .ip-icon img {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .ip-icon-fallback {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .ip-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .ip-title span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .ip-sub {
+            font-size: 13px;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            max-width: 300px;
+            margin-bottom: 36px;
+        }
+
+        .ip-install-btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            background: var(--ink);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 12px;
+        }
+
+        .ip-install-btn:hover {
+            background: var(--ink-mid);
+            transform: translateY(-1px);
+        }
+
+        .ip-skip-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            padding: 8px;
+            transition: color 0.2s;
+        }
+
+        .ip-skip-btn:hover {
+            color: var(--ink);
+        }
+
+        .ip-badges {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ip-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .ip-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+
         /* ─── CHAT OVERLAY (genie) ─── */
         #chat-overlay {
             position: fixed;
@@ -967,6 +1110,30 @@
                 </svg></span><span>Goals</span></a>
     </nav>
 
+    <!-- INSTALL PROMPT -->
+    <div id="install-prompt">
+        <div class="ip-icon">
+            <img src="/babylon/icons/icon-192.png"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Babylon">
+            <div class="ip-icon-fallback" style="display:none;">𓂀</div>
+        </div>
+        <div class="ip-title">Add <span>Babylon</span><br>to your home screen</div>
+        <p class="ip-sub">Your personal money guide — available offline, always one tap away.</p>
+        <div class="ip-badges">
+            <div class="ip-badge">
+                <div class="ip-badge-dot"></div>Free forever
+            </div>
+            <div class="ip-badge">
+                <div class="ip-badge-dot"></div>Works offline
+            </div>
+            <div class="ip-badge">
+                <div class="ip-badge-dot"></div>No account needed
+            </div>
+        </div>
+        <button class="ip-install-btn" onclick="installFromPrompt()">⬇ Install the App</button>
+        <button class="ip-skip-btn" onclick="dismissInstallPrompt()">Maybe later</button>
+    </div>
+
     <!-- CHAT OVERLAY -->
     <div id="chat-overlay">
         <div class="chat-box">
@@ -1159,17 +1326,12 @@
         }
 
 
-        // ─── PWA INSTALL (fires when user arrives from landing page) ───
+        // ─── PWA INSTALL PROMPT ───
         let deferredPrompt = null;
 
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
             deferredPrompt = e;
-            // If user arrived with install intent from landing page, fire immediately
-            if (localStorage.getItem('babylon_install_intent') === 'true') {
-                localStorage.removeItem('babylon_install_intent');
-                setTimeout(() => triggerInstall(), 500);
-            }
         });
 
         window.addEventListener('appinstalled', () => {
@@ -1177,7 +1339,19 @@
             deferredPrompt = null;
         });
 
-        async function triggerInstall() {
+        function showInstallPrompt() {
+            document.getElementById('install-prompt').classList.add('show');
+        }
+
+        function dismissInstallPrompt() {
+            document.getElementById('install-prompt').classList.remove('show');
+            // Mark as seen so it never shows again
+            localStorage.setItem('babylon_install_seen', 'true');
+            // Now start the chatbot
+            startChatFlow();
+        }
+
+        async function installFromPrompt() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
@@ -1186,14 +1360,38 @@
                 }
                 deferredPrompt = null;
             } else {
-                alert('To install: tap your browser\'s menu and select "Add to Home Screen".');
+                // iOS / unsupported — show manual instructions
+                alert('To install: tap the Share button in your browser and select "Add to Home Screen".');
             }
+            dismissInstallPrompt();
+        }
+
+        function startChatFlow() {
+            const stored = getStoredUser();
+            if (!stored) { genieOpen(); startNewUserFlow(); }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
-            const stored = getStoredUser();
-            if (!stored) { genieOpen(); startNewUserFlow(); }
+            document.getElementById('chat-input').addEventListener('keydown', e => {
+                if (e.key === 'Enter') handleChatSend();
+            });
+
+            const alreadyInstalled = localStorage.getItem('babylon_installed') === 'true'
+                || window.matchMedia('(display-mode: standalone)').matches;
+            const alreadySeen = localStorage.getItem('babylon_install_seen') === 'true';
+            const hasIntent = localStorage.getItem('babylon_install_intent') === 'true';
+
+            if (alreadyInstalled || alreadySeen) {
+                // Skip install prompt — go straight to chatbot
+                startChatFlow();
+            } else if (hasIntent) {
+                // Arrived from landing page install button — show prompt
+                localStorage.removeItem('babylon_install_intent');
+                showInstallPrompt();
+            } else {
+                // Direct visit — skip prompt, go straight to chatbot
+                startChatFlow();
+            }
         });
     </script>
 </body>
