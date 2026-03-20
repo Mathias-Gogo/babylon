@@ -1344,7 +1344,6 @@
 
         function dismissInstallPrompt() {
             document.getElementById('install-prompt').classList.remove('show');
-            localStorage.setItem('babylon_install_seen', 'true');
             window.location.href = '/babylon/';
         }
 
@@ -1352,6 +1351,7 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
                 if (outcome === 'accepted') {
                     localStorage.setItem('babylon_installed', 'true');
                     document.getElementById('install-prompt').classList.remove('show');
@@ -1359,7 +1359,6 @@
                 } else {
                     dismissInstallPrompt();
                 }
-                deferredPrompt = null;
             } else {
                 alert('To install: tap the Share button in your browser and select "Add to Home Screen".');
                 dismissInstallPrompt();
